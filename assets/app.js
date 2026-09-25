@@ -1,5 +1,5 @@
 /**
- * 网盘资源分享站前端逻辑
+ * 星球资源 PlanetResource 前端逻辑
  * 依赖：assets/vendor/qrcode.min.js（本地二维码生成，无外网依赖）、data/resources.js（数据源）
  */
 (function () {

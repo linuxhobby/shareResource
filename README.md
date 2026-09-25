@@ -1,11 +1,11 @@
-# 网盘资源分享站（纯静态版）
+# 星球资源 PlanetResource（网盘资源分享站 · 纯静态版）
 
 一个零后端、零数据库、零外网依赖的资源索引站。页面只负责展示网盘链接并生成二维码，不提供下载、不提供观看、不托管任何文件。
 
 ## 目录结构
 
 ```
-pan-share/
+PlanetResource/
 ├── index.html              页面骨架
 ├── assets/
 │   ├── style.css           样式（含移动端适配）
@@ -22,7 +22,7 @@ pan-share/
 数据放在 `.js` 文件里而不是 `.json`，因此直接双击 `index.html` 也能打开（没有 fetch 的跨域限制）。需要连同占位图片一起验证时，建议起一个本地服务：
 
 ```bash
-cd pan-share
+cd PlanetResource
 python3 -m http.server 8765
 # 浏览器打开 http://127.0.0.1:8765
 ```

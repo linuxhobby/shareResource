@@ -21,7 +21,7 @@
  */
 
 window.SITE_CONFIG = {
-  title: '资源分享站',
+  title: '星球资源 PlanetResource',
   subtitle: '网盘资源索引 · 扫码或复制链接即可转存',
   // 顶部公告，留空则不显示
   notice: '示例数据仅为演示格式，请替换成自己的资源后上线。本页只做链接索引，不提供下载与观看。',
