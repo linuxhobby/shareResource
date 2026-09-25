@@ -4,7 +4,7 @@
 
 **本站只做索引**：不存储、不托管、不提供下载任何文件，页面展示的只是资源信息 + 第三方网盘分享链接。
 
-完整规划见 [PROJECT_PLAN.md](PROJECT_PLAN.md)，本 README 是其对外摘要；当前代码库为 **Phase 0（纯静态版）**，目标形态是下述动态站。
+完整规划见 [PROJECT_PLAN.md](PROJECT_PLAN.md)，本 README 是其对外摘要。Phase 0（纯静态版）已完成使命并归档于 git 历史，当前进入 **Phase 1：Next.js + PostgreSQL 动态版重建**。
 
 ## 产品形态
 
@@ -54,45 +54,23 @@ API：公开读 `/api/v1/resources|search|categories`，管理 `/api/v1/admin/*`
 
 | 阶段 | 内容 | 状态 |
 | --- | --- | --- |
-| Phase 0 | 纯静态版：单页索引 + 二维码 + 前端搜索筛选 | ✅ 当前代码库 |
-| Phase 1–4 | Next.js + PostgreSQL 框架 → 资源系统 → 前台 → 后台 | ⬜ 规划中 |
+| Phase 0 | 纯静态版：单页索引 + 二维码 + 前端搜索筛选 | ✅ 已完成，归档于 git 历史 |
+| Phase 1–4 | Next.js + PostgreSQL 框架 → 资源系统 → 前台 → 后台 | 🔄 重建进行中 |
 | Phase 5 | SEO：Metadata / Sitemap / RSS / JSON-LD | ⬜ 规划中 |
 | Phase 6–7 | 链接自动检测、用户投稿与审核 | ⬜ 规划中 |
 | Phase 8–9 | AI 整理 / 去重、Hermes Agent 对接 | ⬜ 规划中 |
 
-## 当前版本（Phase 0）快速上手
+## 历史版本：Phase 0 纯静态版
 
-当前代码库是规划落地前的过渡形态：零后端、零数据库、零外网依赖，数据维护在 `data/resources.js`。
+静态版（零后端、零数据库、零外网依赖，数据维护在 `data/resources.js`）已从工作区移除，完整代码保留在 git 历史 **commit `e830b34`**。需要参考或临时重新上线时：
 
 ```bash
-python3 -m http.server 8765   # 或直接双击 index.html
-# 浏览器打开 http://127.0.0.1:8765
+mkdir static-preview && cd static-preview
+git archive e830b34 | tar -x      # 解出静态版全套文件
+python3 -m http.server 8765       # 或直接双击 index.html
 ```
 
-**添加资源**：编辑 `data/resources.js`，向 `window.RESOURCES` 追加一个对象：
-
-```js
-{
-  id: 'unique-id',       // 唯一标识，深链锚点 #unique-id 用它
-  title: '资源标题',
-  desc: '一句话描述',
-  category: '设计素材',   // 自由填写，自动生成分类筛选项
-  pan: 'quark',          // 对应 window.PAN_MAP 中的网盘标识
-  url: 'https://pan.quark.cn/s/xxxx',
-  code: 'abcd',          // 提取码，无则留空字符串
-  size: '3.2 GB',
-  tags: ['字体', '开源'],
-  date: '2026-09-18',    // 影响默认排序
-  top: true,             // 可选，置顶
-  qrImage: 'qr/x.png'    // 可选，已有二维码图则不再自动生成
-}
-```
-
-**站点文案**：同文件的 `window.SITE_CONFIG` 控制 `title` / `subtitle` / `notice`（顶部公告）/ `footerNote`（页脚声明）。**网盘类型**：`window.PAN_MAP` 已内置夸克、百度、阿里云盘、UC、迅雷、天翼、115、123、微云、移动云盘、PikPak，新增一行 `{ '<标识>': { name: '显示名', color: '#3b6bff' } }` 即可。
-
-静态版已实现：全文搜索、分类 / 网盘联动筛选、排序、SVG 二维码生成与 PNG 导出、一键复制链接+提取码（带 Toast 提示）、`#资源id` 深链分享、移动端适配。二维码算法为 Kazuhiko Arase 的 qrcode-generator（MIT），随源码放在 `assets/vendor/`，离线可用。
-
-**部署**：纯静态文件，GitHub Pages / Vercel / Netlify / OSS / COS / Cloudflare Pages / Nginx 均可，无构建步骤；日常更新只需替换 `data/resources.js`。注意：仓库当前为私有，若要用 Pages 对外发布或转公开，请先清理资源数据并补全本页脚合规声明。
+静态版能力（全文搜索、分类/网盘联动筛选、排序、SVG 二维码生成与 PNG 导出、复制链接+提取码、`#资源id` 深链分享、移动端适配；二维码算法采用 qrcode-generator（MIT, Kazuhiko Arase），随源码离线可用）及其数据结构、`SITE_CONFIG` / `PAN_MAP` 配置说明，详见该 commit 内的 README。其中 `RESOURCES` 条目结构（id / title / desc / category / pan / url / code / size / tags / date / top）可作为 Phase 1 批量导入数据的格式参考。
 
 ## 合规声明
 
