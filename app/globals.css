@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-space-950 text-slate-200 antialiased;
+    background-image:
+      radial-gradient(900px 500px at 12% -10%, rgba(124, 92, 255, 0.22), transparent 60%),
+      radial-gradient(760px 420px at 88% 4%, rgba(58, 160, 255, 0.16), transparent 62%),
+      radial-gradient(1200px 700px at 50% 110%, rgba(167, 139, 250, 0.12), transparent 65%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    @apply bg-star/40 text-white;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm transition;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-1 hover:border-star/40 hover:bg-white/[0.06] hover:shadow-glow;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs text-slate-300;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .line-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
