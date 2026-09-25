@@ -1,12 +1,12 @@
 # 星球资源 PlanetResource · 资源导航站项目规划
 
-| 项目 | 内容 |
-| --- | --- |
-| 项目名称 | 星球资源 PlanetResource（早期草案代号 ResourceHub，候选名见 §14） |
-| 项目类型 | 资源导航 / 网盘资源索引 / 资源搜索 |
-| 第一阶段网盘 | 夸克网盘、百度网盘 |
-| 技术方向 | Next.js + PostgreSQL + Caddy + Docker |
-| 后续扩展 | AI 自动整理、Hermes Agent、用户投稿、多网盘 |
+| 项目     | 内容                                               |
+| ------ | ------------------------------------------------ |
+| 项目名称   | 星球资源 PlanetResource（早期草案代号 ResourceHub，候选名见 §14） |
+| 项目类型   | 资源导航 / 网盘资源索引 / 资源搜索                             |
+| 第一阶段网盘 | 夸克网盘、百度网盘                                        |
+| 技术方向   | Next.js + PostgreSQL + Caddy + Docker            |
+| 后续扩展   | AI 自动整理、Hermes Agent、用户投稿、多网盘                    |
 
 > 核心理念：**网站负责展示、搜索、数据库和用户体验；网盘负责文件存储；AI / Hermes 负责资源整理和自动化。** 这样设计，即使资源量从几百增长到几十万，也无需推翻系统。
 
@@ -83,12 +83,12 @@ Hermes Agent
 
 **影视**
 
-| 一级 | 二级 |
-| --- | --- |
-| 电影 | 国产 / 欧美 / 日韩 / 港台 / 印度 / 动画电影 / 纪录电影 / 4K / 蓝光 |
-| 电视剧 | 国产剧 / 美剧 / 英剧 / 日剧 / 韩剧 / 港剧 / 台剧 / 短剧 |
-| 纪录片 | 自然 / 历史 / 科技 / 社会 / 地理 / 军事 / 人物 / 纪录系列 |
-| 动漫 | 国产动漫 / 日本动漫 / 欧美动漫 / 动画电影 / 动漫合集 |
+| 一级  | 二级                                             |
+| --- | ---------------------------------------------- |
+| 电影  | 国产 / 欧美 / 日韩 / 港台 / 印度 / 动画电影 / 纪录电影 / 4K / 蓝光 |
+| 电视剧 | 国产剧 / 美剧 / 英剧 / 日剧 / 韩剧 / 港剧 / 台剧 / 短剧         |
+| 纪录片 | 自然 / 历史 / 科技 / 社会 / 地理 / 军事 / 人物 / 纪录系列        |
+| 动漫  | 国产动漫 / 日本动漫 / 欧美动漫 / 动画电影 / 动漫合集               |
 
 **软件**
 
@@ -240,17 +240,17 @@ CREATE TABLE resource_links (
 
 ### 4.6 状态机
 
-| 对象 | 状态 |
-| --- | --- |
-| 资源 | `draft` / `published` / `hidden` / `deleted` |
+| 对象   | 状态                                           |
+| ---- | -------------------------------------------- |
+| 资源   | `draft` / `published` / `hidden` / `deleted` |
 | 网盘链接 | `unknown` / `active` / `expired` / `blocked` |
 
 ### 4.7 网盘支持规划
 
-| 阶段 | 网盘 |
-| --- | --- |
-| 第一阶段 | quark（夸克）、baidu（百度） |
-| 第二阶段 | aliyun、115、uc、123pan、pikpak |
+| 阶段   | 网盘                                 |
+| ---- | ---------------------------------- |
+| 第一阶段 | quark（夸克）、baidu（百度）                |
+| 第二阶段 | aliyun、115、uc、123pan、pikpak        |
 | 第三阶段 | Google Drive、OneDrive、Dropbox、MEGA |
 
 ---
@@ -261,7 +261,7 @@ CREATE TABLE resource_links (
 
 搜索是网站最核心的功能之一。
 
-**搜索范围**：标题、别名、简介、标签、作者、软件版本、年份、分类。
+**搜索范围**：标题、别名、简介、标签、作者、软件版本、年份、分类。  
 例：搜索 `Office` 应返回 Office 2024 / 2021 / Microsoft 365 / Office Mac / Office Windows / Office 模板 / Office 教程。
 
 **搜索过滤**（结果页侧栏）：分类、年份、网盘、平台、清晰度、语言、文件类型、更新时间。
@@ -290,8 +290,8 @@ Cron → 获取待检测链接 → 检测 → 更新状态
 
 ### 5.4 用户投稿
 
-用户可提交：资源名称、分类、简介、夸克链接、百度链接、提取码、备注。
-投稿状态：`pending` → `approved` / `rejected`。
+用户可提交：资源名称、分类、简介、夸克链接、百度链接、提取码、备注。  
+投稿状态：`pending` → `approved` / `rejected`。  
 审核流程：待审核 → 检查重复 → 检查链接 → 编辑 → 发布。
 
 ### 5.5 后台管理
@@ -363,21 +363,21 @@ Office 2024,软件,quark,https://...,xxxx
 
 ### 6.1 公开 API
 
-| 方法 | 路径 | 说明 |
-| --- | --- | --- |
-| GET | `/api/v1/resources` | 资源列表（参数：keyword、category、tag、pan、page、limit、sort） |
-| GET | `/api/v1/resources/:id` | 资源详情 |
-| GET | `/api/v1/search?q=office` | 搜索 |
-| GET | `/api/v1/categories` | 分类列表 |
-| GET | `/api/v1/resources/latest` | 最新资源 |
-| GET | `/api/v1/resources/hot` | 热门资源 |
+| 方法  | 路径                         | 说明                                                |
+| --- | -------------------------- | ------------------------------------------------- |
+| GET | `/api/v1/resources`        | 资源列表（参数：keyword、category、tag、pan、page、limit、sort） |
+| GET | `/api/v1/resources/:id`    | 资源详情                                              |
+| GET | `/api/v1/search?q=office`  | 搜索                                                |
+| GET | `/api/v1/categories`       | 分类列表                                              |
+| GET | `/api/v1/resources/latest` | 最新资源                                              |
+| GET | `/api/v1/resources/hot`    | 热门资源                                              |
 
 ### 6.2 管理 API
 
-| 方法 | 路径 | 说明 |
-| --- | --- | --- |
-| POST | `/api/v1/admin/resources` | 添加资源 |
-| PUT | `/api/v1/admin/resources/:id` | 修改资源 |
+| 方法     | 路径                            | 说明   |
+| ------ | ----------------------------- | ---- |
+| POST   | `/api/v1/admin/resources`     | 添加资源 |
+| PUT    | `/api/v1/admin/resources/:id` | 修改资源 |
 | DELETE | `/api/v1/admin/resources/:id` | 删除资源 |
 
 ### 6.3 Hermes Agent API
@@ -453,19 +453,19 @@ POST /api/v1/agent/resources
 
 ### 8.2 技术栈
 
-| 项目 | 选型 |
-| --- | --- |
-| 操作系统 | Debian 13 |
-| Web 服务器 | Caddy |
-| 前端 / 后端 | Next.js（含 API Routes） |
-| 数据库 | PostgreSQL（全文搜索：PostgreSQL Full Text Search） |
-| ORM | Prisma |
-| 容器 | Docker |
-| 认证 | Auth.js |
-| 任务 | Cron |
-| AI | OpenAI-compatible API |
-| Agent | Hermes Agent |
-| 第一阶段网盘 | 夸克、百度 |
+| 项目      | 选型                                           |
+| ------- | -------------------------------------------- |
+| 操作系统    | Debian 13                                    |
+| Web 服务器 | Caddy                                        |
+| 前端 / 后端 | Next.js（含 API Routes）                        |
+| 数据库     | PostgreSQL（全文搜索：PostgreSQL Full Text Search） |
+| ORM     | Prisma                                       |
+| 容器      | Docker                                       |
+| 认证      | Auth.js                                      |
+| 任务      | Cron                                         |
+| AI      | OpenAI-compatible API                        |
+| Agent   | Hermes Agent                                 |
+| 第一阶段网盘  | 夸克、百度                                        |
 
 ### 8.3 Docker 编排
 
@@ -508,14 +508,14 @@ HTTPS、CSRF、XSS 防护、SQL 注入防护、Rate Limit、登录保护、管�
 
 ### 9.2 用户与角色（RBAC）
 
-**第一阶段**：游客 + 管理员。
+**第一阶段**：游客 + 管理员。  
 **第二阶段**：游客 / 普通用户 / 投稿用户 / 审核员 / 管理员 / 超级管理员。
 
-| 角色 | 权限 |
-| --- | --- |
+| 角色    | 权限                |
+| ----- | ----------------- |
 | 超级管理员 | 管理用户、管理员、资源、分类、系统 |
-| 普通管理员 | 资源管理、投稿审核、链接管理 |
-| 审核员 | 仅审核投稿 |
+| 普通管理员 | 资源管理、投稿审核、链接管理    |
+| 审核员   | 仅审核投稿             |
 
 ---
 
@@ -526,19 +526,6 @@ HTTPS、CSRF、XSS 防护、SQL 注入防护、Rate Limit、登录保护、管�
 - Description：`黑镜第七季资源信息，提供资源介绍、版本、清晰度及相关网盘分享入口。`
 - 自动生成：`sitemap.xml`、`robots.txt`、RSS（`/feed.xml`：最新资源 / 最新电影 / 最新软件 / 最新办公资源）、Open Graph、JSON-LD
 
----
-
-## 11. 版权与合规
-
-网站应明确声明：
-
-- 本站主要提供资源信息索引及第三方链接导航；
-- 本站原则上不直接存储第三方资源文件；
-- 涉及版权问题请通过版权投诉渠道联系。
-
-对于电影、电视剧、商业软件等版权内容，运营时应根据所在司法辖区的法律和网盘平台规则处理。应建立：**版权投诉、资源删除、链接下架、申诉**机制。
-
----
 
 ## 12. 实施计划
 
@@ -546,33 +533,33 @@ HTTPS、CSRF、XSS 防护、SQL 注入防护、Rate Limit、登录保护、管�
 
 **[必须]**：首页、搜索、分类、资源详情、资源添加 / 编辑、夸克、百度、后台、SEO、移动端。
 
-**第二阶段**：用户投稿、链接检测、收藏、热门、统计、批量导入。
+**第二阶段**：用户投稿、链接检测、收藏、热门、统计、批量导入。  
 **第三阶段**：AI、Hermes Agent、自动分类、自动去重、自动整理、Telegram Bot。
 
 ### 12.2 开发阶段
 
-| Phase | 内容 | 交付 |
-| --- | --- | --- |
-| 1 基础框架 | Next.js / PostgreSQL / Prisma / Docker / Caddy | 项目启动、数据库、后台登录 |
-| 2 资源系统 | — | 分类、标签、资源、网盘链接 |
-| 3 前台 | — | 首页、搜索、分类页、资源页 |
-| 4 后台 | — | 资源 / 分类 / 标签 / 链接管理 |
-| 5 SEO | — | Metadata、Sitemap、RSS、Robots、JSON-LD |
-| 6 链接检测 | — | 自动检测、失效标记、检测日志 |
-| 7 投稿 | — | 用户投稿、审核、发布 |
-| 8 AI | — | AI 分类、AI 摘要、AI 标签、AI 去重 |
-| 9 Hermes | — | Agent API、Token、自动提交、自动整理 |
+| Phase    | 内容                                             | 交付                                  |
+| -------- | ---------------------------------------------- | ----------------------------------- |
+| 1 基础框架   | Next.js / PostgreSQL / Prisma / Docker / Caddy | 项目启动、数据库、后台登录                       |
+| 2 资源系统   | —                                              | 分类、标签、资源、网盘链接                       |
+| 3 前台     | —                                              | 首页、搜索、分类页、资源页                       |
+| 4 后台     | —                                              | 资源 / 分类 / 标签 / 链接管理                 |
+| 5 SEO    | —                                              | Metadata、Sitemap、RSS、Robots、JSON-LD |
+| 6 链接检测   | —                                              | 自动检测、失效标记、检测日志                      |
+| 7 投稿     | —                                              | 用户投稿、审核、发布                          |
+| 8 AI     | —                                              | AI 分类、AI 摘要、AI 标签、AI 去重             |
+| 9 Hermes | —                                              | Agent API、Token、自动提交、自动整理           |
 
 ### 12.3 功能优先级
 
-| 功能 | 优先级 |
-| --- | --- |
+| 功能                       | 优先级   |
+| ------------------------ | ----- |
 | 资源数据库、搜索、资源详情页、后台管理、分类系统 | ★★★★★ |
-| 夸克网盘、百度网盘、SEO、移动端 | ★★★★★ |
-| 链接检测、用户投稿、批量导入 | ★★★★☆ |
-| AI 整理、Hermes Agent | ★★★☆☆ |
-| Telegram Bot | ★★☆☆☆ |
-| 会员系统、广告系统 | ★☆☆☆☆ |
+| 夸克网盘、百度网盘、SEO、移动端        | ★★★★★ |
+| 链接检测、用户投稿、批量导入           | ★★★★☆ |
+| AI 整理、Hermes Agent       | ★★★☆☆ |
+| Telegram Bot             | ★★☆☆☆ |
+| 会员系统、广告系统                | ★☆☆☆☆ |
 
 ### 12.4 MVP 验收标准
 
@@ -629,7 +616,7 @@ HTTPS、CSRF、XSS 防护、SQL 注入防护、Rate Limit、登录保护、管�
 
 候选：资源星球、资源库、资源导航、资源岛、资源中心、资源仓库、资源集、ResourceHub、ResourceBox、ResourceNest、ResourceBase。
 
-**已定名**：**星球资源 · PlanetResource**。本地目录 `~/Documents/GitHub/PlanetResource`；按当前决定**暂不同步到 GitHub**（原远程 `linuxhobby/pan-share` 已不再使用）。文档内示例中残留的 ResourceHub 为早期草案代号。
+**已定名**：**星球资源 · PlanetResource**。本地目录 `~/Documents/GitHub/PlanetResource`；远程为 GitHub 私有仓库 `linuxhobby/PlanetResource`（原 `pan-share` 仓库已弃用）。文档内示例中残留的 ResourceHub 为早期草案代号。
 
 **建议**：若打算长期运营，选用中性、易扩展的名称（如 ResourceHub），不把品牌限定在"网盘"或"影视"，后续增加软件、AI、电子书、办公、课程、素材、工具时无需更换品牌。
 
@@ -640,6 +627,7 @@ HTTPS、CSRF、XSS 防护、SQL 注入防护、Rate Limit、登录保护、管�
 本规划可直接作为 `PROJECT_PLAN.md`。下一步最适合进入：**数据库设计 + Next.js 项目目录 + Prisma Schema + Docker Compose**，按 §12 的 Phase 1 开始第一版。
 
 可选深化方向：
+
 1. 自动化功能实现细节
 2. 后台管理系统设计细节
 3. Hermes Agent 与网站 API 的集成技术
