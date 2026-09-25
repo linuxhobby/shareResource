@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>资源分享站</title>
+<meta name="description" content="网盘资源索引站，支持夸克、百度、阿里云盘等链接与二维码分享" />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-text">
+      <h1 id="siteTitle">资源分享站</h1>
+      <p id="siteSubtitle">网盘资源索引 · 扫码或复制链接即可转存</p>
+    </div>
+    <div class="hero-stats" id="heroStats"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="toolbar">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" class="search-icon" aria-hidden="true"><path d="M10 4a6 6 0 1 0 3.9 10.55l4.28 4.27 1.41-1.41-4.27-4.28A6 6 0 0 0 10 4zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>
+      <input id="searchInput" type="search" placeholder="搜索标题、描述或标签" autocomplete="off" />
+      <button id="clearSearch" class="clear-btn" type="button" title="清空" hidden>&times;</button>
+    </div>
+    <div class="sort-box">
+      <label for="sortSelect">排序</label>
+      <select id="sortSelect">
+        <option value="date">最新在前</option>
+        <option value="title">标题 A-Z</option>
+        <option value="size">体积由大到小</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="filters">
+    <div class="filter-row">
+      <span class="filter-label">分类</span>
+      <div class="chips" id="categoryChips"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">网盘</span>
+      <div class="chips" id="panChips"></div>
+    </div>
+  </section>
+
+  <div id="notice" class="notice" hidden></div>
+
+  <section id="grid" class="grid" aria-live="polite"></section>
+
+  <div id="empty" class="empty" hidden>
+    <p class="empty-title">没有匹配的资源</p>
+    <p class="empty-desc">换个关键词，或点击下方按钮查看全部资源。</p>
+    <button id="resetFilters" class="btn btn-primary" type="button">重置筛选</button>
+  </div>
+
+</main>
+
+<footer class="wrap site-footer">
+  <p id="footerNote">本站仅提供网盘链接索引，不存储、不托管任何文件，请遵守各网盘服务条款与相关法规。</p>
+</footer>
+
+<!-- 资源详情 / 二维码弹窗 -->
+<div id="modal" class="modal" hidden>
+  <div class="modal-mask" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" type="button" data-close aria-label="关闭">&times;</button>
+
+    <div class="modal-body">
+      <div class="qr-area">
+        <div id="qrBox" class="qr-box"></div>
+        <p class="qr-hint">扫码即可跳转到对应网盘</p>
+      </div>
+
+      <div class="info-area">
+        <h2 id="modalTitle" class="modal-title"></h2>
+        <p id="modalDesc" class="modal-desc"></p>
+
+        <dl class="meta-list">
+          <div class="meta-item"><dt>所属网盘</dt><dd id="metaPan"></dd></div>
+          <div class="meta-item"><dt>提取码</dt><dd id="metaCode"></dd></div>
+          <div class="meta-item"><dt>资源体积</dt><dd id="metaSize"></dd></div>
+          <div class="meta-item"><dt>更新日期</dt><dd id="metaDate"></dd></div>
+        </dl>
+
+        <div id="modalTags" class="tags"></div>
+
+        <div class="link-box">
+          <code id="modalUrl" class="link-text"></code>
+        </div>
+
+        <div class="btn-row">
+          <button id="btnOpen" class="btn btn-primary" type="button">打开链接</button>
+          <button id="btnCopyLink" class="btn" type="button">复制链接</button>
+          <button id="btnCopyAll" class="btn" type="button">复制链接与提取码</button>
+          <button id="btnSaveQr" class="btn btn-ghost" type="button">保存二维码</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="assets/vendor/qrcode.min.js"></script>
+<script src="data/resources.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
