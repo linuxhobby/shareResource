@@ -1,0 +1,122 @@
+// Prisma Schema —— PROJECT_PLAN.md §4 数据库设计落地版
+//
+// 本地开发使用 SQLite（零依赖）；生产切到 PostgreSQL 只需两步：
+//   1. provider = "postgresql"
+//   2. DATABASE_URL=postgresql://user:pass@host:5432/planetresource?schema=public
+// 注意：为保持两套数据库零改造切换，schema 中不使用 enum / Json 等方言特性，
+// 状态字段统一用 String + lib/types.ts 里的联合类型约束。
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// §4.2 资源表
+model Resource {
+  id            Int      @id @default(autoincrement())
+  title         String
+  slug          String   @unique
+  categoryId    Int
+  subcategoryId Int?
+  description   String?
+  coverUrl      String?
+  year          Int?
+  region        String?
+  language      String?
+  quality       String?
+  size          String?
+  version       String?
+  author        String?
+  publisher     String?
+  /// draft / published / hidden / deleted
+  status        String   @default("published")
+  views         Int      @default(0)
+  likes         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  category    Category       @relation("ResourceCategory", fields: [categoryId], references: [id])
+  subcategory Category?      @relation("ResourceSubcategory", fields: [subcategoryId], references: [id])
+  tags        ResourceTag[]
+  links       ResourceLink[]
+
+  @@index([categoryId])
+  @@index([status, createdAt])
+  @@index([views])
+}
+
+/// §4.3 分类表（parentId 自关联，支持无限级）
+model Category {
+  id        Int     @id @default(autoincrement())
+  name      String
+  slug      String  @unique
+  parentId  Int?
+  icon      String?
+  sortOrder Int     @default(0)
+  enabled   Boolean @default(true)
+
+  parent       Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children     Category[] @relation("CategoryTree")
+  resources    Resource[] @relation("ResourceCategory")
+  subResources Resource[] @relation("ResourceSubcategory")
+
+  @@index([parentId])
+}
+
+/// §4.4 标签表
+model Tag {
+  id        Int           @id @default(autoincrement())
+  name      String        @unique
+  slug      String        @unique
+  resources ResourceTag[]
+}
+
+/// §4.4 资源-标签关联表
+model ResourceTag {
+  resourceId Int
+  tagId      Int
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([resourceId, tagId])
+}
+
+/// §4.5 网盘链接表（不限制网盘类型数量）
+model ResourceLink {
+  id             Int       @id @default(autoincrement())
+  resourceId     Int
+  /// quark / baidu / aliyun / uc / 115 / 123pan
+  panType        String    @default("quark")
+  url            String
+  password       String?
+  /// unknown / active / expired / blocked
+  status         String    @default("unknown")
+  errorMessage   String?
+  lastCheckedAt  DateTime?
+  clicks         Int       @default(0)
+  createdAt      DateTime  @default(now())
+
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@index([resourceId])
+  @@index([status])
+}
+
+/// §4.1 用户投稿（Phase 7 启用，表先建）
+model Submission {
+  id        Int      @id @default(autoincrement())
+  title     String
+  category  String
+  pan       String
+  url       String
+  password  String?
+  remark    String?
+  contact   String?
+  /// pending / approved / rejected
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
