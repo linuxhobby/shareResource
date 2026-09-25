@@ -26,5 +26,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/package.json /app/next.config.mjs /app/tsconfig.json ./
+# prisma/seed.ts 运行时引用 ../lib/mock，需要一并带入
+COPY --from=build /app/lib ./lib
 EXPOSE 3000
 CMD ["npx", "next", "start", "-p", "3000"]
