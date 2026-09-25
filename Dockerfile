@@ -9,6 +9,8 @@ RUN npm ci
 # ---- 构建层 ----
 FROM node:22-alpine AS build
 WORKDIR /app
+# prisma validate 需要 DATABASE_URL 可解析；构建期不连库，占位即可
+ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # 容器内一律使用 PostgreSQL schema（仓库默认 sqlite 供本地零依赖开发）
