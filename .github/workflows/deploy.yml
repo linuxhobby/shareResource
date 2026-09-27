@@ -1,0 +1,50 @@
+name: build-and-deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - run: BASE_URL=${{ vars.BASE_URL || 'https://example.com' }} npm run build
+
+      # 部署方式一：rsync 到自己的 VPS（需配置 Secrets：SSH_PRIVATE_KEY / REMOTE_USER / REMOTE_HOST / REMOTE_DIR）
+      - name: rsync to VPS
+        if: ${{ vars.DEPLOY_TARGET == 'vps' }}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts
+          rsync -avz --delete public/ "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/"
+
+      # 部署方式二：发布到 GitHub Pages（仓库 Settings → Pages → GitHub Actions）
+      - name: upload pages artifact
+        if: ${{ vars.DEPLOY_TARGET != 'vps' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: deploy to GitHub Pages
+        if: ${{ vars.DEPLOY_TARGET != 'vps' }}
+        uses: actions/deploy-pages@v4
