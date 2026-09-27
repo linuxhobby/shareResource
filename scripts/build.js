@@ -23,6 +23,10 @@ const staticDir = path.join(root, 'static');
 const themeDir = path.join(root, 'theme');
 const outDir = path.join(root, 'public');
 const baseUrl = (process.env.BASE_URL || 'https://example.com').replace(/\/+$/, '');
+if (baseUrl.includes('example.com')) {
+  console.log('  ! 未设置 BASE_URL，canonical / OG / sitemap 会指向 example.com');
+  console.log('    正式构建请用：BASE_URL=https://你的域名 npm run build');
+}
 
 function write(file, content) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -64,6 +68,18 @@ if (staleFailed) {
   console.log(`  ! ${staleFailed} 个旧目录未能清理（不影响访问）；可手动执行 rm -rf public 后重新构建`);
 }
 
+// 拼音索引：构建期生成，供站内搜索支持「全拼 / 首字母」输入（产物里只存字符串，不带词典）
+let toPinyin = null;
+try {
+  const { pinyin } = await import('pinyin-pro');
+  toPinyin = (text) => ({
+    py: pinyin(text, { toneType: 'none', type: 'array' }).join(''),
+    py1: pinyin(text, { pattern: 'first', toneType: 'none', type: 'array' }).join(''),
+  });
+} catch {
+  console.log('  ! 未安装 pinyin-pro，站内搜索将不支持拼音（npm i -D pinyin-pro 可开启）');
+}
+
 console.log(`处理配图（${total} 条）…`);
 const { map: images, missing } = await prepareImages(items, { staticDir, rootDir: root, outDir });
 if (missing) console.log(`  · ${missing} 条缺少配图，使用占位图`);
@@ -74,7 +90,25 @@ for (const item of items) {
   qrMap.set(item.id, await writeQr(item, outDir));
 }
 
-const ctxBase = { site, categories, counts, total, images };
+// 全站索引：列表页内联（首屏离线可用）+ search-index.json（搜索全站）
+const indexAll = items.map((it) => {
+  const img = images.get(it.id) || {};
+  const py = toPinyin ? toPinyin(`${it.title}${it.tags.join('')}`) : null;
+  return {
+    id: it.id,
+    title: it.title,
+    category: it.category,
+    tags: it.tags,
+    desc: it.description.slice(0, 40),
+    href: `/resource/${encodeURIComponent(it.id)}/`,
+    date: it.date,
+    thumb: img.thumb || '/img/placeholder.svg',
+    card: img.card || '/img/placeholder.svg',
+    ...(py || {}),
+  };
+});
+
+const ctxBase = { site, categories, counts, total, images, baseUrl, indexAll };
 
 console.log('生成列表页…');
 write(path.join(outDir, 'index.html'), listPage({ ...ctxBase, items, activeCat: '', pageSize: site.pageSize }));
@@ -93,16 +127,7 @@ for (const item of items) {
 }
 
 console.log('生成搜索索引与附加文件…');
-const searchIndex = items.map((it) => ({
-  id: it.id,
-  title: it.title,
-  category: it.category,
-  tags: it.tags,
-  desc: it.description.slice(0, 40),
-  href: `/resource/${encodeURIComponent(it.id)}/`,
-  thumb: (images.get(it.id) || {}).thumb || '/img/placeholder.svg',
-}));
-write(path.join(outDir, 'search-index.json'), JSON.stringify(searchIndex));
+write(path.join(outDir, 'search-index.json'), JSON.stringify(indexAll));
 write(path.join(outDir, '404.html'), notFoundPage(ctxBase));
 write(
   path.join(outDir, 'robots.txt'),

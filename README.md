@@ -88,7 +88,7 @@ REMOTE_USER=root REMOTE_HOST=1.2.3.4 REMOTE_DIR=/var/www/share-resource npm run 
 | `/qr/<id>-<网盘>.svg`                      | 构建时预生成的二维码                      |
 | `/sitemap.xml` `/robots.txt` `/404.html` | SEO 与兜底                         |
 
-设置正式域名后重新构建，让 sitemap 里的地址生效：
+**部署前必须设置域名**，否则 canonical / OG / sitemap 会指向 `example.com`：
 
 ```bash
 BASE_URL=https://your-domain.com npm run build
@@ -100,3 +100,33 @@ BASE_URL=https://your-domain.com npm run build
 - 搜索为客户端索引（全站 `search-index.json`，列表页内联本页数据），无后端
 - 复制按钮使用 `navigator.clipboard`，不支持时回退 `execCommand`
 - 无登录、无评论、无广告、无动画；单栏 760px 居中布局
+
+## SEO
+
+构建时自动生成，无需手工维护：
+
+| 项目                  | 说明                                                        |
+| ------------------- | --------------------------------------------------------- |
+| `title` / `description` | 每页独立；详情页用「标题 - 站名」，描述取简介前 100 字                          |
+| `canonical`         | 每页指向自身绝对地址，避免 `/index.html` 与 `/` 重复                     |
+| OG / Twitter Card   | `og:title` `og:description` `og:image` `og:url`，分享到微信/微博有卡片 |
+| JSON-LD             | 详情页 `Movie` / `TVSeries`（按分类）+ 面包屑；列表页 `WebSite`（含搜索框）+ `ItemList` |
+| `sitemap.xml`       | 首页 + 分类页 + 全部详情页，带 `lastmod` 和优先级                         |
+| `robots.txt`        | 全站开放，并声明 sitemap 地址                                      |
+| 语义化                 | 列表用 `ul/li`，详情页 `article` + `h1`，图片带 `alt`                 |
+| 性能                  | 首屏前 5 张图 `eager + fetchpriority=high`（LCP），其余懒加载          |
+
+注意：首页首屏只静态渲染 `pageSize` 条，其余靠 JS 加载；但 **全部详情页都在 sitemap 里**，搜索引擎照样能抓全。
+
+## 站内搜索
+
+顶栏搜索框，纯前端、无后端、输入即时出结果：
+
+- **拼音**：`taikong`、`tkbd` 都能搜到「太空部队」（构建时用 `pinyin-pro` 生成全拼与首字母，产物里只存字符串）
+- **相关度排序**：标题完全匹配 100 > 标题前缀 60 > 标题包含 40 > 标签 22 > 简介 12 > 全拼 30/18 > 首字母 26/14；多个词是「与」关系
+- **命中高亮**：标题里命中的关键词用 `<mark>` 标出
+- **防抖 120ms**，结果最多 120 条
+- **快捷键**：`Ctrl/⌘ + K` 或 `/` 聚焦，`Esc` 清空
+- **URL 同步**：搜索时地址栏变成 `/?q=关键词`，可直接分享链接（也是 JSON-LD 里 SearchAction 的地址）
+
+`pinyin-pro` 只在构建机用（`devDependency`），产物不含任何拼音词典。

@@ -83,7 +83,11 @@ a:hover { text-decoration: underline; }
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 18px 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
+.tile-item { display: block; }
 .tile { display: block; color: var(--text); }
 .tile:hover { text-decoration: none; }
 .tile__poster {
@@ -116,11 +120,19 @@ a:hover { text-decoration: underline; }
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin-top: 7px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
 }
 .tile:hover .tile__title { color: var(--brand); }
-.tile__meta { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.tile__meta { display: block; margin-top: 2px; font-size: 14px; color: var(--muted); }
+
+/* 搜索命中高亮 */
+mark {
+  padding: 0 1px;
+  color: var(--brand);
+  background: rgba(75, 63, 227, .14);
+  border-radius: 2px;
+}
 
 .tag {
   display: inline-block;
@@ -235,7 +247,7 @@ a:hover { text-decoration: underline; }
 @media (max-width: 480px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 @media (max-width: 640px) {
-  .tile__title { font-size: 13px; }
+  .tile__title { font-size: 15px; }
   .detail { flex-direction: column; }
   .detail__media { flex-direction: row; align-items: flex-start; gap: 14px; }
   .poster { width: 150px; height: 217px; }
