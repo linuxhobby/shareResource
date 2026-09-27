@@ -46,7 +46,7 @@ nginx.conf.example   # Nginx 配置参考
   image: movie-001.jpg      # 可选，默认取 static/images/<id>.<ext>
 ```
 
-支持的网盘字段：`quark_url`、`baidu_url`、`aliyun_url`、`tianyi_url`、`uc_url`、`xunlei_url`、`115_url`、`mobile_url`，对应提取码字段为 `xxx_code`（如 `baidu_code`）。
+支持的网盘字段：`quark_url`、`baidu_url`、`aliyun_url`、`tianyi_url`、`uc_url`、`xunlei_url`、`115_url`、`mobile_url`，对应提取码字段为 `xxx_code`（如 `baidu_code`）。  
 需要其它网盘时可用通用写法：
 
 ```yaml
@@ -72,16 +72,16 @@ REMOTE_USER=root REMOTE_HOST=1.2.3.4 REMOTE_DIR=/var/www/share-resource npm run 
 
 ## 生成物
 
-| 路径 | 说明 |
-|---|---|
-| `/` | 全部资源列表（首屏 60 条静态渲染，其余由「加载更多」渲染） |
-| `/category/<分类>/` | 分类列表页 |
-| `/resource/<id>/` | 详情页：配图 + 二维码 + 网盘链接复制 |
-| `/search-index.json` | 客户端搜索索引，输入时按需加载 |
-| `/img/<id>-180.webp` `/img/<id>-60.webp` | 构建时压缩的详情页 / 列表页配图 |
-| `/img/placeholder.svg` | 缺图时的统一占位图 |
-| `/qr/<id>-<网盘>.svg` | 构建时预生成的二维码 |
-| `/sitemap.xml` `/robots.txt` `/404.html` | SEO 与兜底 |
+| 路径                                       | 说明                              |
+| ---------------------------------------- | ------------------------------- |
+| `/`                                      | 全部资源列表（首屏 60 条静态渲染，其余由「加载更多」渲染） |
+| `/category/<分类>/`                        | 分类列表页                           |
+| `/resource/<id>/`                        | 详情页：配图 + 二维码 + 网盘链接复制           |
+| `/search-index.json`                     | 客户端搜索索引，输入时按需加载                 |
+| `/img/<id>-180.webp` `/img/<id>-60.webp` | 构建时压缩的详情页 / 列表页配图               |
+| `/img/placeholder.svg`                   | 缺图时的统一占位图                       |
+| `/qr/<id>-<网盘>.svg`                      | 构建时预生成的二维码                      |
+| `/sitemap.xml` `/robots.txt` `/404.html` | SEO 与兜底                         |
 
 设置正式域名后重新构建，让 sitemap 里的地址生效：
 
