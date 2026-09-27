@@ -17,7 +17,11 @@ npm run serve        # 本地预览 http://localhost:4321
 ```
 data/
   site.yaml          # 站名、分类顺序、免责声明、首屏条数
-  resources.yaml     # 资源数据（可拆成多个 yaml，全部自动合并）
+  影视.yaml           # 资源数据：一个分类一个文件，全部自动合并
+  动漫.yaml
+  综艺.yaml
+  资料.yaml
+  软件.yaml
 static/images/       # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # style.css、app.js（构建时拷到 public/assets/）
 scripts/
@@ -59,10 +63,13 @@ nginx.conf.example   # Nginx 配置参考
 ## 新增 / 更新资源
 
 ```bash
-npm run new          # 交互式录入，追加到 data/resources.yaml
+npm run new          # 交互式录入，按分类自动写入 data/<分类>.yaml
 npm run build        # 重新生成整站（3000 条约 3 秒）
 npm run deploy       # 构建并 rsync 到 VPS
 ```
+
+`data/` 下所有 `.yaml`（`site.yaml` 除外）在构建时自动合并，所以资源可以按分类拆成多个文件维护，
+也可以按时间归档（`data/2026-09.yaml`）。新增分类无需改配置，标签栏会自动出现。
 
 部署只需把 `public/` 放到 Nginx 站点目录：
 

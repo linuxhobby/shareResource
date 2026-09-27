@@ -4,7 +4,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const file = path.join(root, 'data', 'resources.yaml');
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const ask = (q, def = '') => rl.question(`${q}${def ? `（默认 ${def}）` : ''}：`);
@@ -20,6 +19,8 @@ if (!title) {
 }
 
 const category = await get('分类', '影视');
+// 按分类落到对应数据文件：data/<分类>.yaml，不存在则创建
+const file = path.join(root, 'data', `${category.replace(/[\\/]/g, '-')}.yaml`);
 const tags = await get('标签（逗号分隔）');
 const quark = await get('夸克链接');
 const baidu = await get('百度链接');
@@ -38,6 +39,7 @@ if (code) entry.push(`  baidu_code: "${code}"`);
 if (description) entry.push(`  description: "${description.replace(/"/g, '\\"')}"`);
 entry.push(`  date: ${date}`);
 
+if (!fs.existsSync(file)) fs.writeFileSync(file, `# ${category} 资源\n`);
 fs.appendFileSync(file, `\n${entry.join('\n')}\n`);
 console.log(`\n已写入 ${path.relative(root, file)}，运行 npm run build 生成页面`);
 rl.close();

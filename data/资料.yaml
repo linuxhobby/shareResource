@@ -1,0 +1,28 @@
+# 资料类资源（课程、文档、题库等）
+
+- id: doc-001
+  title: 2026 考研英语全套资料
+  category: 资料
+  tags: [考研, 英语, 课程]
+  quark_url: https://pan.quark.cn/s/7a8b9c0d1e2f
+  baidu_url: https://pan.baidu.com/s/7a8b9c0d1e2f3a4b5c6
+  baidu_code: ky26
+  description: 含词汇、长难句、阅读、写作四大模块视频课 + 配套 PDF 讲义 + 历年真题解析。
+  date: 2026-09-14
+
+- id: doc-002
+  title: 前端开发面试题合集 2026版
+  category: 资料
+  tags: [前端, 面试, PDF]
+  quark_url: https://pan.quark.cn/s/8b9c0d1e2f3a
+  description: 400+ 高频前端面试题，覆盖 JS / TS / React / 工程化 / 网络 / 算法，附参考答案。
+  date: 2026-09-13
+
+- id: doc-003
+  title: 注册会计师 CPA 六科讲义
+  category: 资料
+  tags: [财会, 考证]
+  baidu_url: https://pan.baidu.com/s/9c0d1e2f3a4b5c6d7e8
+  baidu_code: cpa6
+  description: 会计、审计、财管、经济法、税法、战略六科完整讲义与习题，PDF 扫描版 + 可搜索版。
+  date: 2026-09-12
