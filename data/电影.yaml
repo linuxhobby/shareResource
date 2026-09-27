@@ -1,0 +1,92 @@
+# 电影资源（10 条）
+# 来源：夸克网盘 SHARE/04电影
+# 链接：公开链接（无提取码），永久有效；信息来自 TMDB 中文
+
+- id: mv-010
+  title: "柏林谍变"
+  category: 电影
+  tags: ["电影", "动作", "惊悚", "犯罪"]
+  quark_url: "https://pan.quark.cn/s/c0b4799cd7ec"
+  description: "德国首都柏林，一起失败的军火交易使朝韩各方势力的对抗趋近白热化。朝鲜大使李学秀（李庆荣 饰）及间谍表宗盛（河正宇 饰）发现来自祖国的另一名冷血间谍董明秀（柳承范 饰）现身柏林，政权更迭让多年漂泊海外的他们心中充满不祥预感…｜TMDB 6.7"
+  date: 2013-01-30
+  image: mv-010.jpg
+
+- id: mv-009
+  title: "俄罗斯方块"
+  category: 电影
+  tags: ["电影", "惊悚", "历史", "剧情"]
+  quark_url: "https://pan.quark.cn/s/6d72a8fef768"
+  description: "艾格顿饰演荷兰游戏设计师Henk Rogers，他获得了在游戏机发行《俄罗斯方块》的权利，其很快在全球大受欢迎，而在1980年代，Rogers卷入了一场有关版权的纠纷。｜TMDB 7.8"
+  date: 2023-03-15
+  image: mv-009.jpg
+
+- id: mv-008
+  title: "孤峰追击"
+  category: 电影
+  tags: ["电影", "动作", "惊悚", "悬疑", "火线兄弟 Brothers Under Fire"]
+  quark_url: "https://pan.quark.cn/s/fdc120e8ef43"
+  description: "故事围绕乔丹·赖特上尉及其中队展开，他们在执行任务期间获准休假，前往墨西哥参加战友的婚礼。然而欢庆却被突如其来的凶残贩毒集团打断。当乔丹试图带领幸存部下撤离时，小队与贩毒集团之间爆发激烈冲突。为拯救队员，乔丹不得不与犯罪…｜TMDB 5.9"
+  date: 2026-04-15
+  image: mv-008.jpg
+
+- id: mv-007
+  title: "核战边缘"
+  category: 电影
+  tags: ["电影", "剧情", "历史"]
+  quark_url: "https://pan.quark.cn/s/a04e2244df1f"
+  description: "冷战末期，全球正站在核战争的悬崖边缘。美国总统里根急于和苏联领导人戈尔巴乔夫达成核裁军协议，试图将世界从毁灭的边缘拉回。可白宫内部主战派的阻力、苏联阵营的猜忌、各方势力的角力从四面八方袭来，重重压力压在两位领导人身上。谈…｜TMDB 7.1"
+  date: 2026-08-13
+  image: mv-007.jpg
+
+- id: mv-006
+  title: "怒之杀"
+  category: 电影
+  tags: ["电影", "动作", "惊悚"]
+  quark_url: "https://pan.quark.cn/s/bcece7479769"
+  description: "在目睹亿万富豪蒂布遇害，自己被诬陷为凶手后，科尔·里德只身闯入一艘远洋货轮，决心为老板复仇，却由此意外揭开了一个骇人听闻的惊天阴谋。｜TMDB 7.1"
+  date: 2026-08-19
+  image: mv-006.jpg
+
+- id: mv-005
+  title: "山竹刀"
+  category: 电影
+  tags: ["电影"]
+  quark_url: "https://pan.quark.cn/s/07fe33df4581"
+  description: "《山竹刀》改编自第22届中国动漫金龙奖获奖作品。 女侠芷竹与医女李小若因缘同行，一场看似简单的还刀之旅，将二人卷入接踵而至的江湖风波。一路上，她们面对追逐、选择与未知，也在彼此陪伴中重新理解侠义与守护。 影片融合江南风情…"
+  date: 2026-09-06
+  image: mv-005.jpg
+
+- id: mv-004
+  title: "生死时限"
+  category: 电影
+  tags: ["电影", "惊悚", "动作", "逃亡者 The Runner"]
+  quark_url: "https://pan.quark.cn/s/922975695282"
+  description: "一位才华横溢的伦敦律师玛雅马滕正在晨跑，突然接到一个电话，生活瞬间崩塌：她的儿子被绑架了。为了救回儿子，她必须不停奔跑，服从绑匪给的每个冷酷命令，不能信任任何人--每一秒都在考验这位母亲为了救孩子，愿意付出多大的代价。｜TMDB 6.8"
+  date: 2026-09-03
+  image: mv-004.jpg
+
+- id: mv-003
+  title: "突袭系列"
+  category: 电影
+  tags: ["电影", "动作", "惊悚", "犯罪", "突袭 Serbuan Maut"]
+  quark_url: "https://pan.quark.cn/s/1c5b90d2c46c"
+  description: "在雅加达的贫民窟的深处，世界上最危险的杀手和黑帮集结在一个坚不可摧的房子内。在黎明前黑暗和寂静的掩护下，一支身兼重要任务的精英特警队慢慢接近了房子，以便接近——｜TMDB 7.4"
+  date: 2012-03-22
+  image: mv-003.jpg
+- id: mv-002
+  title: "无限"
+  category: 电影
+  tags: ["电影", "科幻", "动作", "冒险", "无限 Infinite"]
+  quark_url: "https://pan.quark.cn/s/5586ace95711"
+  description: "该片改编自D. Eric Maikranz所著小说《转世文献》（The Reincarnationist Papers），聚焦一个被自己前两世的记忆缠绕的男子，引出一群几乎长生不死、几世纪来多次转生的人，被称为“无限者”…｜TMDB 6.6"
+  date: 2021-09-09
+  image: mv-002.jpg
+
+- id: mv-001
+  title: "营救夜莺"
+  category: 电影
+  tags: ["电影", "动作", "惊悚", "战争", "士卒 Man of War"]
+  quark_url: "https://pan.quark.cn/s/22588a6b789b"
+  description: "战事爆发初期，一名人道主义救援人员在乌克兰境内突然失联。前海豹突击队队员、前CIA特工康纳早已淡出刀口舔血的日子，为了救人，他重新踏入这片支离破碎的土地。孤身穿越交火不断的战区，沿途遭遇雇佣兵的围追堵截。｜TMDB 6.6"
+  date: 2026-07-03
+  image: mv-001.jpg

@@ -1,5 +1,8 @@
 import { categorySlug } from './data.js';
 
+/** 列表最前面多少条打「最新」角标 */
+const NEWEST_BADGE = 6;
+
 export function esc(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -13,7 +16,7 @@ function catHref(category) {
   return `/category/${encodeURIComponent(categorySlug(category))}/`;
 }
 
-function catNav(site, categories, counts, activeCat, total) {
+function catNav(site, categories, counts, activeCat, total, wide) {
   const items = [
     `<a class="cat${activeCat ? '' : ' is-on'}" href="/">全部<span class="cat__n">${total}</span></a>`,
     ...categories.map(
@@ -21,10 +24,10 @@ function catNav(site, categories, counts, activeCat, total) {
         `<a class="cat${c === activeCat ? ' is-on' : ''}" href="${catHref(c)}">${esc(c)}<span class="cat__n">${counts.get(c) || 0}</span></a>`
     ),
   ];
-  return `<nav class="cats" aria-label="分类">${items.join('')}</nav>`;
+  return `<nav class="cats${wide ? ' cats--wide' : ''}" aria-label="分类">${items.join('')}</nav>`;
 }
 
-function layout({ site, title, description, activeCat, categories, counts, total, body, head = '' }) {
+function layout({ site, title, description, activeCat, categories, counts, total, body, head = '', wide = false }) {
   const fullTitle = title === site.title ? site.title : `${title} - ${site.title}`;
   return `<!DOCTYPE html>
 <html lang="zh-CN">
@@ -39,18 +42,18 @@ ${head}
 </head>
 <body>
 <header class="top">
-  <div class="wrap top__inner">
+  <div class="wrap${wide ? ' wrap--wide' : ''} top__inner">
     <a class="top__brand" href="/">${esc(site.title)}</a>
     <form class="top__search" role="search" onsubmit="return false">
       <input id="q" type="search" placeholder="搜索资源…" autocomplete="off" aria-label="搜索资源">
     </form>
   </div>
 </header>
-${catNav(site, categories, counts, activeCat, total)}
-<main class="wrap">
+${catNav(site, categories, counts, activeCat, total, wide)}
+<main class="wrap${wide ? ' wrap--wide' : ''}">
 ${body}
 </main>
-<footer class="foot wrap">
+<footer class="foot wrap${wide ? ' wrap--wide' : ''}">
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
 </footer>
@@ -60,27 +63,34 @@ ${body}
 `;
 }
 
-export function rowHtml(item, images) {
+/** 宫格卡片（海报墙）：最新资源排在最前，前 newest 条打「最新」角标 */
+export function cardHtml(item, images, isNew = false) {
   const img = images.get(item.id) || {};
-  return `<a class="row" href="/resource/${encodeURIComponent(item.id)}/">
-  <img class="row__thumb" src="${esc(img.thumb)}" width="60" height="90" alt="" loading="lazy" decoding="async">
-  <span class="tag tag--cat">${esc(item.category)}</span>
-  <span class="row__title">${esc(item.title)}</span>
-  <span class="row__arrow" aria-hidden="true">→</span>
+  return `<a class="tile" href="/resource/${encodeURIComponent(item.id)}/">
+  <span class="tile__poster">
+    <img class="tile__img" src="${esc(img.card || img.thumb)}" width="240" height="360" alt="${esc(item.title)}" loading="lazy" decoding="async">
+    ${isNew ? '<span class="tile__new">最新</span>' : ''}
+  </span>
+  <span class="tile__title">${esc(item.title)}</span>
+  <span class="tile__meta">${esc(item.category)}${item.date ? ` · ${esc(item.date)}` : ''}</span>
 </a>`;
 }
 
 export function listPage(ctx) {
   const { site, items, categories, counts, activeCat, total, pageSize, images } = ctx;
   const first = items.slice(0, pageSize);
-  const indexData = items.map((it) => ({
+  const newestCount = Math.min(NEWEST_BADGE, items.length);
+  const indexData = items.map((it, i) => ({
     id: it.id,
     title: it.title,
     category: it.category,
     tags: it.tags,
     desc: it.description.slice(0, 40),
     href: `/resource/${encodeURIComponent(it.id)}/`,
+    date: it.date,
     thumb: (images.get(it.id) || {}).thumb || '/img/placeholder.svg',
+    card: (images.get(it.id) || {}).card || '/img/placeholder.svg',
+    isNew: i < newestCount,
   }));
 
   const heading = activeCat
@@ -89,12 +99,12 @@ export function listPage(ctx) {
 
   const body = `${heading}
 <div id="results" class="results" hidden></div>
-<div id="list" class="list">
-${first.map((it) => rowHtml(it, images)).join('\n')}
+<div id="list" class="grid">
+${first.map((it, i) => cardHtml(it, images, i < newestCount)).join('\n')}
 </div>
 ${
   items.length > pageSize
-    ? `<button id="more" class="btn btn--more" type="button">加载更多（剩余 ${items.length - pageSize}）</button>`
+    ? `<button id="more" class="btn btn--more" type="button" data-page-size="${pageSize}">加载更多（剩余 ${items.length - pageSize}）</button>`
     : ''
 }
 ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
@@ -109,6 +119,7 @@ ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
     counts,
     total,
     body,
+    wide: true,
   });
 }
 

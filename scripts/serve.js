@@ -37,10 +37,17 @@ http
       return;
     }
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
-    if (!fs.existsSync(file)) file = path.join(root, '404.html');
+
+    // 路径不存在时输出 404.html 内容，但状态码必须是 404
+    const notFound = !fs.existsSync(file);
+    if (notFound) file = path.join(root, '404.html');
+    if (notFound && !fs.existsSync(file)) {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('404 Not Found');
+      return;
+    }
 
     const ext = path.extname(file).toLowerCase();
-    res.writeHead(fs.existsSync(file) ? 200 : 404, {
+    res.writeHead(notFound ? 404 : 200, {
       'Content-Type': MIME[ext] || 'application/octet-stream',
       'Cache-Control': 'no-cache',
     });

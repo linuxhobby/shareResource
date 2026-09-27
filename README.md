@@ -17,11 +17,9 @@ npm run serve        # 本地预览 http://localhost:4321
 ```
 data/
   site.yaml          # 站名、分类顺序、免责声明、首屏条数
-  影视.yaml           # 资源数据：一个分类一个文件，全部自动合并
-  动漫.yaml
-  综艺.yaml
-  资料.yaml
-  软件.yaml
+  电影.yaml           # 资源数据：一个分类一个文件，全部自动合并（新增分类直接加文件）
+  电视剧.yaml
+  纪录片.yaml
 static/images/       # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # style.css、app.js（构建时拷到 public/assets/）
 scripts/

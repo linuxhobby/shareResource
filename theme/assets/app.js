@@ -7,7 +7,8 @@
   var moreEl = document.getElementById('more');
   var input = document.getElementById('q');
   var resultsEl = document.getElementById('results');
-  var PAGE = 60;
+  var NEWEST = 6;   // 与构建端保持一致：前 6 条打「最新」角标
+  var PAGE = parseInt(moreEl && moreEl.getAttribute('data-page-size'), 10) || 36;
   var shown = PAGE;
   var globalIndex = null;
   var globalLoading = false;
@@ -18,17 +19,20 @@
     });
   }
 
-  function rowHtml(it) {
-    return '<a class="row" href="' + esc(it.href) + '">' +
-      '<img class="row__thumb" src="' + esc(it.thumb) + '" width="60" height="90" alt="" loading="lazy">' +
-      '<span class="tag tag--cat">' + esc(it.category) + '</span>' +
-      '<span class="row__title">' + esc(it.title) + '</span>' +
-      '<span class="row__arrow" aria-hidden="true">→</span></a>';
+  function cardHtml(it, isNew) {
+    return '<a class="tile" href="' + esc(it.href) + '">' +
+      '<span class="tile__poster">' +
+        '<img class="tile__img" src="' + esc(it.card || it.thumb) + '" width="240" height="360" alt="' + esc(it.title) + '" loading="lazy">' +
+        (isNew ? '<span class="tile__new">最新</span>' : '') +
+      '</span>' +
+      '<span class="tile__title">' + esc(it.title) + '</span>' +
+      '<span class="tile__meta">' + esc(it.category) + (it.date ? ' · ' + esc(it.date) : '') + '</span>' +
+    '</a>';
   }
 
   function renderMore() {
     shown = Math.min(shown + PAGE, items.length);
-    listEl.innerHTML = items.slice(0, shown).map(rowHtml).join('');
+    listEl.innerHTML = items.slice(0, shown).map(function (it, i) { return cardHtml(it, i < NEWEST); }).join('');
     if (moreEl) {
       moreEl.hidden = shown >= items.length;
       moreEl.textContent = '加载更多（剩余 ' + (items.length - shown) + '）';
@@ -63,7 +67,8 @@
     if (moreEl) moreEl.hidden = true;
     resultsEl.hidden = false;
     resultsEl.innerHTML = hits.length
-      ? '<div class="results__hint">找到 ' + hits.length + ' 个资源</div>' + hits.slice(0, 200).map(rowHtml).join('')
+      ? '<div class="results__hint">找到 ' + hits.length + ' 个资源</div>' +
+        '<div class="grid">' + hits.slice(0, 200).map(function (it) { return cardHtml(it, false); }).join('') + '</div>'
       : '<p class="empty">没有匹配的资源</p>';
   }
 

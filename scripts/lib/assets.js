@@ -4,7 +4,9 @@ import QRCode from 'qrcode';
 
 const IMAGE_EXT = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'svg'];
 const DETAIL = { w: 180, h: 260 };
+const CARD = { w: 240, h: 360 };
 const THUMB = { w: 60, h: 90 };
+const SIZES = [DETAIL, CARD, THUMB];
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
@@ -51,22 +53,30 @@ function resolveSource(item, staticDir, rootDir) {
   return candidates.find((p) => fs.existsSync(p) && fs.statSync(p).isFile()) || null;
 }
 
+const VARIANTS = [
+  { key: 'detailExt', size: DETAIL, quality: 82 },
+  { key: 'cardExt', size: CARD, quality: 80 },
+  { key: 'thumbExt', size: THUMB, quality: 78 },
+];
+
 async function renderVariants(sharp, src, destBase) {
   const ext = path.extname(src).toLowerCase();
   if (!sharp) {
     // 没有 sharp：原图直接复用，靠 CSS 裁切
-    for (const size of [DETAIL, THUMB]) {
-      fs.copyFileSync(src, `${destBase}-${size.w}.${ext.slice(1)}`);
-    }
-    return { detailExt: ext.slice(1), thumbExt: ext.slice(1) };
+    for (const v of VARIANTS) fs.copyFileSync(src, `${destBase}-${v.size.w}.${ext.slice(1)}`);
+    return { detailExt: ext.slice(1), cardExt: ext.slice(1), thumbExt: ext.slice(1) };
   }
   try {
-    await sharp(src).resize(DETAIL.w, DETAIL.h, { fit: 'cover' }).webp({ quality: 82 }).toFile(`${destBase}-${DETAIL.w}.webp`);
-    await sharp(src).resize(THUMB.w, THUMB.h, { fit: 'cover' }).webp({ quality: 78 }).toFile(`${destBase}-${THUMB.w}.webp`);
-    return { detailExt: 'webp', thumbExt: 'webp' };
+    for (const v of VARIANTS) {
+      await sharp(src)
+        .resize(v.size.w, v.size.h, { fit: 'cover' })
+        .webp({ quality: v.quality })
+        .toFile(`${destBase}-${v.size.w}.webp`);
+    }
+    return { detailExt: 'webp', cardExt: 'webp', thumbExt: 'webp' };
   } catch {
-    for (const size of [DETAIL, THUMB]) fs.copyFileSync(src, `${destBase}-${size.w}${ext}`);
-    return { detailExt: ext.slice(1), thumbExt: ext.slice(1) };
+    for (const v of VARIANTS) fs.copyFileSync(src, `${destBase}-${v.size.w}${ext}`);
+    return { detailExt: ext.slice(1), cardExt: ext.slice(1), thumbExt: ext.slice(1) };
   }
 }
 
@@ -90,14 +100,15 @@ export async function prepareImages(items, { staticDir, rootDir, outDir }) {
   for (const item of items) {
     const src = resolveSource(item, staticDir, rootDir);
     if (!src) {
-      map.set(item.id, { detail: placeholder, thumb: placeholder });
+      map.set(item.id, { detail: placeholder, card: placeholder, thumb: placeholder });
       missing++;
       continue;
     }
     const destBase = path.join(imgDir, item.id);
-    const { detailExt, thumbExt } = await renderVariants(sharp, src, destBase);
+    const { detailExt, cardExt, thumbExt } = await renderVariants(sharp, src, destBase);
     map.set(item.id, {
       detail: `/img/${encodeURIComponent(item.id)}-${DETAIL.w}.${detailExt}`,
+      card: `/img/${encodeURIComponent(item.id)}-${CARD.w}.${cardExt}`,
       thumb: `/img/${encodeURIComponent(item.id)}-${THUMB.w}.${thumbExt}`,
     });
     processed++;
