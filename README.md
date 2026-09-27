@@ -130,19 +130,147 @@ node ~/.workbuddy/skills/quarkclouddrive/scripts/quark-drive.cjs share <fid> --t
 
 ## 部署
 
-**必须带上域名构建**，否则 canonical / OG / sitemap 会指向 `example.com`：
+产物是纯静态文件，**任何能托管静态文件的地方都能跑**。按目标访问人群选：
+
+| 方案 | 适合 | 说明 |
+|---|---|---|
+| **VPS + Nginx**（推荐） | 面向国内用户、要绑定自己的域名、要备案 | 完全可控，SEO 与访问速度最好，成本约 20～50 元/月 |
+| GitHub Pages | 免费、不想管服务器 | 国内访问不稳定，自定义域名不支持备案 |
+| Cloudflare Pages | 免费、海外访问快 | 同上，国内偶发不通 |
+| 对象存储 + CDN | 国内且量大 | 需备案，配置最繁琐 |
+
+无论哪种，**构建时必须带上真实域名**，否则 canonical / OG / sitemap 会指向 `example.com`：
 
 ```bash
 BASE_URL=https://your-domain.com npm run build
 ```
 
-一键同步到 VPS（rsync，建议先配好 ssh 免密）：
+### 方案 A：VPS + Nginx（推荐）
+
+服务器以 Ubuntu 22.04 为例。
 
 ```bash
-REMOTE_USER=root REMOTE_HOST=1.2.3.4 REMOTE_DIR=/var/www/share-resource npm run deploy
+# 1) 服务器装环境
+sudo apt update && sudo apt install -y nginx rsync
+sudo mkdir -p /var/www/share-resource
+sudo chown -R "$USER" /var/www/share-resource
+
+# 2) 本机配 ssh 免密（之后部署就不用输密码）
+ssh-copy-id root@1.2.3.4
 ```
 
-Nginx 要点（完整配置见 `nginx.conf.example`）：`root` 指向 `public/` 内容，`try_files $uri $uri/ $uri/index.html =404`，`error_page 404 /404.html`，静态资源缓存 30 天、HTML 不缓存。
+把 `nginx.conf.example` 放到 `/etc/nginx/conf.d/share-resource.conf`，替换其中的域名：
+
+```bash
+sudo sed 's/your-domain.com/你的域名/g' nginx.conf.example | sudo tee /etc/nginx/conf.d/share-resource.conf
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+申请 HTTPS（certbot 会自动补上 443 段，示例配置里注释掉的那段不用管）：
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d 你的域名
+```
+
+部署——即构建 + rsync 到服务器：
+
+```bash
+BASE_URL=https://你的域名 \
+REMOTE_USER=root REMOTE_HOST=1.2.3.4 REMOTE_DIR=/var/www/share-resource \
+npm run deploy
+```
+
+关键配置项（完整文件见 `nginx.conf.example`）：
+
+| 配置 | 作用 |
+|---|---|
+| `root /var/www/share-resource` | 指向 `public/` 的内容，不是 `public` 本身 |
+| `try_files $uri $uri/ $uri/index.html =404` | 让 `/resource/mv-010/` 这类目录式 URL 命中 `index.html` |
+| `error_page 404 /404.html` | 走站内 404 页 |
+| 静态资源 `expires 30d`、HTML 不缓存 | 更新即时生效，图片不重复拉取 |
+
+**更新**：改完 YAML 或主题后重跑上面那条 `npm run deploy` 即可（`rsync --delete` 会清掉服务器上已删除的资源页）。
+**回滚**：`git` 切回上一个提交重新构建部署；或部署前 `cp -r public public.bak` 留一份。
+
+### 方案 B：GitHub Pages
+
+仓库 Settings → Pages → Source 选 **GitHub Actions**，然后新建 `.github/workflows/deploy.yml`：
+
+```yaml
+name: Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: BASE_URL=https://<用户名>.github.io/<仓库名> npm run build   # 用自定义域名就填该域名
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+推送到 `main` 即自动构建发布。
+
+### 方案 C：Cloudflare Pages
+
+连接仓库后填：
+
+| 项 | 值 |
+|---|---|
+| Framework preset | None |
+| Build command | `BASE_URL=https://<项目名>.pages.dev npm run build` |
+| Build output directory | `public` |
+| 环境变量 | `NODE_VERSION` = `20` |
+
+自定义域名在 Pages 项目的 Custom domains 里加，然后同步把 `BASE_URL` 改成该域名。
+
+### 部署后自检
+
+```bash
+S=https://你的域名
+for u in / /category/%E7%94%B5%E5%BD%B1/ /resource/mv-010/ /sitemap.xml \
+         /robots.txt /search-index.json /img/mv-010-240.webp /qr/mv-010-quark.svg /nope; do
+  printf '%-38s %s\n' "$u" "$(curl -s -o /dev/null -w '%{http_code}' "$S$u")"
+done
+```
+
+除最后的 `/nope` 应为 **404**，其余全部 **200**。再确认页面源码里的 canonical 是真实域名（`curl -s $S/ | grep canonical`）。
+
+最后把 `https://你的域名/sitemap.xml` 提交到 Google Search Console 与百度站长平台。
+
+### 常见故障
+
+| 现象 | 原因 |
+|---|---|
+| 全部页面 404 | `root` 指到了 `public` 目录本身，应指向它的内容 |
+| `/resource/mv-010/` 404 但文件存在 | `try_files` 少了 `$uri/index.html` |
+| 页面无样式 | `theme/assets/` 没拷进产物，检查 `public/assets/` 是否存在 |
+| canonical / sitemap 是 `example.com` | 构建时漏了 `BASE_URL` |
+| 中文分类页 404 | 浏览器访问正常即可；curl 需用 percent-encoding（如 `%E7%94%B5%E5%BD%B1`） |
+| 二维码 / 配图 404 | 图片或链接缺失时用占位图，检查 `static/images/<id>.jpg` 是否存在 |
 
 ## 调整首页观感
 
