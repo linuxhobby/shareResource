@@ -121,6 +121,7 @@ export function normalizeResources(rawList) {
     }
 
     const date = formatDate(raw.date || raw.updated || '');
+    const added = formatDate(raw.added || raw.added_at || raw.created || '');
     items.push({
       id,
       title,
@@ -129,14 +130,30 @@ export function normalizeResources(rawList) {
       description: String(raw.description || raw.desc || '').trim(),
       image: raw.image ? String(raw.image) : '',
       date,
+      added,
       links,
       primary: links[0] || null,
-      sortKey: date || '0000-00-00',
+      // 未填 added 视为最新，排在最前
+      sortKey: added || '9999-12-31',
       order: index,
     });
   });
 
-  items.sort((a, b) => (a.sortKey < b.sortKey ? 1 : a.sortKey > b.sortKey ? -1 : a.order - b.order));
+  /** 取 id 末尾的编号，用于同日加入时按加入顺序（编号大者在后）排序 */
+  function idNum(id) {
+    const m = String(id).match(/(\d+)$/);
+    return m ? Number(m[1]) : -1;
+  }
+
+  // 新增时间倒序 → 同日按编号倒序 → 上映日期倒序 → 文件内原序
+  items.sort((a, b) => {
+    if (a.sortKey !== b.sortKey) return a.sortKey < b.sortKey ? 1 : -1;
+    const na = idNum(a.id);
+    const nb = idNum(b.id);
+    if (na !== nb) return nb - na;
+    if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+    return a.order - b.order;
+  });
 
   const counts = new Map();
   for (const it of items) counts.set(it.category, (counts.get(it.category) || 0) + 1);
