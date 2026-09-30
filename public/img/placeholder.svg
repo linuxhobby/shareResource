@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="260" viewBox="0 0 180 260" role="img" aria-label="暂无配图">
+  <rect width="180" height="260" fill="#EFEFF2"/>
+  <g fill="none" stroke="#B4B4BC" stroke-width="3" stroke-linejoin="round">
+    <rect x="58" y="86" width="64" height="48" rx="6"/>
+    <path d="M60 126l16-18 12 14 9-9 25 22"/>
+    <circle cx="76" cy="102" r="5"/>
+  </g>
+  <text x="90" y="158" font-size="14" font-family="PingFang SC,Microsoft YaHei,sans-serif" fill="#8A8A94" text-anchor="middle">暂无配图</text>
+</svg>
