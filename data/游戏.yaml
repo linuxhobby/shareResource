@@ -1,0 +1,19 @@
+- id: game-001
+  title: "文明6"
+  category: 游戏
+  tags: ["游戏", "策略", "macOS", "文明6 Civilization VI"]
+  quark_url: "https://pan.quark.cn/s/66efd2f2a056"
+  description: "《席德·梅尔的文明VI》由 Firaxis Games 制作：扩张疆域、发展文化，与历史上最伟大的领袖正面交锋，建立经得起时间考验的文明。｜Steam 2016"
+  date: 2016-10-20
+  added: 2026-10-02
+  image: game-001.jpg
+
+- id: game-002
+  title: "文明7"
+  category: 游戏
+  tags: ["游戏", "策略", "模拟", "macOS", "文明7 Civilization VII"]
+  quark_url: "https://pan.quark.cn/s/03deff44f4c2"
+  description: "《席德·梅尔的文明VII》由 Firaxis Games 制作：领导历经时代更迭而演进或延续的帝国，打造你坚信的事业。｜Steam 2025"
+  date: 2025-02-10
+  added: 2026-10-02
+  image: game-002.jpg

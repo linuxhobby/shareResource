@@ -1,0 +1,19 @@
+- id: app-001
+  title: "Parallels Desktop 18"
+  category: 应用
+  tags: ["应用", "虚拟机", "macOS", "Parallels Desktop 18"]
+  quark_url: "https://pan.quark.cn/s/e9d2e5ed8ccc"
+  description: "Parallels Desktop 18 for Mac（2022 版）：在 Mac 上无缝运行 Windows 与 Linux 虚拟机，支持 Apple M 系列芯片、共享文件夹与拖拽互传。｜Parallels"
+  date: 2022-08-09
+  added: 2026-10-02
+  image: app-001.jpg
+
+- id: app-002
+  title: "Parallels Desktop 19"
+  category: 应用
+  tags: ["应用", "虚拟机", "macOS", "Parallels Desktop 19"]
+  quark_url: "https://pan.quark.cn/s/2c1e8d006a03"
+  description: "Parallels Desktop 19 for Mac（2023 版）：在 Mac 上无缝运行 Windows 与 Linux 虚拟机，兼容 macOS Sonoma，优化 Apple 芯片性能与游戏图形表现。｜Parallels"
+  date: 2023-08-21
+  added: 2026-10-02
+  image: app-002.jpg
