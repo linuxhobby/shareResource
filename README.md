@@ -2,7 +2,7 @@
 
 夸克网盘资源索引静态站。数据写在 YAML 里，构建时一次性生成全部页面（海报压缩、二维码、搜索索引、SEO 标签），产出纯静态文件，Nginx 直接托管，无数据库、无后端、无登录。
 
-当前站点：156 个资源（电影 11 / 电视剧 68 / 纪录片 77），全部为真实夸克公开链接。
+当前站点：391 个资源（电影 239 / 电视剧 71 / 纪录片 77 / 游戏 2 / 应用 2），全部为真实夸克公开链接。
 
 ## 页面形态
 
@@ -35,6 +35,8 @@ data/
   电影.yaml           # 资源数据，一个分类一个文件，构建时自动合并
   电视剧.yaml
   纪录片.yaml
+  游戏.yaml
+  应用.yaml
 static/images/       # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # style.css、app.js（构建时拷到 public/assets/）
 scripts/
@@ -53,7 +55,7 @@ nginx.conf.example   # Nginx 配置参考
 title: 网盘资源站
 description: 夸克 / 百度网盘资源索引，打开即用，扫码即存
 disclaimer: 本站仅提供网盘资源索引，所有文件均存放于第三方网盘…
-categories: [电影, 电视剧, 纪录片]   # 分类栏顺序；未列出的分类按资源数倒序追加在后面
+categories: [电影, 电视剧, 纪录片, 游戏, 应用]   # 分类栏顺序；未列出的分类按资源数倒序追加在后面
 icp: ""                              # 备案号，留空不显示
 pageSize: 35                         # 首屏渲染条数，其余由「加载更多」渲染
 ```
@@ -92,7 +94,18 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
       code: ab12
 ```
 
-现站 id 规则：`mv-xxx` 电影、`tv-xxx` 电视剧、`dc-xxx` 纪录片，与 `static/images/` 里的海报同名。
+现站 id 规则：`mv-xxx` 电影、`tv-xxx` 电视剧、`dc-xxx` 纪录片、`game-xxx` 游戏、`app-xxx` 应用，与 `static/images/` 里的配图同名。
+
+**新增一个分类**：建 `data/<分类>.yaml`，把分类名加进 `site.yaml` 的 `categories`（决定分类栏位置，不写则按资源数追加在末尾），`npm run build` 即可——分类页、sitemap、搜索索引都会自动带上。
+
+**配图统一用 600×900 竖版**（2:3），卡片不会裁切变形：
+
+| 类型 | 来源 |
+|---|---|
+| 电影 / 电视剧 / 纪录片 | TMDB 海报 `https://image.tmdb.org/t/p/w500/<path>.jpg` |
+| 游戏 | Steam 竖版封面 `https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/library_600x900_2x.jpg` |
+| 应用 | Mac App Store 官方图标（512×512），用 `sharp` 合成 600×900（浅灰底 + 图标居中 + 底部标注名称） |
+| 查不到图 | 留 `image: placeholder.svg`，构建自动回退到 `/img/placeholder.svg` |
 
 ## 新增资源
 
@@ -106,7 +119,20 @@ npm run build
 **单条：直接改 YAML**，然后 `npm run build`。
 
 **批量：从夸克网盘目录一次性出链**（推荐，新增几十上百条时用）
-用夸克 CLI 列目录 → 批量生成公开永久链接 → 抓 TMDB 中文信息（标题、简介、评分、海报）→ 写入 `data/<分类>.yaml` → 构建。完整可复用提示词、命令与踩坑记录已固化在 Obsidian 笔记 `008网盘推广/2026-09-27-网盘资源分享站搭建方案.md`，换目录改路径即可复用。
+用夸克 CLI 列目录 → 批量生成公开永久链接 → 抓 TMDB 中文信息（标题、简介、评分、海报）→ 写入 `data/<分类>.yaml` → 构建。
+
+这套流程已固化为 skill：**`~/.workbuddy/skills/quark-resource-sync/`**，直接说「同步夸克资源」即可触发：
+
+```bash
+node ~/.workbuddy/skills/quark-resource-sync/scripts/scan-new.mjs --out /tmp/scan.json   # 扫未编号目录、算下一编号、标疑似重复
+node ~/.workbuddy/skills/quark-resource-sync/scripts/match-batch.mjs --scan /tmp/scan.json --out /tmp/match.json   # TMDB 匹配
+node ~/.workbuddy/skills/quark-resource-sync/scripts/process-batch.mjs --init --scan /tmp/match.json --only mv --start 226 --plan /tmp/plan.json
+node ~/.workbuddy/skills/quark-resource-sync/scripts/process-batch.mjs --plan /tmp/plan.json --size 20   # 编号→出链→抓信息→海报→写 YAML
+```
+
+配置（token / 代理 / 仓库路径 / 网盘 fid）集中在 `config.env`。最初搭建过程见 Obsidian 笔记 `008网盘推广/2026-09-27-网盘资源分享站搭建方案.md`。
+
+规则：页面标题**不带编号**（编号只在网盘目录名与 id 里）；疑似重复先问再动，不自动删。
 
 ```bash
 # 列目录：stdout 只有前 5 条预览，必须读输出里 artifact 指向的 jsonl
@@ -130,7 +156,7 @@ node ~/.workbuddy/skills/quarkclouddrive/scripts/quark-drive.cjs share <fid> --t
 | `/qr/<id>-<网盘>.svg` | 构建时预生成的二维码 |
 | `/sitemap.xml` `/robots.txt` `/404.html` | SEO 与兜底 |
 
-`public/` 当前约 2.5MB，构建约 1.3～2s。
+`public/` 当前约 19MB（391 条资源配图），构建约 9～10s。改了卡片尺寸等图片参数后需 `rm -rf public && npm run build`。
 
 ## 部署
 
