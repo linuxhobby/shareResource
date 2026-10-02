@@ -185,7 +185,7 @@ ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
 
   return layout({
     site,
-    title: activeCat ? `${activeCat} - ${site.title}` : site.title,
+    title: activeCat || site.title,
     description: activeCat
       ? `${activeCat}资源合集，共 ${items.length} 个，夸克网盘链接，扫码即存`
       : site.description,

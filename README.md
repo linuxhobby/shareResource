@@ -52,7 +52,7 @@ nginx.conf.example   # Nginx 配置参考
 ## 站点配置 `data/site.yaml`
 
 ```yaml
-title: 网盘资源站
+title: 我的网盘资源站
 description: 夸克 / 百度网盘资源索引，打开即用，扫码即存
 disclaimer: 本站仅提供网盘资源索引，所有文件均存放于第三方网盘…
 categories: [电影, 电视剧, 纪录片, 游戏, 应用]   # 分类栏顺序；未列出的分类按资源数倒序追加在后面
