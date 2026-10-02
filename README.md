@@ -6,7 +6,7 @@
 |---|---|
 | 线上 | https://www.wodewangpan.top |
 | 仓库 | `git@github.com:linuxhobby/ShareResource.git` |
-| 内容 | 394 个资源 · 6 个分类（电影 239 / 电视剧 71 / 纪录片 77 / 动漫 1 / 游戏 2 / 应用 4） |
+| 内容 | 394 个资源 · 6 个分类（电影 239 / 电视剧 71 / 纪录片 77 / 动漫 1 / 游戏 2 / 软件 4） |
 | 更新方式 | 推到 `main`，VPS 每 30 分钟自动拉取并重建 |
 
 ## 特性
@@ -47,7 +47,7 @@ data/
   纪录片.yaml
   动漫.yaml
   游戏.yaml
-  应用.yaml
+  软件.yaml
 static/images/       # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # style.css、app.js（构建时拷到 public/assets/）
 scripts/
@@ -75,7 +75,7 @@ nginx.conf.example   # Nginx 配置参考
 title: 我的网盘资源站
 description: 夸克 / 百度网盘资源索引，打开即用，扫码即存
 disclaimer: 本站仅提供网盘资源索引，所有文件均存放于第三方网盘…
-categories: [电影, 电视剧, 纪录片, 动漫, 游戏, 应用]   # 分类栏顺序；未列出的按资源数倒序追加在末尾
+categories: [电影, 电视剧, 纪录片, 动漫, 游戏, 软件]   # 分类栏顺序；未列出的按资源数倒序追加在末尾
 icp: ""                              # 备案号，留空不显示
 pageSize: 35                         # 首屏渲染条数，其余由「加载更多」渲染
 ```
@@ -112,7 +112,7 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
       code: ab12
 ```
 
-**id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 应用，与 `static/images/` 里的配图同名。（页面标题不带编号，编号只在 id 与网盘目录名里。）
+**id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件，与 `static/images/` 里的配图同名。（页面标题不带编号，编号只在 id 与网盘目录名里。）
 
 **新增一个分类**：建 `data/<分类>.yaml`，把分类名加进 `site.yaml` 的 `categories`，`npm run build` 即可——分类页、sitemap、搜索索引都会自动带上。
 
@@ -124,7 +124,7 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
 |---|---|
 | 电影 / 电视剧 / 纪录片 / 动漫 | TMDB 海报 `https://image.tmdb.org/t/p/w500/<path>.jpg` |
 | 游戏 | Steam 竖版封面 `https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/library_600x900_2x.jpg` |
-| 应用 | Mac App Store 官方图标（512×512），用 `sharp` 合成 600×900（浅灰底 + 图标居中 + 底部标注） |
+| 软件 | Mac App Store 官方图标（512×512），用 `sharp` 合成 600×900（浅灰底 + 图标居中 + 底部标注） |
 | 查不到图 | 不填 `image`（或填 `placeholder.svg`），构建自动生成并回退到 `/img/placeholder.svg` |
 
 ## 新增资源
