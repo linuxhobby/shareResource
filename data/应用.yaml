@@ -17,3 +17,23 @@
   date: 2023-08-21
   added: 2026-10-02
   image: app-002.jpg
+
+- id: app-003
+  title: "Raycast"
+  category: 应用
+  tags: ["应用", "启动器", "效率工具", "macOS", "Raycast"]
+  quark_url: "https://pan.quark.cn/s/75eb7fb3f303"
+  description: "Raycast for Mac（最新版）：替代 Spotlight 的命令面板，秒开应用、搜索文件与剪贴板历史、管理文本片段与窗口，内置扩展商店可安装海量插件，支持 AI 与自定义脚本。｜Raycast Technologies"
+  date: 2026-09-30
+  added: 2026-10-02
+  image: app-003.jpg
+
+- id: app-004
+  title: "Alfred"
+  category: 应用
+  tags: ["应用", "启动器", "效率工具", "macOS", "Alfred"]
+  quark_url: "https://pan.quark.cn/s/f206383617c1"
+  description: "Alfred 5 for Mac（5.8.1）：键盘驱动的启动器，快速打开应用、文件、文件夹与各类系统功能，支持剪贴板历史、文本片段与系统操作，并通过 Workflows 工作流实现高度定制与扩展。｜Running with Crayons"
+  date: 2026-09-24
+  added: 2026-10-02
+  image: app-004.jpg
