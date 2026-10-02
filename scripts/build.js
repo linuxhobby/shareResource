@@ -7,6 +7,7 @@ import {
   normalizeResources,
   orderCategories,
   categorySlug,
+  syncHeaderCounts,
 } from './lib/data.js';
 import { prepareImages, writeQr, copyThemeAssets } from './lib/assets.js';
 import {
@@ -37,6 +38,8 @@ const t0 = Date.now();
 console.log('读取数据源…');
 const site = loadSite(dataDir);
 const raw = loadResources(dataDir);
+const synced = syncHeaderCounts(dataDir);
+if (synced.length) console.log(`  · 条数注释已刷新：${synced.join('、')}`);
 const { items, counts } = normalizeResources(raw);
 const categories = orderCategories(site, counts);
 const total = items.length;

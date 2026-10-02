@@ -33,6 +33,7 @@ npm run dev          # build + serve 一步到位
 data/
   site.yaml          # 站点配置：站名、分类顺序、免责声明、首屏条数
   电影.yaml           # 资源数据，一个分类一个文件，构建时自动合并
+                     # 头部注释里的条数（如「（239 条）」）由 npm run build 自动刷新，不用手改
   电视剧.yaml
   纪录片.yaml
   游戏.yaml

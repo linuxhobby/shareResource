@@ -66,6 +66,44 @@ export function loadResources(dataDir) {
   return all;
 }
 
+/**
+ * 把 data/*.yaml 头部注释里的条数刷新为实际条数，避免手工维护时数字漂移。
+ * 例：「# 电影资源（10 条）」→「# 电影资源（239 条）」；头部没有条数标记但含「资源」二字时自动补上。
+ * 只有数字确实变化时才会写回文件。返回被修改的文件说明列表。
+ */
+export function syncHeaderCounts(dataDir) {
+  if (!fs.existsSync(dataDir)) return [];
+  const changed = [];
+  const files = fs
+    .readdirSync(dataDir)
+    .filter((f) => /\.ya?ml$/i.test(f) && f !== 'site.yaml')
+    .sort();
+
+  for (const file of files) {
+    const full = path.join(dataDir, file);
+    const text = fs.readFileSync(full, 'utf8');
+    const headMatch = text.match(/^((?:#[^\n]*\n)+)/);
+    if (!headMatch) continue; // 没有头部注释的文件不处理
+
+    const parsed = yaml.load(text);
+    const n = (Array.isArray(parsed) ? parsed : parsed?.resources || []).length;
+    const head = headMatch[1];
+    let next;
+    if (/^#[^\n]*?（\d+ 条）/m.test(head)) {
+      next = head.replace(/^(#[^\n]*?)（\d+ 条）/m, `$1（${n} 条）`);
+    } else if (/^#[^\n]*资源/m.test(head)) {
+      next = head.replace(/^(#[^\n]*资源)/m, `$1（${n} 条）`);
+    } else {
+      continue;
+    }
+    if (next === head) continue;
+
+    fs.writeFileSync(full, next + text.slice(head.length));
+    changed.push(`${file} → ${n} 条`);
+  }
+  return changed;
+}
+
 export function loadSite(dataDir) {
   const file = path.join(dataDir, 'site.yaml');
   const cfg = fs.existsSync(file) ? yaml.load(fs.readFileSync(file, 'utf8')) || {} : {};
