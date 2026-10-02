@@ -102,7 +102,7 @@ const indexAll = items.map((it) => {
     title: it.title,
     category: it.category,
     tags: it.tags,
-    desc: it.description.slice(0, 40),
+    desc: it.description.length > 40 ? `${it.description.slice(0, 40)}…` : it.description,
     href: `/resource/${encodeURIComponent(it.id)}/`,
     date: it.date,
     thumb: img.thumb || '/img/placeholder.svg',

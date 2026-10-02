@@ -294,7 +294,7 @@ export function detailPage(ctx) {
   return layout({
     site,
     title: item.title,
-    description: `${item.category} · ${item.description.slice(0, 100) || item.title}`,
+    description: `${item.category} · ${item.description.slice(0, 160) || item.title}`,
     activeCat: item.category,
     categories,
     counts,
