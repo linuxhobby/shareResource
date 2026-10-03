@@ -66,7 +66,8 @@ def meta_set(c, k, v):
 
 
 def fingerprint(ip, ua, vid):
-    """访客指纹：优先用前端 cookie 里的 vid，无 cookie 时回退 IP+UA 哈希。"""
+    """访客指纹：v: 前缀 = 带 vid cookie 的真浏览器（计入 UV）；
+    i: 前缀 = 无 cookie 的脚本 / 爬虫，只计 PV 不计 UV。"""
     if vid and VID_RE.match(vid):
         return 'v:' + vid
     return 'i:' + hashlib.sha1(f'{ip}|{ua}'.encode('utf-8', 'replace')).hexdigest()[:16]
@@ -102,12 +103,15 @@ def ingest(c, lines):
         day, fp, ts = r
         c.execute('INSERT INTO daily(d,pv) VALUES(?,0) ON CONFLICT(d) DO NOTHING', (day,))
         c.execute('UPDATE daily SET pv=pv+1 WHERE d=?', (day,))
-        c.execute(
-            'INSERT INTO visitors(fp,first_seen,last_seen) VALUES(?,?,?) '
-            'ON CONFLICT(fp) DO UPDATE SET last_seen=excluded.last_seen',
-            (fp, ts, ts),
-        )
-        c.execute('INSERT OR IGNORE INTO daily_uv(d,fp) VALUES(?,?)', (day, fp))
+        # UV 只认带 vid cookie 的请求：cookie 由页面 JS 种植，执行过 JS 才算真人访客，
+        # 爬虫 / 扫描器 / 预览抓取（UA 伪装成浏览器但不跑 JS）只计 PV 不计 UV
+        if fp.startswith('v:'):
+            c.execute(
+                'INSERT INTO visitors(fp,first_seen,last_seen) VALUES(?,?,?) '
+                'ON CONFLICT(fp) DO UPDATE SET last_seen=excluded.last_seen',
+                (fp, ts, ts),
+            )
+            c.execute('INSERT OR IGNORE INTO daily_uv(d,fp) VALUES(?,?)', (day, fp))
         pv += 1
     return pv
 
