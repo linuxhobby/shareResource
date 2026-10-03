@@ -113,6 +113,7 @@ export function loadSite(dataDir) {
     disclaimer: cfg.disclaimer || '',
     categories: Array.isArray(cfg.categories) ? cfg.categories.map(String) : [],
     icp: cfg.icp || '',
+    stats: cfg.stats || '',
     pageSize: Number(cfg.pageSize) > 0 ? Number(cfg.pageSize) : 60,
   };
 }

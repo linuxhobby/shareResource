@@ -238,7 +238,8 @@ mark {
 /* ── 页脚 ────────────────────────────── */
 .foot { padding: 28px 16px 40px; text-align: center; }
 .foot p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.8; }
-.foot__icp { margin-top: 4px !important; }
+.foot__icp, .foot__stat { margin-top: 4px !important; }
+.foot__stat span { color: var(--text, inherit); font-variant-numeric: tabular-nums; }
 
 /* ── 移动端 ──────────────────────────── */
 /* 窄屏逐级减列：5 → 4 → 3 → 2 */

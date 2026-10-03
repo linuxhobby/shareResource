@@ -3,6 +3,11 @@ import { categorySlug } from './data.js';
 /** 列表最前面多少条打「最新」角标 */
 const NEWEST_BADGE = 6;
 
+/** 不蒜子访问统计（site.yaml 里 stats: busuanzi 时启用）；脚本加载失败时数字保持占位符，不影响页面 */
+const BUSUANZI_HTML =
+  '<p class="foot__stat">总访问量 <span id="busuanzi_value_site_pv">–</span> · 访客数 <span id="busuanzi_value_site_uv">–</span></p>';
+const BUSUANZI_SCRIPT = '<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>';
+
 export function esc(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -95,7 +100,9 @@ ${body}
 <footer class="foot wrap${wide ? ' wrap--wide' : ''}">
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
+  ${site.stats === 'busuanzi' ? BUSUANZI_HTML : ''}
 </footer>
+${site.stats === 'busuanzi' ? BUSUANZI_SCRIPT : ''}
 <script src="/assets/app.js" defer></script>
 </body>
 </html>
