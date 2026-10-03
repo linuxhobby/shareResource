@@ -20,6 +20,11 @@ const LOCAL_STATS_SCRIPT = `<script>
     document.cookie = 'vid=v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10) +
       '; expires=' + exp + '; path=/; SameSite=Lax';
   }
+  // 回发确认信标：服务端据此把「首访即走」的访客也计入 UV（信标本身不计访问量）
+  try {
+    if (navigator.sendBeacon) navigator.sendBeacon('/hit');
+    else fetch('/hit', { method: 'POST', keepalive: true }).catch(function () {});
+  } catch (e) {}
   fetch('/stats.json', { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (s) {

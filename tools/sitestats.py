@@ -73,17 +73,25 @@ def fingerprint(ip, ua, vid):
     return 'i:' + hashlib.sha1(f'{ip}|{ua}'.encode('utf-8', 'replace')).hexdigest()[:16]
 
 
-def parse_line(line):
+def mark_visitor(c, day, fp, ts):
+    """记一次访客：只有带 vid cookie（v: 前缀）的才写入，爬虫不计。"""
+    if not fp.startswith('v:'):
+        return
+    c.execute(
+        'INSERT INTO visitors(fp,first_seen,last_seen) VALUES(?,?,?) '
+        'ON CONFLICT(fp) DO UPDATE SET last_seen=excluded.last_seen',
+        (fp, ts, ts),
+    )
+    c.execute('INSERT OR IGNORE INTO daily_uv(d,fp) VALUES(?,?)', (day, fp))
+
+
+def parse_raw(line):
+    """只做基础解析，过滤条件交给 ingest（/hit 信标要单独走 UV 分支）。"""
     m = LINE_RE.match(line)
     if not m:
         return None
     ip, ts, method, path, status, ua, vid = m.groups()
-    if method not in ('GET', 'HEAD'):
-        return None
     if not status.isdigit() or int(status) >= 400:
-        return None
-    path = path.split('?', 1)[0]
-    if SKIP_PATH_RE.search(path):
         return None
     if BOT_RE.search(ua):
         return None
@@ -91,27 +99,35 @@ def parse_line(line):
         dt = datetime.strptime(ts, '%d/%b/%Y:%H:%M:%S %z').astimezone(TZ)
     except ValueError:
         return None
-    return dt.strftime('%F'), fingerprint(ip, ua, vid), dt.isoformat()
+    return {
+        'day': dt.strftime('%F'),
+        'ts': dt.isoformat(),
+        'fp': fingerprint(ip, ua, vid),
+        'method': method,
+        'path': path.split('?', 1)[0],
+    }
 
 
 def ingest(c, lines):
     pv = 0
     for line in lines:
-        r = parse_line(line)
+        r = parse_raw(line)
         if not r:
             continue
-        day, fp, ts = r
+        day, ts, fp, method, path = r['day'], r['ts'], r['fp'], r['method'], r['path']
+
+        # /hit：页面 JS 种完 cookie 后回发的确认信标，只用于补记首访 UV，不计入 PV
+        if path == '/hit':
+            mark_visitor(c, day, fp, ts)
+            continue
+
+        if method not in ('GET', 'HEAD') or SKIP_PATH_RE.search(path):
+            continue
+
         c.execute('INSERT INTO daily(d,pv) VALUES(?,0) ON CONFLICT(d) DO NOTHING', (day,))
         c.execute('UPDATE daily SET pv=pv+1 WHERE d=?', (day,))
-        # UV 只认带 vid cookie 的请求：cookie 由页面 JS 种植，执行过 JS 才算真人访客，
-        # 爬虫 / 扫描器 / 预览抓取（UA 伪装成浏览器但不跑 JS）只计 PV 不计 UV
-        if fp.startswith('v:'):
-            c.execute(
-                'INSERT INTO visitors(fp,first_seen,last_seen) VALUES(?,?,?) '
-                'ON CONFLICT(fp) DO UPDATE SET last_seen=excluded.last_seen',
-                (fp, ts, ts),
-            )
-            c.execute('INSERT OR IGNORE INTO daily_uv(d,fp) VALUES(?,?)', (day, fp))
+        # UV 只认带 vid cookie 的请求：cookie 由页面 JS 种植，跑过 JS 才算真人访客
+        mark_visitor(c, day, fp, ts)
         pv += 1
     return pv
 
