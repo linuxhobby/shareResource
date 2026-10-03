@@ -9,8 +9,9 @@ categories:
   - 动漫
   - 游戏
   - 软件
-# 页脚访问统计：busuanzi = 不蒜子（免注册，显示总访问量 / 访客数）；留空则不显示
-stats: busuanzi
+# 页脚访问统计：local = 本地统计（VPS 解析 nginx 日志生成 /stats.json，不依赖第三方）；
+#              busuanzi = 不蒜子（第三方 JS）；留空则不显示
+stats: local
 # 备案号（可选，留空则不显示）
 icp: ""
 # 首页 / 分类页首屏渲染条数，其余由「加载更多」渲染（宫格建议 12 的倍数）

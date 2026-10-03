@@ -8,6 +8,30 @@ const BUSUANZI_HTML =
   '<p class="foot__stat">总访问量 <span id="busuanzi_value_site_pv">–</span> · 访客数 <span id="busuanzi_value_site_uv">–</span></p>';
 const BUSUANZI_SCRIPT = '<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>';
 
+/** 本地访问统计（stats: local）：读取 VPS 上由 nginx 日志生成的 /stats.json，不依赖任何第三方。
+ *  同时种一年期 vid cookie 供服务端区分访客；接口不可用时数字保持占位符，不影响页面 */
+const LOCAL_STATS_HTML =
+  '<p class="foot__stat">总访问量 <span id="stat-pv">–</span> · 访客数 <span id="stat-uv">–</span></p>';
+const LOCAL_STATS_SCRIPT = `<script>
+(function () {
+  var exp = new Date(Date.now() + 31536000000).toUTCString();
+  if (!/(^|; )vid=/.test(document.cookie)) {
+    document.cookie = 'vid=v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10) +
+      '; expires=' + exp + '; path=/; SameSite=Lax';
+  }
+  fetch('/stats.json', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(function (s) {
+      var p = document.getElementById('stat-pv'), u = document.getElementById('stat-uv');
+      if (p && s.pv != null) p.textContent = s.pv;
+      if (u && s.uv != null) u.textContent = s.uv;
+    })
+    .catch(function () {});
+})();
+</script>`;
+const STATS_HTML = { busuanzi: BUSUANZI_HTML, local: LOCAL_STATS_HTML };
+const STATS_SCRIPT = { busuanzi: BUSUANZI_SCRIPT, local: LOCAL_STATS_SCRIPT };
+
 export function esc(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -100,9 +124,9 @@ ${body}
 <footer class="foot wrap${wide ? ' wrap--wide' : ''}">
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
-  ${site.stats === 'busuanzi' ? BUSUANZI_HTML : ''}
+  ${STATS_HTML[site.stats] || ''}
 </footer>
-${site.stats === 'busuanzi' ? BUSUANZI_SCRIPT : ''}
+${STATS_SCRIPT[site.stats] || ''}
 <script src="/assets/app.js" defer></script>
 </body>
 </html>
