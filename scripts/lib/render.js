@@ -11,7 +11,8 @@ const BUSUANZI_SCRIPT = '<script async src="//busuanzi.ibruce.info/busuanzi/2.3/
 /** 本地访问统计（stats: local）：读取 VPS 上由 nginx 日志生成的 /stats.json，不依赖任何第三方。
  *  同时种一年期 vid cookie 供服务端区分访客；接口不可用时数字保持占位符，不影响页面 */
 const LOCAL_STATS_HTML =
-  '<p class="foot__stat">总访问量 <span id="stat-pv">–</span> · 访客数 <span id="stat-uv">–</span></p>';
+  '<p class="foot__stat">总访问量 <span id="stat-pv">–</span> · 访客数 <span id="stat-uv">–</span>' +
+  ' · 今日 <span id="stat-tpv">–</span> · 访客 <span id="stat-tuv">–</span></p>';
 const LOCAL_STATS_SCRIPT = `<script>
 (function () {
   var exp = new Date(Date.now() + 31536000000).toUTCString();
@@ -22,9 +23,11 @@ const LOCAL_STATS_SCRIPT = `<script>
   fetch('/stats.json', { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (s) {
-      var p = document.getElementById('stat-pv'), u = document.getElementById('stat-uv');
-      if (p && s.pv != null) p.textContent = s.pv;
-      if (u && s.uv != null) u.textContent = s.uv;
+      var m = { 'stat-pv': s.pv, 'stat-uv': s.uv, 'stat-tpv': s.today_pv, 'stat-tuv': s.today_uv };
+      for (var id in m) {
+        var el = document.getElementById(id);
+        if (el && m[id] != null) el.textContent = m[id];
+      }
     })
     .catch(function () {});
 })();

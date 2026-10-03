@@ -163,6 +163,11 @@ def main():
     if a.reset:
         c.executescript('DELETE FROM meta; DELETE FROM visitors; DELETE FROM daily; DELETE FROM daily_uv;')
         log('已清空历史统计')
+        # 重置后默认从「此刻」起算：游标直接跳到当前日志末尾，不回填已有日志
+        if not a.backfill and os.path.exists(LOG):
+            meta_set(c, 'inode', str(os.stat(LOG).st_ino))
+            meta_set(c, 'offset', str(os.stat(LOG).st_size))
+            c.commit()
 
     if a.file:
         lines, _ = read_chunk(a.file, 0, whole=True)
