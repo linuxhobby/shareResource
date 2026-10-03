@@ -33,9 +33,9 @@ a:hover { text-decoration: underline; }
   top: 0;
   z-index: 10;
 }
-.top__inner { display: flex; align-items: center; gap: 12px; height: 56px; }
-.top__brand { font-weight: 700; font-size: 17px; color: var(--brand); letter-spacing: .5px; white-space: nowrap; }
-.top__logo { width: 24px; height: 24px; margin-right: 8px; vertical-align: -6px; }
+.top__inner { display: flex; align-items: center; gap: 12px; height: 68px; }
+.top__brand { font-weight: 700; font-size: 30px; line-height: 1.2; color: var(--brand); letter-spacing: .5px; white-space: nowrap; }
+.top__logo { width: 34px; height: 34px; margin-right: 10px; vertical-align: -8px; }
 .top__search { margin-left: auto; flex: 1; max-width: 260px; }
 .top__search input {
   width: 100%;

@@ -406,6 +406,7 @@ done
 | 每行卡片数 | `theme/assets/style.css` 的 `.grid { grid-template-columns: repeat(5, …) }` 及各断点 |
 | 首屏条数 | `data/site.yaml` 的 `pageSize` |
 | 卡片标题 / 日期字号 | `.tile__title`（16px）、`.tile__meta`（14px） |
+| 顶栏品牌字号 | `.top__brand`（桌面 30px、≤640px 时 16px）；同步调 `.top__inner` 高度与 `.top__logo` 尺寸 |
 | 「最新」角标数量 | `scripts/lib/render.js` 的 `NEWEST_BADGE`，与 `theme/assets/app.js` 的 `NEWEST` 保持一致 |
 | 卡片尺寸 | `scripts/lib/assets.js` 的 `CARD = { w: 240, h: 360 }`（改后需 `rm -rf public && npm run build`） |
 
