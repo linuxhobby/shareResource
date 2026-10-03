@@ -6,7 +6,7 @@
 |---|---|
 | 线上 | https://www.wodewangpan.top |
 | 仓库 | `git@github.com:linuxhobby/ShareResource.git` |
-| 内容 | 394 个资源 · 6 个分类（电影 239 / 电视剧 71 / 纪录片 77 / 动漫 1 / 游戏 2 / 软件 4） |
+| 内容 | 396 个资源 · 6 个分类（电影 240 / 电视剧 72 / 纪录片 77 / 动漫 1 / 游戏 2 / 软件 4） |
 | 更新方式 | 推到 `main`，VPS 每 30 分钟自动拉取并重建 |
 
 ## 特性
@@ -17,6 +17,7 @@
 - **纯前端搜索**：支持拼音全拼与首字母、命中高亮、`?q=` 可分享
 - **SEO 全自带**：canonical、OG / Twitter Card、JSON-LD、sitemap、robots、404 兜底
 - **响应式宫格**：5 列 → 4 列（<1000px）→ 3 列（<820px）→ 2 列（<480px）
+- **访问统计自备**：服务端解析 Nginx 日志生成 `/stats.json`，页脚显示「总访问量 / 访客数 / 今日 / 今日访客」，不依赖任何第三方统计服务
 
 ## 快速开始
 
@@ -56,6 +57,8 @@ scripts/
   new-resource.js    # 交互式新增资源
   deploy.sh          # 构建 + rsync 到 VPS（备用部署方式）
   lib/               # data.js（解析/规整）、assets.js（图片与二维码）、render.js（页面模板）
+tools/
+  sitestats.py       # 本地访问统计，部署时放到 VPS 的 /usr/local/bin/sitestats.py
 public/              # 构建产物，部署这个目录（约 19MB）
 nginx.conf.example   # Nginx 配置参考
 ```
@@ -77,8 +80,11 @@ description: 夸克 / 百度网盘资源索引，打开即用，扫码即存
 disclaimer: 本站仅提供网盘资源索引，所有文件均存放于第三方网盘…
 categories: [电影, 电视剧, 纪录片, 动漫, 游戏, 软件]   # 分类栏顺序；未列出的按资源数倒序追加在末尾
 icp: ""                              # 备案号，留空不显示
+stats: local                         # 页脚访问统计：local = 本地（读 /stats.json）｜busuanzi = 不蒜子｜留空不显示
 pageSize: 35                         # 首屏渲染条数，其余由「加载更多」渲染
 ```
+
+`stats: local` 依赖 VPS 上的 `/stats.json`（见「访问统计」一节）；本机预览或没部署统计脚本时数字保持占位符 `–`，页面照常。
 
 `pageSize` 只影响首屏 HTML 体积，**不影响 SEO**（全部详情页都在 `sitemap.xml` 里）。宫格布局下建议填 5 的倍数，避免末行缺角。
 
@@ -94,7 +100,7 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
   quark_url: https://pan.quark.cn/s/xxxx    # 各网盘链接，至少填一个
   baidu_url: https://pan.baidu.com/s/xxxx
   baidu_code: sf2k          # 提取码
-  description: 4K 国语中字   # 可选，详情页正文
+  description: 4K 国语中字   # 可选，详情页正文。TMDB 完整简介（上限 300 字），卡片摘要 40 字、meta 160 字由构建自动截取
   date: 2013-01-30          # 可选，上映 / 发行日期
   added: 2026-09-21         # 可选，加入时间，决定排序（不填则排最前）
   image: mv-010.jpg         # 可选，默认取 static/images/<id>.<ext>
@@ -175,6 +181,7 @@ node ~/.workbuddy/skills/quarkclouddrive/scripts/quark-drive.cjs share <fid> --t
 | `/img/placeholder.svg` | 缺图时的占位图 |
 | `/qr/<id>-<网盘>.svg` | 构建期预生成的二维码 |
 | `/sitemap.xml` `/robots.txt` `/404.html` | SEO 与兜底 |
+| `/stats.json` | 访问统计（由 VPS 上的 `sitestats.py` 生成，经 Nginx 映射暴露，不由构建产出） |
 
 改了卡片尺寸等图片参数后需 `rm -rf public && npm run build`。
 
@@ -235,9 +242,12 @@ Nginx 关键配置（完整文件见 `nginx.conf.example`）：
 | `submit-indexnow` | 按 100 条一批推给 IndexNow（密钥放 `/opt/indexnow/key`） |
 
 ```bash
-# cron：每 30 分钟检查一次
-*/30 * * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1
+*/30 * * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1   # 检查更新，有更新才构建
+*/5  * * * * /usr/local/bin/sitestats.py    >> /var/log/sitestats.log 2>&1         # 访问统计增量
+0    3 * * * /usr/local/bin/submit-indexnow                                        # 每天推送新 URL 给搜索引擎
 ```
+
+> 仓库里的 `.github/workflows/` 已移除：部署只由上述 cron 完成，不再跑 GitHub Actions。
 
 查看运行结果：`tail -20 /var/log/site-autoupdate.log`。
 
@@ -301,17 +311,70 @@ jobs:
 | Build output directory | `public` |
 | 环境变量 | `NODE_VERSION` = `20` |
 
+## 访问统计（本地，不依赖第三方）
+
+站点是纯静态，但访问量统计完全自建：Nginx 记日志 → 脚本增量解析 → 输出 JSON → 前端读取。
+
+```
+浏览器请求 → Nginx（sitestats 日志格式，末尾追加 $cookie_vid）
+           → cron 每 5 分钟跑 sitestats.py
+           → SQLite 累计（/var/lib/sitestats/stats.db）
+           → 输出 /var/lib/sitestats/stats.json → 页脚 fetch 填充数字
+```
+
+**服务端三件套**
+
+| 文件 | 作用 |
+|---|---|
+| `tools/sitestats.py` | 统计脚本，部署到 VPS 的 `/usr/local/bin/sitestats.py` |
+| `/etc/nginx/conf.d/00-sitestats.conf` | 定义 `log_format sitestats`（combined 末尾加 `$cookie_vid`），需排在站点配置之前加载 |
+| `/etc/nginx/conf.d/share-resource.conf` | `access_log … sitestats;` + `location = /stats.json` 映射 |
+
+Nginx 关键两处：
+
+```nginx
+access_log /var/log/nginx/access.log sitestats;   # 站点 server 块内
+
+location = /stats.json {
+    alias /var/lib/sitestats/stats.json;
+    default_type application/json;
+    add_header Cache-Control "no-store";
+}
+```
+
+**统计口径**
+
+| 指标 | 规则 |
+|---|---|
+| PV | GET/HEAD 且状态码 <400；排除爬虫 UA（bot / spider / curl / wget / python-requests 等）与非页面路径（图片、CSS/JS、`404.html`、`robots.txt`、`sitemap.xml`） |
+| UV | 优先用前端种的一年期 `vid` cookie；无 cookie 的请求回退 `sha1(IP + UA)` |
+| 今日 | 按日志日期分组，每天 00:00 自动归零 |
+| 增量 | 游标（inode + offset）存 SQLite 的 `meta` 表；logrotate 后自动从头读新文件，不重复计 |
+
+**常用命令**
+
+```bash
+python3 /usr/local/bin/sitestats.py              # 手动跑一次增量（cron 每 5 分钟自动执行）
+python3 /usr/local/bin/sitestats.py --backfill   # 从当前 access.log 开头全量回填
+python3 /usr/local/bin/sitestats.py --file /var/log/nginx/access.log.1   # 回填指定日志
+python3 /usr/local/bin/sitestats.py --reset      # 清空并从当前时刻起算，不回填
+cat /var/lib/sitestats/stats.json                # {"pv":…,"uv":…,"today_pv":…,"today_uv":…}
+```
+
+前端部分在 `scripts/lib/render.js` 的 `LOCAL_STATS_HTML` / `LOCAL_STATS_SCRIPT`：种 `vid` cookie + `fetch('/stats.json')` 填四个数字；接口不可用时保持占位符 `–`，页面不受影响。想换回第三方，把 `data/site.yaml` 的 `stats` 改成 `busuanzi` 即可。
+
 ## 上线自检
 
 ```bash
 S=https://www.wodewangpan.top
 for u in / /category/%E7%94%B5%E5%BD%B1/ /resource/mv-010/ /sitemap.xml \
-         /robots.txt /search-index.json /img/mv-010-240.webp /qr/mv-010-quark.svg /nope; do
+         /robots.txt /search-index.json /img/mv-010-240.webp /qr/mv-010-quark.svg \
+         /stats.json /nope; do
   printf '%-38s %s\n' "$u" "$(curl -s -o /dev/null -w '%{http_code}' "$S$u")"
 done
 ```
 
-除 `/nope` 应为 **404**，其余全部 **200**。再确认源码里 canonical 是真实域名：`curl -s $S/ | grep canonical`。
+除 `/nope` 应为 **404**，其余全部 **200**（`/stats.json` 需 VPS 部署了 `sitestats.py` 才是 200，本机预览时为 404 属正常）。再确认源码里 canonical 是真实域名：`curl -s $S/ | grep canonical`。
 
 首次上线把 `sitemap.xml` 提交到 Google Search Console 与百度站长平台；之后 `submit-baidu` / `submit-indexnow` 会自动推送。
 
@@ -325,6 +388,8 @@ done
 | canonical / sitemap 是 `example.com` | 构建时漏了 `BASE_URL` |
 | 中文分类页 curl 404 | 浏览器正常即可；curl 需 percent-encoding（`%E7%94%B5%E5%BD%B1`） |
 | 配图 / 二维码 404 | 缺图时回退占位图，检查 `static/images/<id>.jpg` 是否存在 |
+| 页脚统计一直是 `–` | `/stats.json` 未部署或没映射：`curl -I https://域名/stats.json`、`tail /var/log/sitestats.log` |
+| 统计数字不再增长 | cron 任务丢失或日志被轮转：`crontab -l`、`ls -l /var/lib/sitestats/` |
 | cron 没生效 | `crontab -l` 看任务在不在，`tail /var/log/site-autoupdate.log` 看输出 |
 
 ## 调整首页观感
@@ -354,7 +419,7 @@ done
 
 | 项目 | 说明 |
 |---|---|
-| `title` / `description` | 每页独立；详情页「标题 - 站名」，描述取简介前 100 字 |
+| `title` / `description` | 每页独立；详情页「标题 - 站名」，描述取简介前 160 字 |
 | `canonical` | 每页指向自身绝对地址，避免 `/index.html` 与 `/` 重复 |
 | OG / Twitter Card | `og:title` / `og:description` / `og:image` / `og:url` |
 | JSON-LD | 详情页 `Movie` / `TVSeries`（按分类）+ 面包屑；列表页 `WebSite`（含 SearchAction）+ `CollectionPage` |
