@@ -7,6 +7,9 @@ public/
 out/
 dist/
 
+# IndexNow 密钥：协议要求可公开访问，但值不入库（VPS 上放 /opt/indexnow/key.txt，由 nginx 映射成 /key.txt）
+static/key.txt
+
 # 本地环境
 .env
 *.log
