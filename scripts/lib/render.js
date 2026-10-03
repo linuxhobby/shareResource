@@ -84,7 +84,10 @@ function layout({
   jsonLd = null,
   keywords = '',
   noindex = false,
+  assetVersion = '',
 }) {
+  // 静态资源带版本号：nginx 对 css/js 设了 30 天缓存，改样式后必须换 URL 才会被重新拉取
+  const v = assetVersion ? `?v=${assetVersion}` : '';
   // 标题里已含站名（如首页 homeTitle）时不再重复拼接
   const fullTitle = title === site.title || title.includes(site.title) ? title : `${title} - ${site.title}`;
   const canonical = `${baseUrl}${canonicalPath}`;
@@ -111,7 +114,7 @@ ${keywords ? `<meta name="keywords" content="${esc(keywords)}">\n` : ''}<meta na
 ${ogImg ? `<meta property="og:image" content="${esc(ogImg)}">\n` : ''}<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(fullTitle)}">
 <meta name="twitter:description" content="${esc(description || site.description)}">
-${ogImg ? `<meta name="twitter:image" content="${esc(ogImg)}">\n` : ''}<link rel="stylesheet" href="/assets/style.css">
+${ogImg ? `<meta name="twitter:image" content="${esc(ogImg)}">\n` : ''}<link rel="stylesheet" href="/assets/style.css${v}">
 ${head}
 ${jsonLd ? jsonLdBlock(jsonLd) : ''}
 </head>
@@ -134,7 +137,7 @@ ${body}
   ${STATS_HTML[site.stats] || ''}
 </footer>
 ${STATS_SCRIPT[site.stats] || ''}
-<script src="/assets/app.js" defer></script>
+<script src="/assets/app.js${v}" defer></script>
 </body>
 </html>
 `;
@@ -230,6 +233,7 @@ ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
 
   return layout({
     site,
+    assetVersion: ctx.assetVersion,
     title: activeCat || `${homeTitle}（${total} 部）`,
     description: activeCat
       ? `${activeCat}资源合集，共 ${items.length} 个，夸克网盘链接，扫码即存`
@@ -338,6 +342,7 @@ export function detailPage(ctx) {
 
   return layout({
     site,
+    assetVersion: ctx.assetVersion,
     title: item.title,
     description: `${item.category} · ${item.description.slice(0, 160) || item.title}`,
     activeCat: item.category,
@@ -358,6 +363,7 @@ export function notFoundPage(ctx) {
   const { site, categories, counts, total } = ctx;
   return layout({
     site,
+    assetVersion: ctx.assetVersion,
     title: '页面不存在',
     description: site.description,
     activeCat: '',

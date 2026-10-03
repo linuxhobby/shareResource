@@ -398,6 +398,7 @@ done
 | 页脚统计一直是 `–` | `/stats.json` 未部署或没映射：`curl -I https://域名/stats.json`、`tail /var/log/sitestats.log` |
 | 统计数字不再增长 | cron 任务丢失或日志被轮转：`crontab -l`、`ls -l /var/lib/sitestats/` |
 | cron 没生效 | `crontab -l` 看任务在不在，`tail /var/log/site-autoupdate.log` 看输出 |
+| 改了样式线上没变 | 浏览器缓存了旧 CSS（Nginx 对 css/js 设 30 天缓存）。构建会给资源加 `?v=<commit>`，每次部署 URL 自动变；仍不生效就强刷一次 |
 
 ## 调整首页观感
 
@@ -438,6 +439,7 @@ done
 
 ## 实现要点
 
+- 静态资源带版本号：`/assets/style.css?v=<commit>`，Nginx 缓存 30 天也能在部署后立即取到新文件
 - 二维码构建期生成 SVG 落盘，页面只引用静态图片
 - 搜索纯客户端：列表页内联本页数据（离线可用），跨页搜索再拉 `search-index.json`
 - 复制按钮用 `navigator.clipboard`，不支持时回退 `execCommand`

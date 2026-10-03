@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
   loadSite,
@@ -113,7 +114,18 @@ const indexAll = items.map((it) => {
   };
 });
 
-const ctxBase = { site, categories, counts, total, images, baseUrl, indexAll };
+/** 静态资源版本号：用当前 commit，同一次构建内所有页面一致；取不到 git 时退回时间戳 */
+const assetVersion = (() => {
+  try {
+    return execSync('git rev-parse --short HEAD', { cwd: root, stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim();
+  } catch {
+    return Date.now().toString(36);
+  }
+})();
+
+const ctxBase = { site, categories, counts, total, images, baseUrl, indexAll, assetVersion };
 
 console.log('生成列表页…');
 write(path.join(outDir, 'index.html'), listPage({ ...ctxBase, items, activeCat: '', pageSize: site.pageSize }));
