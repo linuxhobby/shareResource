@@ -13,6 +13,7 @@ categories:
   - 动漫
   - 游戏
   - 软件
+  - 其他
 # 页脚访问统计：local = 本地统计（VPS 解析 nginx 日志生成 /stats.json，不依赖第三方）；
 #              busuanzi = 不蒜子（第三方 JS）；留空则不显示
 stats: local

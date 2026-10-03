@@ -37,3 +37,13 @@
   date: 2026-09-24
   added: 2026-10-02
   image: app-004.jpg
+
+- id: app-005
+  title: "AdGuard"
+  category: 软件
+  tags: ["软件", "广告拦截", "隐私保护", "macOS", "Windows", "AdGuard"]
+  quark_url: "https://pan.quark.cn/s/166c0e8f2f68"
+  description: "AdGuard for Mac / Windows：系统级广告拦截与隐私保护工具，拦截网页广告、跟踪器与恶意站点，过滤应用内广告与统计脚本，支持自定义过滤规则与 DNS 过滤，浏览更清爽、更省流量。｜AdGuard"
+  date: 2026-10-04
+  added: 2026-10-04
+  image: placeholder.svg
