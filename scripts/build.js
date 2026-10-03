@@ -9,7 +9,7 @@ import {
   categorySlug,
   syncHeaderCounts,
 } from './lib/data.js';
-import { prepareImages, writeQr, copyThemeAssets } from './lib/assets.js';
+import { prepareImages, writeQr, writeFavicon, copyThemeAssets } from './lib/assets.js';
 import {
   listPage,
   detailPage,
@@ -86,6 +86,8 @@ try {
 console.log(`处理配图（${total} 条）…`);
 const { map: images, missing } = await prepareImages(items, { staticDir, rootDir: root, outDir });
 if (missing) console.log(`  · ${missing} 条缺少配图，使用占位图`);
+
+if (await writeFavicon(staticDir, outDir)) console.log('  · 已生成 favicon.svg / favicon.ico / apple-touch-icon.png');
 
 console.log('生成二维码…');
 const qrMap = new Map();

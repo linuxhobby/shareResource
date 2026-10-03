@@ -94,6 +94,9 @@ function layout({
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(description || site.description)}">
 ${keywords ? `<meta name="keywords" content="${esc(keywords)}">\n` : ''}<meta name="robots" content="${noindex ? 'noindex,follow' : 'index,follow'}">
@@ -115,7 +118,7 @@ ${jsonLd ? jsonLdBlock(jsonLd) : ''}
 <body>
 <header class="top">
   <div class="wrap${wide ? ' wrap--wide' : ''} top__inner">
-    <a class="top__brand" href="/">${esc(site.title)}</a>
+    <a class="top__brand" href="/"><img class="top__logo" src="/favicon.svg" width="24" height="24" alt="">${esc(site.title)}</a>
     <form class="top__search" role="search" onsubmit="return false">
       <input id="q" type="search" placeholder="搜索资源…" autocomplete="off" aria-label="搜索资源">
     </form>

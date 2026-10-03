@@ -21,6 +21,42 @@ async function loadSharp() {
   }
 }
 
+/** ICO 容器：直接内嵌 PNG 数据（浏览器普遍支持），省掉一个图标库依赖 */
+function pngToIco(pngBuf, size) {
+  const dir = Buffer.alloc(6);
+  dir.writeUInt16LE(0, 0);
+  dir.writeUInt16LE(1, 2);
+  dir.writeUInt16LE(1, 4);
+  const entry = Buffer.alloc(16);
+  entry[0] = size;
+  entry[1] = size;
+  entry.writeUInt16LE(1, 4);
+  entry.writeUInt16LE(32, 6);
+  entry.writeUInt32LE(pngBuf.length, 8);
+  entry.writeUInt32LE(22, 12);
+  return Buffer.concat([dir, entry, pngBuf]);
+}
+
+/** 站点图标：static/favicon.svg → favicon.svg（矢量）＋ favicon.ico（32px）＋ apple-touch-icon.png（180px） */
+export async function writeFavicon(staticDir, outDir) {
+  const src = path.join(staticDir, 'favicon.svg');
+  if (!fs.existsSync(src)) return false;
+  const svg = fs.readFileSync(src);
+  fs.writeFileSync(path.join(outDir, 'favicon.svg'), svg);
+  const sharp = await loadSharp();
+  if (sharp) {
+    try {
+      const png32 = await sharp(svg, { density: 384 }).resize(32, 32).png().toBuffer();
+      fs.writeFileSync(path.join(outDir, 'favicon.ico'), pngToIco(png32, 32));
+      const png180 = await sharp(svg, { density: 384 }).resize(180, 180).png().toBuffer();
+      fs.writeFileSync(path.join(outDir, 'apple-touch-icon.png'), png180);
+    } catch {
+      console.log('  ! 图标位图生成失败，仅输出 favicon.svg');
+    }
+  }
+  return true;
+}
+
 /** 占位图：缺图时统一显示（分类图标 + 暂无配图） */
 export function writePlaceholder(outDir) {
   const dir = path.join(outDir, 'img');

@@ -49,7 +49,9 @@ data/
   动漫.yaml
   游戏.yaml
   软件.yaml
-static/images/       # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
+static/
+  favicon.svg        # 站点图标源文件，构建时生成 favicon.svg / favicon.ico / apple-touch-icon.png
+  images/            # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # style.css、app.js（构建时拷到 public/assets/）
 scripts/
   build.js           # 构建主流程
@@ -184,6 +186,7 @@ node ~/.workbuddy/skills/quarkclouddrive/scripts/quark-drive.cjs share <fid> --t
 | `/img/<id>-240.webp` `-180.webp` `-60.webp` | 卡片 / 详情页 / 缩略图 |
 | `/img/placeholder.svg` | 缺图时的占位图 |
 | `/qr/<id>-<网盘>.svg` | 构建期预生成的二维码 |
+| `/favicon.svg` `/favicon.ico` `/apple-touch-icon.png` | 站点图标（由 `static/favicon.svg` 生成，未装 sharp 时只有 SVG 版） |
 | `/sitemap.xml` `/robots.txt` `/404.html` | SEO 与兜底 |
 | `/stats.json` | 访问统计（由 VPS 上的 `sitestats.py` 生成，经 Nginx 映射暴露，不由构建产出） |
 
