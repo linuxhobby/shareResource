@@ -355,6 +355,7 @@ location = /stats.json {
 |---|---|
 | PV | GET/HEAD 且状态码 <400；排除爬虫 UA（bot / spider / curl / wget / python-requests 等）与非页面路径（图片、CSS/JS、`404.html`、`robots.txt`、`sitemap.xml`） |
 | UV | **只统计带 `vid` cookie 的请求**：cookie 由页面 JS 种植，跑过 JS 才算真人；爬虫 / 扫描器 / 预览抓取（UA 伪装成浏览器但不执行 JS）只计 PV 不计 UV |
+| `/hit` 信标 | 页面 JS 种完 cookie 后回发 `POST /hit`（204 空响应），用来把「首访即走」的访客补进 UV；信标本身**不计入 PV** |
 | 今日 | 按日志日期分组，每天 00:00 自动归零 |
 | 增量 | 游标（inode + offset）存 SQLite 的 `meta` 表；logrotate 后自动从头读新文件，不重复计 |
 
