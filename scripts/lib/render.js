@@ -85,7 +85,8 @@ function layout({
   keywords = '',
   noindex = false,
 }) {
-  const fullTitle = title === site.title ? site.title : `${title} - ${site.title}`;
+  // 标题里已含站名（如首页 homeTitle）时不再重复拼接
+  const fullTitle = title === site.title || title.includes(site.title) ? title : `${title} - ${site.title}`;
   const canonical = `${baseUrl}${canonicalPath}`;
   const ogImg = ogImage && ogImage.startsWith('/') ? `${baseUrl}${ogImage}` : ogImage;
   return `<!DOCTYPE html>
@@ -155,6 +156,13 @@ export function cardHtml(item, images, isNew = false, eager = false) {
 export function listPage(ctx) {
   const { site, items, categories, counts, activeCat, total, pageSize, images, baseUrl, indexAll } = ctx;
   const first = items.slice(0, pageSize);
+  // 首页 SEO 文案取自 site.yaml 的 homeTitle / homeDesc / homeH1，占位符 {total}、{categories}
+  const catList = (categories || []).join('、');
+  const homeTitle = site.homeTitle || site.title;
+  const homeDesc = String(site.homeDesc || site.description)
+    .replace(/\{total\}/g, total)
+    .replace(/\{categories\}/g, catList);
+  const homeH1 = site.homeH1 || '全部资源';
   const newestCount = Math.min(NEWEST_BADGE, items.length);
   const indexData = (indexAll || [])
     .filter((it) => !activeCat || it.category === activeCat)
@@ -162,7 +170,7 @@ export function listPage(ctx) {
 
   const heading = activeCat
     ? `<h1 class="page__title">${esc(activeCat)}<span class="page__n">${items.length} 个资源</span></h1>`
-    : `<h1 class="page__title">全部资源<span class="page__n">${total} 个资源</span></h1>`;
+    : `<h1 class="page__title">${esc(homeH1)}<span class="page__n">${total} 个资源</span></h1>`;
 
   const canonicalPath = activeCat ? `/category/${encodeURIComponent(categorySlug(activeCat))}/` : '/';
   const typeLabel = activeCat ? `${activeCat}资源` : '网盘资源';
@@ -188,7 +196,7 @@ export function listPage(ctx) {
         '@type': 'CollectionPage',
         '@id': `${baseUrl}${canonicalPath}#page`,
         url: `${baseUrl}${canonicalPath}`,
-        name: activeCat ? `${activeCat} - ${site.title}` : site.title,
+        name: activeCat ? `${activeCat} - ${site.title}` : homeTitle,
         isPartOf: { '@id': `${baseUrl}/#website` },
         mainEntity: {
           '@type': 'ItemList',
@@ -219,10 +227,10 @@ ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
 
   return layout({
     site,
-    title: activeCat || site.title,
+    title: activeCat || `${homeTitle}（${total} 部）`,
     description: activeCat
       ? `${activeCat}资源合集，共 ${items.length} 个，夸克网盘链接，扫码即存`
-      : site.description,
+      : homeDesc,
     activeCat,
     categories,
     counts,

@@ -77,6 +77,10 @@ nginx.conf.example   # Nginx 配置参考
 ```yaml
 title: 我的网盘资源站
 description: 夸克 / 百度网盘资源索引，打开即用，扫码即存
+# 首页 SEO 文案（可选，不填则回退用站名与站描述）；{total} = 资源总数，{categories} = 分类列表
+homeTitle: 我的网盘资源站 - 夸克/百度网盘资源索引   # 首页 title，构建时自动追加「（396 部）」
+homeDesc: 夸克 / 百度网盘资源索引，收录 {total} 个{categories}资源，打开即用，扫码即存
+homeH1: 网盘资源索引 · 全部资源                 # 首页 H1（分类页仍用分类名）
 disclaimer: 本站仅提供网盘资源索引，所有文件均存放于第三方网盘…
 categories: [电影, 电视剧, 纪录片, 动漫, 游戏, 软件]   # 分类栏顺序；未列出的按资源数倒序追加在末尾
 icp: ""                              # 备案号，留空不显示
@@ -420,6 +424,7 @@ done
 | 项目 | 说明 |
 |---|---|
 | `title` / `description` | 每页独立；详情页「标题 - 站名」，描述取简介前 160 字 |
+| 首页文案 | `site.yaml` 的 `homeTitle` / `homeDesc` / `homeH1`，支持 `{total}`、`{categories}` 占位符，构建时自动替换；分类页用分类名，不受影响 |
 | `canonical` | 每页指向自身绝对地址，避免 `/index.html` 与 `/` 重复 |
 | OG / Twitter Card | `og:title` / `og:description` / `og:image` / `og:url` |
 | JSON-LD | 详情页 `Movie` / `TVSeries`（按分类）+ 面包屑；列表页 `WebSite`（含 SearchAction）+ `CollectionPage` |

@@ -114,6 +114,9 @@ export function loadSite(dataDir) {
     categories: Array.isArray(cfg.categories) ? cfg.categories.map(String) : [],
     icp: cfg.icp || '',
     stats: cfg.stats || '',
+    homeTitle: cfg.homeTitle || '',
+    homeDesc: cfg.homeDesc || '',
+    homeH1: cfg.homeH1 || '',
     pageSize: Number(cfg.pageSize) > 0 ? Number(cfg.pageSize) : 60,
   };
 }
