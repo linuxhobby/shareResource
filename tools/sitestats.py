@@ -116,7 +116,8 @@ def write_stats(c):
     pv = c.execute('SELECT COALESCE(SUM(pv),0) FROM daily').fetchone()[0]
     uv = c.execute('SELECT COUNT(*) FROM visitors').fetchone()[0]
     today = datetime.now(TZ).strftime('%F')
-    t_pv = c.execute('SELECT COALESCE(pv,0) FROM daily WHERE d=?', (today,)).fetchone()[0]
+    row = c.execute('SELECT pv FROM daily WHERE d=?', (today,)).fetchone()
+    t_pv = row[0] if row else 0
     t_uv = c.execute('SELECT COUNT(*) FROM daily_uv WHERE d=?', (today,)).fetchone()[0]
     since = c.execute('SELECT MIN(d) FROM daily').fetchone()[0]
     data = {
