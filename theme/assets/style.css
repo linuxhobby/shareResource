@@ -240,9 +240,11 @@ mark {
 .foot { padding: 28px 16px 40px; text-align: center; }
 .foot p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.8; }
 .foot__icp, .foot__stat { margin-top: 4px !important; }
-.foot__contact { margin-top: 6px !important; }
-.foot__contact a { color: var(--muted); text-decoration: none; }
-.foot__contact a:hover { color: var(--brand); text-decoration: underline; }
+.foot__contact { margin-top: 8px !important; display: flex; justify-content: center; align-items: center; gap: 14px; }
+.foot__contact a, .foot__contact span { display: inline-flex; align-items: center; padding: 3px; border-radius: 5px; color: var(--muted); text-decoration: none; }
+.foot__contact a:hover { color: var(--brand); background: rgba(127, 127, 127, .1); }
+.foot__icon { display: block; width: 17px; height: 17px; transition: transform .15s ease; }
+.foot__contact a:hover .foot__icon { transform: translateY(-1px); }
 .foot__stat span { color: var(--text, inherit); font-variant-numeric: tabular-nums; }
 
 /* ── 移动端 ──────────────────────────── */
