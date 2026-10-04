@@ -194,18 +194,6 @@ curl -s $S/ | grep canonical       # 应是你的真实域名
 
 除 `/nope` 应为 **404**，其余全部 **200**。中文分类页用 curl 要 percent-encoding，浏览器直接访问正常。
 
-### 常见故障
-
-| 现象 | 原因 |
-|---|---|
-| 全部页面 404 | `root` 写错，应指向 `public/` 目录本身 |
-| `/resource/mv-010/` 404 但文件存在 | `try_files` 少了 `$uri/index.html` |
-| 页面无样式 | 产物里缺 `public/assets/` |
-| canonical / sitemap 是 `example.com` | 构建时漏了 `BASE_URL` |
-| 页脚统计一直是 `–` | `/stats.json` 没部署或没映射 |
-| cron 没生效 | `crontab -l` 看任务在不在，`tail /var/log/site-autoupdate.log` 看输出 |
-| 改了样式线上没变 | 强刷一次浏览器 |
-
 ## 目录结构
 
 ```
