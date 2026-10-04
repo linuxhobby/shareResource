@@ -57,22 +57,88 @@ export async function writeFavicon(staticDir, outDir) {
   return true;
 }
 
-/** 占位图：缺图时统一显示（分类图标 + 暂无配图） */
+const FONT = 'PingFang SC,Microsoft YaHei,Hiragino Sans GB,sans-serif';
+const PW = CARD.w;
+const PH = CARD.h;
+const esc = (s) =>
+  String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/** 各分类占位海报的配色与图标；未收录的分类按名称派生色相，图标回退文件夹 */
+const CAT_STYLE = {
+  电影: { c1: '#4b3fe3', c2: '#8b7cf8', icon: 'film' },
+  电视剧: { c1: '#0e7490', c2: '#22d3ee', icon: 'tv' },
+  纪录片: { c1: '#047857', c2: '#34d399', icon: 'globe' },
+  动漫: { c1: '#be185d', c2: '#fb923c', icon: 'bubble' },
+  游戏: { c1: '#6d28d9', c2: '#ec4899', icon: 'pad' },
+  软件: { c1: '#334155', c2: '#64748b', icon: 'window' },
+  其他: { c1: '#7c6f64', c2: '#a8a29e', icon: 'folder' },
+};
+
+/** 96×96 线稿图标，stroke 由外层 <g> 统一指定 */
+const ICONS = {
+  film: '<rect x="12" y="30" width="72" height="48" rx="6"/><path d="M12 30 28 20l12 10 16-10 16 10 12-8"/>',
+  tv: '<rect x="12" y="26" width="72" height="48" rx="6"/><path d="M34 74h28M48 74v12M32 86h32"/><path d="M30 26 44 12M66 26 52 12"/>',
+  globe: '<circle cx="48" cy="48" r="34"/><path d="M14 48h68"/><path d="M48 14c14 12 20 24 20 34s-6 22-20 34c-14-12-20-24-20-34s6-22 20-34z"/><path d="M18 30h60M18 66h60"/>',
+  bubble:
+    '<path d="M16 22h64a10 10 0 0 1 10 10v30a10 10 0 0 1-10 10H46l-16 14V72h-14a10 10 0 0 1-10-10V32a10 10 0 0 1 10-10z"/><circle cx="38" cy="45" r="4" fill="#fff" stroke="none"/><circle cx="50" cy="45" r="4" fill="#fff" stroke="none"/><circle cx="62" cy="45" r="4" fill="#fff" stroke="none"/>',
+  pad:
+    '<rect x="10" y="30" width="76" height="42" rx="16"/><path d="M30 42v14M23 49h14"/><circle cx="64" cy="45" r="5" fill="#fff" stroke="none"/><circle cx="76" cy="55" r="5" fill="#fff" stroke="none"/>',
+  window:
+    '<rect x="14" y="20" width="68" height="56" rx="6"/><path d="M14 38h68"/><circle cx="24" cy="29" r="3" fill="#fff" stroke="none"/><circle cx="36" cy="29" r="3" fill="#fff" stroke="none"/><path d="M24 50h32M24 62h20"/>',
+  folder: '<path d="M10 28a6 6 0 0 1 6-6h20l8 10h40a6 6 0 0 1 6 6v32a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6z"/>',
+};
+
+/** 某分类的占位海报 SVG：渐变底 + 分类图标 + 分类名 */
+function categorySvg(name) {
+  const s =
+    CAT_STYLE[name] ||
+    (() => {
+      let h = 7;
+      for (const ch of String(name)) h = (h * 31 + ch.codePointAt(0)) % 360;
+      return { c1: `hsl(${h} 42% 40%)`, c2: `hsl(${(h + 30) % 360} 52% 62%)`, icon: 'folder' };
+    })();
+  const icon = ICONS[s.icon] || ICONS.folder;
+  const label = esc(name);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${PW}" height="${PH}" viewBox="0 0 ${PW} ${PH}" role="img" aria-label="${label} 暂无配图">
+  <defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${s.c1}"/><stop offset="1" stop-color="${s.c2}"/></linearGradient></defs>
+  <rect width="${PW}" height="${PH}" fill="url(#pg)"/>
+  <g transform="translate(${(PW - 96) / 2},112)" fill="none" stroke="#fff" stroke-opacity=".92" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${icon}</g>
+  <text x="${PW / 2}" y="262" text-anchor="middle" font-size="27" font-family="${FONT}" fill="#fff" fill-opacity=".96">${label}</text>
+  <text x="${PW / 2}" y="294" text-anchor="middle" font-size="14" font-family="${FONT}" fill="#fff" fill-opacity=".68">暂无配图</text>
+</svg>
+`;
+}
+
+/** 通用占位图：分类未知时兜底（分类图标 + 暂无配图） */
 export function writePlaceholder(outDir) {
   const dir = path.join(outDir, 'img');
   ensureDir(dir);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${DETAIL.w}" height="${DETAIL.h}" viewBox="0 0 ${DETAIL.w} ${DETAIL.h}" role="img" aria-label="暂无配图">
-  <rect width="${DETAIL.w}" height="${DETAIL.h}" fill="#EFEFF2"/>
-  <g fill="none" stroke="#B4B4BC" stroke-width="3" stroke-linejoin="round">
-    <rect x="58" y="86" width="64" height="48" rx="6"/>
-    <path d="M60 126l16-18 12 14 9-9 25 22"/>
-    <circle cx="76" cy="102" r="5"/>
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${PW}" height="${PH}" viewBox="0 0 ${PW} ${PH}" role="img" aria-label="暂无配图">
+  <rect width="${PW}" height="${PH}" fill="#EFEFF2"/>
+  <g transform="translate(${(PW - 96) / 2},112)" fill="none" stroke="#B4B4BC" stroke-width="5" stroke-linejoin="round">
+    <rect x="16" y="28" width="64" height="48" rx="6"/>
+    <path d="M18 68l18-20 13 15 10-10 27 24"/>
+    <circle cx="34" cy="44" r="5"/>
   </g>
-  <text x="90" y="158" font-size="14" font-family="PingFang SC,Microsoft YaHei,sans-serif" fill="#8A8A94" text-anchor="middle">暂无配图</text>
+  <text x="${PW / 2}" y="262" text-anchor="middle" font-size="22" font-family="${FONT}" fill="#8A8A94">暂无配图</text>
 </svg>
 `;
   fs.writeFileSync(path.join(dir, 'placeholder.svg'), svg);
   return '/img/placeholder.svg';
+}
+
+/** 按分类生成占位海报，返回 分类名 -> URL */
+export function writeCategoryPlaceholders(outDir, categories = []) {
+  const dir = path.join(outDir, 'img');
+  ensureDir(dir);
+  const map = new Map();
+  for (const c of categories) {
+    if (!c || map.has(c)) continue;
+    const file = `placeholder-${c}.svg`;
+    fs.writeFileSync(path.join(dir, file), categorySvg(c));
+    map.set(c, `/img/${encodeURIComponent(file)}`);
+  }
+  return map;
 }
 
 function resolveSource(item, staticDir, rootDir) {
@@ -126,6 +192,9 @@ export async function prepareImages(items, { staticDir, rootDir, outDir }) {
     console.log('  ! 未安装 sharp，配图将按原图输出（npm i sharp 可自动生成压缩 WebP）');
   }
   const placeholder = writePlaceholder(outDir);
+  const catPlaceholders = writeCategoryPlaceholders(outDir, [
+    ...new Set(items.map((i) => i.category)),
+  ]);
   const imgDir = path.join(outDir, 'img');
   ensureDir(imgDir);
 
@@ -136,7 +205,9 @@ export async function prepareImages(items, { staticDir, rootDir, outDir }) {
   for (const item of items) {
     const src = resolveSource(item, staticDir, rootDir);
     if (!src) {
-      map.set(item.id, { detail: placeholder, card: placeholder, thumb: placeholder });
+      // 缺图时用该资源所属分类的占位海报，一眼能看出是哪一类
+      const ph = catPlaceholders.get(item.category) || placeholder;
+      map.set(item.id, { detail: ph, card: ph, thumb: ph });
       missing++;
       continue;
     }
