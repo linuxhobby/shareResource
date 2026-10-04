@@ -200,9 +200,9 @@ ${body}
 </main>
 <footer class="foot wrap${wide ? ' wrap--wide' : ''}">
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
-  ${contactHtml(site.contact)}
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
   ${STATS_HTML[site.stats] || ''}
+  ${contactHtml(site.contact)}
 </footer>
 ${STATS_SCRIPT[site.stats] || ''}
 <script src="/assets/app.js${v}" defer></script>
