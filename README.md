@@ -62,6 +62,7 @@ scripts/
   lib/               # data.js（解析/规整）、assets.js（图片与二维码）、render.js（页面模板）
 tools/
   sitestats.py       # 本地访问统计，部署时放到 VPS 的 /usr/local/bin/sitestats.py
+  icon-poster.mjs    # 把应用图标（App Store 官方图）合成为 2:3 竖版海报，给软件/音频等无 TMDB 海报的资源用
 public/              # 构建产物，部署这个目录（约 19MB）
 nginx.conf.example   # Nginx 配置参考
 ```
