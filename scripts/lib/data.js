@@ -113,6 +113,7 @@ export function loadSite(dataDir) {
     disclaimer: cfg.disclaimer || '',
     categories: Array.isArray(cfg.categories) ? cfg.categories.map(String) : [],
     icp: cfg.icp || '',
+    contact: cfg.contact && typeof cfg.contact === 'object' ? cfg.contact : null,
     stats: cfg.stats || '',
     homeTitle: cfg.homeTitle || '',
     homeDesc: cfg.homeDesc || '',

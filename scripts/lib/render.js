@@ -40,6 +40,47 @@ const LOCAL_STATS_SCRIPT = `<script>
 const STATS_HTML = { busuanzi: BUSUANZI_HTML, local: LOCAL_STATS_HTML };
 const STATS_SCRIPT = { busuanzi: BUSUANZI_SCRIPT, local: LOCAL_STATS_SCRIPT };
 
+/** 页脚联系方式：site.yaml 的 contact 写成 { 平台: 账号或链接 }。
+ *  twitter 写 @用户名 或完整链接均可（统一指向 x.com）；telegram 写完整链接或 @用户名（指向 t.me）。 */
+const stripUrl = (u) => u.replace(/^https?:\/\/(www\.)?/, '');
+const contactItems = (contact) =>
+  contact && typeof contact === 'object'
+    ? Object.entries(contact)
+        .filter(([, v]) => v && String(v).trim())
+        .map(([rawKey, rawVal]) => {
+          const key = String(rawKey).trim().toLowerCase();
+          const val = String(rawVal).trim();
+          const isUrl = /^https?:/.test(val);
+          const user = val.replace(/^@/, '');
+          if (key === 'twitter')
+            return {
+              label: 'Twitter',
+              href: isUrl ? val : `https://x.com/${user}`,
+              text: `@${isUrl ? stripUrl(val).replace(/^(x|twitter)\.com\//, '') : user}`,
+            };
+          if (key === 'telegram')
+            return {
+              label: 'Telegram',
+              href: isUrl ? val : `https://t.me/${user}`,
+              text: `@${isUrl ? stripUrl(val).replace(/^t\.me\//, '') : user}`,
+            };
+          if (key === 'email') return { label: '邮箱', href: `mailto:${val}`, text: val };
+          return { label: rawKey, href: isUrl ? val : '', text: val };
+        })
+    : [];
+const contactHtml = (contact) => {
+  const items = contactItems(contact);
+  if (!items.length) return '';
+  const links = items
+    .map((i) =>
+      i.href
+        ? `<a href="${esc(i.href)}" target="_blank" rel="noopener noreferrer">${esc(i.label)}：${esc(i.text)}</a>`
+        : `${esc(i.label)}：${esc(i.text)}`
+    )
+    .join(' · ');
+  return `<p class="foot__contact">${links}</p>`;
+};
+
 export function esc(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -138,6 +179,7 @@ ${body}
 </main>
 <footer class="foot wrap${wide ? ' wrap--wide' : ''}">
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
+  ${contactHtml(site.contact)}
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
   ${STATS_HTML[site.stats] || ''}
 </footer>
