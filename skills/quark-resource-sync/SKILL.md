@@ -11,15 +11,36 @@ agent_created: true
 
 ## 前置
 
+`~` = 用户主目录（Windows 下即 `C:\Users\<用户名>`）。
+
 | 项 | 位置 |
 |---|---|
-| 本地配置（TMDB token / 代理 / 仓库路径 / SHARE fid） | `~/.workbuddy/skills/quark-resource-sync/config.env` |
+| 本地配置（TMDB token / 代理 / 仓库路径 / SHARE fid） | `~/.workbuddy/skills/quark-resource-sync/config.env`（**含凭据，不入库**） |
 | 夸克 CLI | `~/.workbuddy/skills/quarkclouddrive/scripts/quark-drive.cjs` |
 | 站点仓库 | `config.env` 的 `REPO`（默认 `~/Documents/GitHub/ShareResource`） |
 | 数据文件 | `$REPO/data/电影.yaml`、`电视剧.yaml`、`纪录片.yaml` |
 | 海报目录 | `$REPO/static/images/` |
 
 TMDB 走官方域名 `api.tmdb.org`（`api.themoviedb.org` 在本机可能被 DNS 劫持）；脚本「代理优先 → 失败自动直连」，代理没开也能用。海报 CDN `image.tmdb.org` 若连不上，按 `references/troubleshooting.md` 改用豆瓣图源。
+
+## 敏感数据
+
+**只有 `config.env` 是敏感的**：`TMDB_TOKEN`（Read Access Token，泄漏会被冒用配额直至吊销）和 `SHARE_FID`（夸克 SHARE 目录标识）。`SKILL.md`、`references/`、`scripts/` 里没有任何凭据、IP 或绝对路径，可直接入库 / 公开。
+
+搬运到别的机器（含 Windows）用 `scripts/install.mjs`，它会跳过 `config.env` 并单独生成目标机器的那份：
+
+```bash
+# macOS / Linux
+node scripts/install.mjs --target ~/.workbuddy/skills
+
+# Windows（PowerShell）
+node scripts/install.mjs --target "$env:USERPROFILE\.workbuddy\skills" `
+  --repo  "$env:USERPROFILE\Documents\GitHub\ShareResource" `
+  --cli   "$env:USERPROFILE\.workbuddy\skills\quarkclouddrive\scripts\quark-drive.cjs" `
+  --proxy "http://127.0.0.1:7890"
+```
+
+行为：复制 `SKILL.md` / `references/` / `scripts/` → 生成 `config.env`（本机已有配置自动继承，也可用 `--config <路径>` 指定来源，`--token --proxy --repo --share-fid --cli` 覆盖单项）→ 校验并提示缺什么。缺 `TMDB_TOKEN` / `SHARE_FID` 时脚本会给出获取方式，手动补进 `config.env` 即可。
 
 ## 扫描范围
 
