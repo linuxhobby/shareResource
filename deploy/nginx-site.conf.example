@@ -1,0 +1,49 @@
+# 站点 Nginx 配置 —— 放到 /etc/nginx/conf.d/share-resource.conf
+# 改 3 处即可：server_name、ssl_certificate / ssl_certificate_key（certbot 会自动改）
+# 没有启用访问统计的话，把 access_log 那行改回默认、并删掉 location = /stats.json 与 /hit 两段
+
+server {
+    listen 80;
+    server_name your-domain.com;          # ← 换成你的域名
+
+    root /opt/ShareResource/public;       # ← 指向 public 目录本身
+    index index.html;
+
+    charset utf-8;
+
+    # 访问统计专用日志格式（在 00-sitestats.conf 里定义）；不统计就删掉这一行，用默认 access_log
+    access_log /var/log/nginx/access.log sitestats;
+
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 6;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css application/javascript application/json image/svg+xml application/xml;
+
+    # 静态资源长期缓存；HTML 不缓存，更新即时生效
+    location ~* \.(css|js|json|svg|webp|png|jpg|jpeg|gif|ico)$ {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000";
+        access_log off;
+    }
+
+    # 目录式 URL：让 /resource/mv-010/ 命中 resource/mv-010/index.html
+    location / {
+        try_files $uri $uri/ $uri/index.html =404;
+    }
+
+    # 访问统计（删掉则不启用）
+    location = /stats.json {
+        alias /var/lib/sitestats/stats.json;
+        default_type application/json;
+        add_header Cache-Control "no-store";
+        add_header Access-Control-Allow-Origin "*";
+    }
+    location = /hit { return 204; }
+
+    error_page 404 /404.html;
+
+    location /.well-known/acme-challenge/ { root /var/www/html; }
+}
+
+# 执行 certbot --nginx 后会自动生成 443 段，无需手工维护
