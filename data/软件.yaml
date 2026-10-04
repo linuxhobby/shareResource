@@ -47,3 +47,47 @@
   date: 2026-10-04
   added: 2026-10-04
   image: app-005.jpg
+
+- id: app-006
+  title: "Adobe 大师版"
+  category: 软件
+  tags: ["软件", "Adobe", "设计", "全家桶", "Adobe 大师版"]
+  quark_url: "https://pan.quark.cn/s/bb38eda73d00"
+  description: "Adobe 大师版：Adobe 桌面软件合集（Photoshop / Illustrator / Premiere Pro / After Effects / Acrobat 等），内置激活工具，覆盖 Windows 与 macOS 双平台，安装后即可长期使用。｜Adobe"
+  date: 2026-10-04
+  added: 2026-10-04
+  image: app-006.jpg
+
+
+- id: app-007
+  title: "剪映 2025 国家版"
+  category: 软件
+  tags: ["软件", "视频剪辑", "剪映", "短视频", "剪映 2025 国家版"]
+  quark_url: "https://pan.quark.cn/s/74165e1e6f1d"
+  description: "剪映 2025 国家版：抖音官方视频剪辑工具的特别版本，解锁会员素材、贴纸、特效与高级导出能力，无水印导出短视频，适合口播、带货与批量剪辑场景。｜剪映"
+  date: 2026-10-04
+  added: 2026-10-04
+  image: app-007.jpg
+
+
+- id: app-008
+  title: "IDM 下载器（终身会员版）"
+  category: 软件
+  tags: ["软件", "下载工具", "断点续传", "Windows", "IDM 下载器"]
+  quark_url: "https://pan.quark.cn/s/a66cf4ef766d"
+  description: "IDM（Internet Download Manager）下载器终身会员版：Windows 端多线程下载工具，最高可提升数倍下载速度，支持断点续传、批量下载、浏览器集成与视频嗅探抓取，一次激活长期可用。｜Tonec"
+  date: 2026-10-04
+  added: 2026-10-04
+  image: app-008.jpg
+
+
+- id: app-009
+  title: "Obsidian"
+  category: 软件
+  tags: ["软件", "笔记", "知识管理", "Markdown", "Obsidian"]
+  quark_url: "https://pan.quark.cn/s/bf87d215f3a7"
+  description: "Obsidian：基于本地 Markdown 文件的知识管理工具，双向链接与关系图谱把零散笔记连成网络，插件生态丰富，支持多端同步，数据始终保存在自己手里。｜Obsidian"
+  date: 2026-10-04
+  added: 2026-10-04
+  image: app-009.jpg
+
