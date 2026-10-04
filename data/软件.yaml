@@ -125,7 +125,7 @@
 - id: app-013
   title: "WWDCScholars"
   category: 软件
-  tags: ["软件", "Social Networking", "macOS", "WWDCScholars"]
+  tags: ["软件", "社交", "macOS", "WWDCScholars"]
   quark_url: "https://pan.quark.cn/s/0a433df1a8fc"
   description: "与奖学金及 Swift Student Challenge 获奖者同侪相聚交流，充分享受大会时光！｜Sam Eckert"
   date: 2019-06-05
@@ -156,7 +156,7 @@
 - id: app-016
   title: "Transmission Hub"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Transmission Hub"]
+  tags: ["软件", "实用工具", "macOS", "Transmission Hub"]
   quark_url: "https://pan.quark.cn/s/90171efe5108"
   description: "支持 Transmission、qBittorrent 和 Aria2 的客户端，也是管理下载任务的得力工具：查看任务（进度、任务信息、文件、下载速度），管理任务（开始、停止、重命名、移动、校验、删除、设置文件优先级、跳过文件）等。｜展威 李"
   date: 2023-05-07
@@ -167,7 +167,7 @@
 - id: app-017
   title: "Tabby - Browser Tab Manager"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "Tabby - Browser Tab Manager"]
+  tags: ["软件", "效率", "macOS", "Tabby - Browser Tab Manager"]
   quark_url: "https://pan.quark.cn/s/a81b30432101"
   description: "Tabby 是一款浏览器标签页管理工具，帮你从繁多的浏览器标签中理清头绪，节省时间、提升效率。需要 macOS 14（Sonoma）及以上。｜Fischnet Solutions, Inc."
   date: 2022-07-08
@@ -198,7 +198,7 @@
 - id: app-020
   title: "Selectedvendors"
   category: 软件
-  tags: ["软件", "Shopping", "macOS", "Selectedvendors"]
+  tags: ["软件", "购物", "macOS", "Selectedvendors"]
   quark_url: "https://pan.quark.cn/s/fbf3316effc3"
   description: "SelectedVendors 现已登陆 App Store：随时随地用移动设备浏览商品、下单并跟踪订单状态。｜LifeArt Cabinetry Corp"
   date: 2019-07-31
@@ -249,7 +249,7 @@
 - id: app-025
   title: "Only Switch"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Only Switch"]
+  tags: ["软件", "实用工具", "macOS", "Only Switch"]
   quark_url: "https://pan.quark.cn/s/a3a42a3d2081"
   description: "Only Switch：用一个仪表盘管理你所有的智能设备——随时随地控制灯光、电视、空调、窗帘、风扇和冰箱，无缝兼容各大主流品牌；并支持 Amazon Alexa 等语音助手，动口不动手掌控全屋。｜Sivakumar Ramamurthy"
   date: 2025-05-22
@@ -260,7 +260,7 @@
 - id: app-026
   title: "NetNewsWire: RSS Reader"
   category: 软件
-  tags: ["软件", "News", "macOS", "NetNewsWire: RSS Reader"]
+  tags: ["软件", "新闻", "macOS", "NetNewsWire: RSS Reader"]
   quark_url: "https://pan.quark.cn/s/90ab9b758931"
   description: "如果播客可以订阅收听，阅读为什么不能？NetNewsWire 是一款免费开源的 RSS 阅读器，汇聚你喜爱的博客和新闻站点的文章，并记录你的阅读进度。快速、稳定、无障碍友好，从此不必在浏览器里挨个站点找新文章。｜Brent Simmons"
   date: 2020-03-08
@@ -271,7 +271,7 @@
 - id: app-027
   title: "MonitorControl Lite"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "MonitorControl Lite"]
+  tags: ["软件", "实用工具", "macOS", "MonitorControl Lite"]
   quark_url: "https://pan.quark.cn/s/92831965704d"
   description: "在 macOS 菜单栏直接调节显示器亮度！支持平滑的亮度过渡、自定义快捷键和多种个性化选项；外观时尚现代（致敬新版 macOS 控制中心的设计），简洁而不碍事。｜Kodeon Software Korlatolt Felelossegu Tarsasag"
   date: 2021-11-23
@@ -282,7 +282,7 @@
 - id: app-028
   title: "MeetingBar"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "MeetingBar"]
+  tags: ["软件", "效率", "macOS", "MeetingBar"]
   quark_url: "https://pan.quark.cn/s/391aadfc4405"
   description: "会议触手可及！MeetingBar 在状态栏显示你的日历日程，一键创建或加入会议；还有丰富的高级设置，让日历与会议管理随心所欲。｜Andrii Leitsius"
   date: 2020-10-04
@@ -293,7 +293,7 @@
 - id: app-029
   title: "MakeItHome - Screen extender"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "MakeItHome - Screen extender"]
+  tags: ["软件", "实用工具", "macOS", "MakeItHome - Screen extender"]
   quark_url: "https://pan.quark.cn/s/088180690984"
   description: "MakeItHome：你的个性化开源工作区。把最常用的应用放在鼠标一挥即达之处，突破屏幕边界的限制，自在扩展你的桌面空间。｜Riccardo Cecchini"
   date: 2022-12-02
@@ -304,7 +304,7 @@
 - id: app-030
   title: "System Color Picker"
   category: 软件
-  tags: ["软件", "Developer Tools", "macOS", "System Color Picker"]
+  tags: ["软件", "开发工具", "macOS", "System Color Picker"]
   quark_url: "https://pan.quark.cn/s/10a30ed0fd8d"
   description: "使用内置取色器从屏幕任意位置取色。功能包括：调色板、最近取色记录、快速复制/粘贴/转换颜色等。注意：macOS 26 上存在系统级 bug，取色器偶尔会取错颜色，应用依赖系统取色器，无法规避。｜Sindre Sorhus"
   date: 2021-04-29
@@ -315,7 +315,7 @@
 - id: app-031
   title: "VoiceOver Designer"
   category: 软件
-  tags: ["软件", "Developer Tools", "macOS", "VoiceOver Designer"]
+  tags: ["软件", "开发工具", "macOS", "VoiceOver Designer"]
   quark_url: "https://pan.quark.cn/s/3719d3a0081b"
   description: "VoiceOver Preview 是 VoiceOver Designer 的配套应用，用于打开 .vodesign 扩展名的文件。要试听无障碍布局，需先启用 VoiceOver（可让 Siri 帮忙）。｜Mikhail Rubanov"
   date: 2023-02-26
@@ -336,7 +336,7 @@
 - id: app-033
   title: "SwiftShift Job Compare"
   category: 软件
-  tags: ["软件", "Business", "macOS", "SwiftShift Job Compare"]
+  tags: ["软件", "商务", "macOS", "SwiftShift Job Compare"]
   quark_url: "https://pan.quark.cn/s/d24fe4ee73d7"
   description: "比较两份工作 offer，不能只看表面工资。SwiftShift 帮你并排估算两个机会的真实财务价值：输入时薪或年薪、预期工时、工作周数、带薪休假、通勤时间与距离、停车费和过路费，其余交给它计算。｜Ian Neuhaus"
   date: 2026-08-12
@@ -347,7 +347,7 @@
 - id: app-034
   title: "Tuneful for Spotify & Music"
   category: 软件
-  tags: ["软件", "Music", "macOS", "Tuneful for Spotify & Music"]
+  tags: ["软件", "音乐", "macOS", "Tuneful for Spotify & Music"]
   quark_url: "https://pan.quark.cn/s/6eab5b0d8e26"
   description: "Tuneful 为 Spotify 和 Apple Music 带来精美的原生音乐控制：可在刘海、菜单栏或可自定义的迷你播放器中操控音乐，一切浑然天成，宛如 macOS 原生。• 刘海集成：悬停在 MacBook 刘海上方即可唤出音乐播放器……｜Martin Fekete"
   date: 2025-01-06
@@ -358,7 +358,7 @@
 - id: app-035
   title: "Tomato Bar"
   category: 软件
-  tags: ["软件", "Food & Drink", "macOS", "Tomato Bar"]
+  tags: ["软件", "美食佳饮", "macOS", "Tomato Bar"]
   quark_url: "https://pan.quark.cn/s/d743608560e7"
   description: "Tomato Bar 应用帮你查找最近的门店、浏览菜单并提前下单，省时省力；还可在应用内累积会员积分、查看奖励进度。｜Tomato Bar LLC"
   date: 2020-07-13
@@ -389,7 +389,7 @@
 - id: app-038
   title: "Pika"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Pika"]
+  tags: ["软件", "实用工具", "macOS", "Pika"]
   quark_url: "https://pan.quark.cn/s/71a79e30adf1"
   description: "Pika（读作 pi·kuh，与 picker 谐音）是一款易于使用的开源 macOS 原生取色器，帮你快速抓取屏幕上的颜色并以所需格式输出，让设计师工作快人一步。｜David Charles Gleason"
   date: 2024-12-11
@@ -410,7 +410,7 @@
 - id: app-040
   title: "Reminders"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "Reminders"]
+  tags: ["软件", "效率", "macOS", "Reminders"]
   quark_url: "https://pan.quark.cn/s/44420c3c3961"
   description: "「提醒事项」让你更轻松地记住要做的事：购物清单、工作项目或任何想追踪的事项都不在话下；借助 iCloud，所有设备自动同步，提醒随身携带。｜Apple"
   date: 2016-05-23
@@ -421,7 +421,7 @@
 - id: app-041
   title: "Activity Bar - Menu Bar Stats"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Activity Bar - Menu Bar Stats"]
+  tags: ["软件", "实用工具", "macOS", "Activity Bar - Menu Bar Stats"]
   quark_url: "https://pan.quark.cn/s/84426b8abf37"
   description: "Activity Bar 是一款轻量级工具，在菜单栏实时监控你的系统状态，极简而实用，小屏幕也放得下。CPU：可分别监控系统/用户/空闲/总占用率或一并显示；可监控每个核心占用；视图样式支持百分比或自定义……｜Denis Litvin"
   date: 2023-04-09
@@ -442,7 +442,7 @@
 - id: app-043
   title: "Plash"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Plash"]
+  tags: ["软件", "实用工具", "macOS", "Plash"]
   quark_url: "https://pan.quark.cn/s/d92462a5b9b2"
   description: "把任意网页变成桌面壁纸，让桌面「动」起来：可以显示你喜爱的新闻网站、社交动态或随机风景照，甚至能拿动图 GIF 当壁纸，还支持添加多个页面，玩法无穷。｜Sindre Sorhus"
   date: 2020-01-08
@@ -453,7 +453,7 @@
 - id: app-044
   title: "Focus Sessions • Self control"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Focus Sessions • Self control"]
+  tags: ["软件", "实用工具", "macOS", "Focus Sessions • Self control"]
   quark_url: "https://pan.quark.cn/s/564e4bf0ed6d"
   description: "Focus Sessions 是一款可屏蔽指定应用和网站的简单实用工具，既能当家长控制系统，也能作自我约束工具，让孩子用电脑更安全、日常工作更专注；支持密码保护设置，防止孩子私自更改。｜Denk Alexandru"
   date: 2020-08-22
@@ -494,7 +494,7 @@
 - id: app-048
   title: "XME LOOPS"
   category: 软件
-  tags: ["软件", "Music", "macOS", "XME LOOPS"]
+  tags: ["软件", "音乐", "macOS", "XME LOOPS"]
   quark_url: "https://pan.quark.cn/s/806595433da3"
   description: "XME Inc. 数十年来为职业艺人和乐队制作音乐，如今也为你的敬拜与世俗演出提供所需的所有 Loop！无论想把敬拜提升到新高度，还是乐队有演出要接，都能满足。功能：全新旋律 Loop……｜XME Inc."
   date: 2017-05-14
@@ -505,7 +505,7 @@
 - id: app-049
   title: "Rectangles - Shikaku Puzzle"
   category: 软件
-  tags: ["软件", "Games", "macOS", "Rectangles - Shikaku Puzzle"]
+  tags: ["软件", "游戏", "macOS", "Rectangles - Shikaku Puzzle"]
   quark_url: "https://pan.quark.cn/s/603d3bd28429"
   description: "Rectangles 是一款安静治愈的 Shikaku（数矩形）益智游戏，清晰的逻辑配上可爱的像素画奖励。每道谜题给出数字线索，每个数字表示一个矩形的精确面积；你的目标是将棋盘划分成完美矩形，使每个矩形恰好包含一个数字并铺满整个棋盘。｜MoreThanThat"
   date: 2025-11-25
@@ -516,7 +516,7 @@
 - id: app-050
   title: "Braver Search"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Braver Search"]
+  tags: ["软件", "实用工具", "macOS", "Braver Search"]
   quark_url: "https://pan.quark.cn/s/6a616f2c31be"
   description: "用 Braver Search 提升你的 Safari 浏览体验——获得 Brave 出色的隐私搜索，同时保留 Safari 强大的生态功能，隐私与便利无需二选一。*非 Brave Software 官方应用，与其无任何关联……｜Brenden Bishop"
   date: 2025-02-23
@@ -527,7 +527,7 @@
 - id: app-051
   title: "Quicksilver - Galaxy Road to Arcade Adventures"
   category: 软件
-  tags: ["软件", "Games", "macOS", "Quicksilver - Galaxy Road to Arcade Adventures"]
+  tags: ["软件", "游戏", "macOS", "Quicksilver - Galaxy Road to Arcade Adventures"]
   quark_url: "https://pan.quark.cn/s/ff4a7c5c8cfb"
   description: "在这款时尚又令人上瘾的游戏里与时间赛跑、锻炼反应力！动感的音乐和经典复古的美术风格让它一玩难忘，还可与全球玩家争夺最高分。｜Daniel Reichert"
   date: 2015-11-21
@@ -538,7 +538,7 @@
 - id: app-052
   title: "Pine Player"
   category: 软件
-  tags: ["软件", "Music", "macOS", "Pine Player"]
+  tags: ["软件", "音乐", "macOS", "Pine Player"]
   quark_url: "https://pan.quark.cn/s/b450339128ee"
   description: "高品质视频与 Hi-Res 音频于一身的播放器。Pine Player Pro 是 macOS 上的高级媒体播放器，支持从常见视频格式到 Hi-Res 音频、DSD、SACD ISO、MIDI、Tracker 等广泛格式……｜Siseong Ahn"
   date: 2016-05-14
@@ -579,7 +579,7 @@
 - id: app-056
   title: "Image optimizer Compression"
   category: 软件
-  tags: ["软件", "Graphics & Design", "macOS", "Image optimizer Compression"]
+  tags: ["软件", "图形与设计", "macOS", "Image optimizer Compression"]
   quark_url: "https://pan.quark.cn/s/f52055dd0c71"
   description: "ImageOptim 是一款强大的图片无损压缩工具，为图片提供「无损」压缩服务，可减小 60%-90% 的文件体积——压缩后可能只有原图的 1/8 大小，而画质完好无损；同时也是一款图片格式转换工具……｜潇 罗"
   date: 2019-02-06
@@ -600,7 +600,7 @@
 - id: app-058
   title: "MultiCraft — Build and Mine!"
   category: 软件
-  tags: ["软件", "Games", "macOS", "MultiCraft — Build and Mine!"]
+  tags: ["软件", "游戏", "macOS", "MultiCraft — Build and Mine!"]
   quark_url: "https://pan.quark.cn/s/321dec5070bc"
   description: "MultiCraft 为你带来一个充满无限可能的世界！开启真正的冒险：建造和破坏方块、获取资源、打造各种工具方块与武器，生存下去并建造独一无二的建筑；在这个世界选择你的阵营——做建造者（创造模式）还是迎接挑战的生存者。｜MultiCraft Studio"
   date: 2016-11-14
@@ -621,7 +621,7 @@
 - id: app-060
   title: "Maccy"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "Maccy"]
+  tags: ["软件", "效率", "macOS", "Maccy"]
   quark_url: "https://pan.quark.cn/s/38c43e66883d"
   description: "Maccy 是一款专注本职的剪贴板管理器——让复制历史触手可及，仅此而已。• 快如闪电：不到一秒即可打开并搜索全部剪贴板历史，不干扰你的专注。• 键盘优先：直接输入想找的内容回车即可……｜Antonina Ivanova"
   date: 2020-10-16
@@ -652,7 +652,7 @@
 - id: app-063
   title: "iTerm2 Buddy"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "iTerm2 Buddy"]
+  tags: ["软件", "实用工具", "macOS", "iTerm2 Buddy"]
   quark_url: "https://pan.quark.cn/s/243cd6a063bd"
   description: "iTerm2 Buddy 将你的 iPhone 或 iPad 与 macOS 热门终端 iTerm2 连接起来。与 Mac 配对后，无论窝在沙发上还是在外奔波，都能随时查看终端动态并执行操作。需要 Mac 配套应用：仅在完成与 iTerm2 的配对并安装免费配套组件后工作。｜GEORGE NACHMAN"
   date: 2026-09-08
@@ -663,7 +663,7 @@
 - id: app-064
   title: "Keka"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Keka"]
+  tags: ["软件", "实用工具", "macOS", "Keka"]
   quark_url: "https://pan.quark.cn/s/41bea86fb87a"
   description: "Keka 是一款功能全面的文件归档压缩器，简单到极致：想把多少文件压成多少种格式都行，分卷压缩和密码保护也易如反掌——只需把文件拖到 Dock 或主窗口的 Keka 图标上即可。｜Jorge Garcia Armero"
   date: 2011-10-27
@@ -714,7 +714,7 @@
 - id: app-069
   title: "Lulucat Flow: Screen Recorder"
   category: 软件
-  tags: ["软件", "Photo & Video", "macOS", "Lulucat Flow: Screen Recorder"]
+  tags: ["软件", "摄影与视频", "macOS", "Lulucat Flow: Screen Recorder"]
   quark_url: "https://pan.quark.cn/s/83ebeeb41551"
   description: "Lulucat Flow 可同时录制多个信号源并分别写入各自文件：选择需要的显示器、摄像头、麦克风和系统声音，按下录制，所有源同步开始。**每个源一个文件**：两机位加双麦克风的一次录制会产生四个独立文件，而非一个混合文件……｜GOODWRITE LIMITED"
   date: 2026-08-04
@@ -755,7 +755,7 @@
 - id: app-073
   title: "InsomniaZ - Never Sleep"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "InsomniaZ - Never Sleep"]
+  tags: ["软件", "实用工具", "macOS", "InsomniaZ - Never Sleep"]
   quark_url: "https://pan.quark.cn/s/bec6beae6ea5"
   description: "你最需要电脑保持清醒时它却睡着了？InsomniaZ 来解决：合上盖子、起身离开、开始下载——无论怎样，InsomniaZ 都能让 Mac 保持唤醒。无需复杂设置，在菜单栏一键即用。合上 MacBook 去开会时……｜Pawan Dixit"
   date: 2018-12-21
@@ -766,7 +766,7 @@
 - id: app-074
   title: "Ice Cubes for Mastodon"
   category: 软件
-  tags: ["软件", "Social Networking", "macOS", "Ice Cubes for Mastodon"]
+  tags: ["软件", "社交", "macOS", "Ice Cubes for Mastodon"]
   quark_url: "https://pan.quark.cn/s/d5f4b4139e38"
   description: "Ice Cubes 是一款快速、可靠且颜值在线的 Mastodon 客户端，可连接任意 Mastodon 实例并使用其丰富功能：浏览主页/跨站/本地时间线、推送通知、时间线同步，以及收藏、书签、转发、分享乃至引用任何嘟文！……｜Thomas Ricouard"
   date: 2023-01-19
@@ -797,7 +797,7 @@
 - id: app-077
   title: "Hyper: VTuber Avatar Studio"
   category: 软件
-  tags: ["软件", "Photo & Video", "macOS", "Hyper: VTuber Avatar Studio"]
+  tags: ["软件", "摄影与视频", "macOS", "Hyper: VTuber Avatar Studio"]
   quark_url: "https://pan.quark.cn/s/cb144fa700dc"
   description: "面向新手和资深 VTuber 的专业虚拟形象创作工具，支持 Hyper Avatars 与 VRM 文件。定制属于你的精美 3D Hyper Avatar——每个模型均由自家艺术家精心制作，全部预绑定骨骼，开箱即可开播……｜Hyper Online, Inc."
   date: 2024-03-28
@@ -838,7 +838,7 @@
 - id: app-081
   title: "The Jukebox App - Desktop"
   category: 软件
-  tags: ["软件", "Music", "macOS", "The Jukebox App - Desktop"]
+  tags: ["软件", "音乐", "macOS", "The Jukebox App - Desktop"]
   quark_url: "https://pan.quark.cn/s/a6c8245822e0"
   description: "用 Mac 办一场点歌派对，以 Spotify 为曲库：宾客用手机加入，添加歌曲并为歌曲投票。主办派对需要 Spotify Premium 会员。｜Benjamin Barnett"
   date: 2024-08-25
@@ -849,7 +849,7 @@
 - id: app-082
   title: "Compress Videos: Handbrake"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Compress Videos: Handbrake"]
+  tags: ["软件", "实用工具", "macOS", "Compress Videos: Handbrake"]
   quark_url: "https://pan.quark.cn/s/a5094f52799d"
   description: "用智能视频压缩为 iPhone 腾出空间——照片和视频可能占掉 iPhone 高达 90% 的存储。空间告急时，是时候压缩视频、缩放超大文件而不牺牲画质了。Video Compressor Pro 功能强大又易于上手……｜Trang Nguyen Sy"
   date: 2021-02-16
@@ -900,7 +900,7 @@
 - id: app-087
   title: "Bitwarden"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "Bitwarden"]
+  tags: ["软件", "效率", "macOS", "Bitwarden"]
   quark_url: "https://pan.quark.cn/s/a0e3d15b21b0"
   description: "被 The Verge、U.S. News & World Report、CNET 等媒体评为最佳密码管理器。随时随地跨无限设备管理、存储、保护并共享无限量密码。Bitwarden 为每个人提供开源密码管理方案，无论在家、办公还是移动中；自动生成强密码……｜Bitwarden Inc"
   date: 2018-02-28
@@ -941,7 +941,7 @@
 - id: app-091
   title: "Cyberduck"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "Cyberduck"]
+  tags: ["软件", "效率", "macOS", "Cyberduck"]
   quark_url: "https://pan.quark.cn/s/c3920e5b5e64"
   description: "Cyberduck 是一款支持 FTP、SFTP、WebDAV、Amazon S3、OpenStack Swift、Backblaze B2、Microsoft Azure 与 OneDrive、Google Drive 和 Dropbox 的文件浏览器，可向虚拟主机服务商传输文件，并连接 Rackspace Cloud Files、Google Storage 和 Amazon S3 等云存储账户……｜David Kocher"
   date: 2011-03-01
@@ -952,7 +952,7 @@
 - id: app-092
   title: "CotEditor"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "CotEditor"]
+  tags: ["软件", "效率", "macOS", "CotEditor"]
   quark_url: "https://pan.quark.cn/s/d67d7b90f4bf"
   description: "CotEditor 是一款轻量级纯文本编辑器，适合源代码、笔记、Markdown、网页内容等多种场景。界面干净利落，让日常编辑简单舒适；需要进阶操作时，强大的工具随时待命。专为 Mac 打造，只属于 macOS……｜Mineko IMANISHI"
   date: 2015-10-10
@@ -963,7 +963,7 @@
 - id: app-093
   title: "Koder Code Editor"
   category: 软件
-  tags: ["软件", "Developer Tools", "macOS", "Koder Code Editor"]
+  tags: ["软件", "开发工具", "macOS", "Koder Code Editor"]
   quark_url: "https://pan.quark.cn/s/f4104ea610ec"
   description: "「iPad 上的 Koder：极客们欢呼吧！你可以在 iPad 上写代码了」——GIZMODO / 当日精选应用。Koder 界面简洁而高效，专为触屏编辑设计，售价仅 5.99 美元，性价比出色。想用称手的 iPad 写代码，Koder 是不二之选……｜Reny Mustika"
   date: 2018-12-23
@@ -974,7 +974,7 @@
 - id: app-094
   title: "Clop"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Clop"]
+  tags: ["软件", "实用工具", "macOS", "Clop"]
   quark_url: "https://pan.quark.cn/s/8ff8e54ce269"
   description: "要买烟（Clop）？烟盒空了，却不知道最近的烟草店在哪？有了 Clop 一切迎刃而解：轻松找到最近的烟草店，哪怕周日或深夜。仅覆盖法兰西岛（大巴黎）地区。｜DatsChill"
   date: 2014-11-13
@@ -985,7 +985,7 @@
 - id: app-095
   title: "Bruno Reels Casino"
   category: 软件
-  tags: ["软件", "Games", "macOS", "Bruno Reels Casino"]
+  tags: ["软件", "游戏", "macOS", "Bruno Reels Casino"]
   quark_url: "https://pan.quark.cn/s/906631a0f47a"
   description: "Bruno Reels Casino 为你带来刺激的赌场风格老虎机体验：丰富主题、流畅操作、炫酷画面、鲜艳符号与丰厚奖励时刻。探索多样的老虎机游戏、发现新玩法、参与精彩活动，随时随地畅享不间断的娱乐。｜EverPrime Futures Inc."
   date: 2026-05-16
@@ -1006,7 +1006,7 @@
 - id: app-097
   title: "Brooklyn Nets"
   category: 软件
-  tags: ["软件", "Sports", "macOS", "Brooklyn Nets"]
+  tags: ["软件", "体育", "macOS", "Brooklyn Nets"]
   quark_url: "https://pan.quark.cn/s/cb6a84e4391d"
   description: "全新布鲁克林篮网应用重磅回归，为新老球迷而建！数秒内购票、管理并将球票加入电子钱包；实时比赛数据含详细逐回合播报与升级版球员资料；动态比赛视觉：焦点图块和脉冲指示器让你不错过任何精彩时刻……｜Brooklyn Nets"
   date: 2012-10-31
@@ -1017,7 +1017,7 @@
 - id: app-098
   title: "Corkulous - Your Ideas"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "Corkulous - Your Ideas"]
+  tags: ["软件", "效率", "macOS", "Corkulous - Your Ideas"]
   quark_url: "https://pan.quark.cn/s/eb65df485aa0"
   description: "Corkulous（Mac 与 iOS 版）是以自然的方式收集、组织和分享创意的绝妙工具，Mac、iPhone 或 iPad 用户都值得拥有！Corkulous 是一款多用途看板应用，可在看板上放置便签、标签、照片、联系人、形状、连线等，随意布局……｜Corked Labs, LLC"
   date: 2017-02-14
@@ -1028,7 +1028,7 @@
 - id: app-099
   title: "Hidden Bar"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Hidden Bar"]
+  tags: ["软件", "实用工具", "macOS", "Hidden Bar"]
   quark_url: "https://pan.quark.cn/s/66c23a8c264c"
   description: "Hidden 让你隐藏菜单栏图标，还 Mac 一个清爽的菜单栏。功能：登录自启、5/10/15/30/60 秒后自动隐藏、全局快捷键显示/隐藏、完整菜单栏模式、支持 RTL 语言。如需更多信息或功能建议，欢迎联系：macos@……｜Dwarves Foundation"
   date: 2019-02-19
@@ -1039,7 +1039,7 @@
 - id: app-100
   title: "Gifski"
   category: 软件
-  tags: ["软件", "Photo & Video", "macOS", "Gifski"]
+  tags: ["软件", "摄影与视频", "macOS", "Gifski"]
   quark_url: "https://pan.quark.cn/s/5ea39d83b886"
   description: "把视频转换成高品质 GIF。Gifski 可将视频转成每帧数千色的动画 GIF，这得益于高效的跨帧调色板和时间抖动等精妙技术。注意：Gifski 是转换器而非 GIF 创作工具，不支持从零绘制……｜Sindre Sorhus"
   date: 2018-02-23
@@ -1060,7 +1060,7 @@
 - id: app-102
   title: "Barton & Gray Clubhouse"
   category: 软件
-  tags: ["软件", "Lifestyle", "macOS", "Barton & Gray Clubhouse"]
+  tags: ["软件", "生活", "macOS", "Barton & Gray Clubhouse"]
   quark_url: "https://pan.quark.cn/s/9f2b6b82c58e"
   description: "Barton & Gray Mariners Club 应用：会员可探索会员权益并联系俱乐部、管理日程与出游；船员可查看排期、提交船长报告；朋友也能借此了解俱乐部。｜Barton & Gray Mariners Club"
   date: 2021-05-16
@@ -1071,7 +1071,7 @@
 - id: app-103
   title: "Free Ruler"
   category: 软件
-  tags: ["软件", "Developer Tools", "macOS", "Free Ruler"]
+  tags: ["软件", "开发工具", "macOS", "Free Ruler"]
   quark_url: "https://pan.quark.cn/s/f12c1dab66ae"
   description: "功能：横竖标尺，颜色任选；支持像素、毫米、英寸单位（按 U 切换）；标尺悬浮于其他应用之上（按 F 切换）；窗口可独立或成组移动（按 G 切换）；显示/隐藏标尺阴影（按 S）……｜Pascal Balthrop"
   date: 2019-10-13
@@ -1082,7 +1082,7 @@
 - id: app-104
   title: "Flycut (Clipboard manager)"
   category: 软件
-  tags: ["软件", "Developer Tools", "macOS", "Flycut (Clipboard manager)"]
+  tags: ["软件", "开发工具", "macOS", "Flycut (Clipboard manager)"]
   quark_url: "https://pan.quark.cn/s/14cfa8b2edb5"
   description: "Flycut 是一款简洁的面向开发者的剪贴板管理器，基于开源应用 Jumpcut 打造，本身同样开源：http://github.com/TermiT/flycut。每次复制代码片段，Flycut 都会存入历史；之后即使中途又复制了别的，也能用 Shift-Command-V 依次粘贴……｜General Arcade (Pte. Ltd.)"
   date: 2011-06-08
@@ -1093,7 +1093,7 @@
 - id: app-105
   title: "Cronica"
   category: 软件
-  tags: ["软件", "Entertainment", "macOS", "Cronica"]
+  tags: ["软件", "娱乐", "macOS", "Cronica"]
   quark_url: "https://pan.quark.cn/s/64d66e849dcb"
   description: "Cronica——一款精致的极简影视观剧清单应用。记录看过的片、不丢进度、随时准备下一部——覆盖 iPhone、iPad、Mac、Apple Watch、Apple TV 和 Apple Vision Pro。无论刷剧狂魔还是休闲观众，Cronica 都能打理好你的片库……｜Egger & Co"
   date: 2022-05-05
@@ -1104,7 +1104,7 @@
 - id: app-106
   title: "Control Room Clock"
   category: 软件
-  tags: ["软件", "Photo & Video", "macOS", "Control Room Clock"]
+  tags: ["软件", "摄影与视频", "macOS", "Control Room Clock"]
   quark_url: "https://pan.quark.cn/s/3469f157756e"
   description: "Control Room Clock 是专为广播工程师、制作人员和媒体专业人士打造的精密计时工具，追求准确与清晰。主要功能：常亮显示——悬浮时钟跨应用与空间置顶可见；点击穿透模式……｜Andrew Logan"
   date: 2025-11-26
@@ -1135,7 +1135,7 @@
 - id: app-109
   title: "Blurred"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Blurred"]
+  tags: ["软件", "实用工具", "macOS", "Blurred"]
   quark_url: "https://pan.quark.cn/s/436c6cdbebc5"
   description: "一款轻量 macOS 应用，通过调暗非活动窗口来减少干扰。功能：变暗模式——单屏：聚焦主屏最前窗口；并行：聚焦所有屏幕的最前窗口；登录自启；可通过自定义全局快捷键启用/禁用……｜Dwarves Foundation"
   date: 2020-02-20
@@ -1156,7 +1156,7 @@
 - id: app-111
   title: "Auto Mute :Screen Lock & Sleep"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Auto Mute :Screen Lock & Sleep"]
+  tags: ["软件", "实用工具", "macOS", "Auto Mute :Screen Lock & Sleep"]
   quark_url: "https://pan.quark.cn/s/541c25b43c64"
   description: "受够了你离开时别人偷按播放/暂停键，打探你在看什么听什么？**AutoMute 自动解决问题**：锁屏或休眠的瞬间静音 Mac，回来解锁后自动恢复音量……｜khalid altariqi"
   date: 2026-08-19
@@ -1167,7 +1167,7 @@
 - id: app-112
   title: "Background Music: DJ Radios"
   category: 软件
-  tags: ["软件", "Music", "macOS", "Background Music: DJ Radios"]
+  tags: ["软件", "音乐", "macOS", "Background Music: DJ Radios"]
   quark_url: "https://pan.quark.cn/s/46950ed71d32"
   description: "面向商业场所的专业背景音乐：DJ Radios 提供 DJ 精选的未发行音乐，专为咖啡馆、餐厅、零售店等商业场所设计。曲目不受表演版权组织（PRO）管理，是合法的替代或补充方案……｜SAS Corvaisier"
   date: 2025-11-24
@@ -1178,7 +1178,7 @@
 - id: app-113
   title: "Aural Wiz"
   category: 软件
-  tags: ["软件", "Music", "macOS", "Aural Wiz"]
+  tags: ["软件", "音乐", "macOS", "Aural Wiz"]
   quark_url: "https://pan.quark.cn/s/258ef88041dc"
   description: "用 Aural Wiz 学习辨识音程、音阶、调式、和弦与终止式。无论你是为正式音乐训练中的听音考试备考的学生，还是想提升听力的乐手，它都是不可或缺的伙伴……｜Bijoy Thangaraj"
   date: 2017-03-22
@@ -1189,7 +1189,7 @@
 - id: app-114
   title: "ArMed eHealth"
   category: 软件
-  tags: ["软件", "Medical", "macOS", "ArMed eHealth"]
+  tags: ["软件", "医疗", "macOS", "ArMed eHealth"]
   quark_url: "https://pan.quark.cn/s/a610f3c3f8c3"
   description: "Armed eHealth 应用与亚美尼亚国家集中电子健康系统对接，旨在便利患者使用医疗服务。当前版本可：查看你的注册家庭医生、为注册医生预约门诊……｜SYLEX SA"
   date: 2020-05-11
@@ -1210,7 +1210,7 @@
 - id: app-116
   title: "Actions"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Actions"]
+  tags: ["软件", "实用工具", "macOS", "Actions"]
   quark_url: "https://pan.quark.cn/s/2fbbc35f13a6"
   description: "用大量实用操作为「快捷指令」超级充电：为快捷指令应用提供额外的操作。重要提示：由于 iOS 的一个 bug，要让操作出现在「快捷指令」应用中，需先启动本应用再重启设备。｜Sindre Sorhus"
   date: 2021-10-28
@@ -1221,7 +1221,7 @@
 - id: app-117
   title: "AltTab Switcher"
   category: 软件
-  tags: ["软件", "Productivity", "macOS", "AltTab Switcher"]
+  tags: ["软件", "效率", "macOS", "AltTab Switcher"]
   quark_url: "https://pan.quark.cn/s/bca9d78027ff"
   description: "AltTab 窗口切换器——把 Windows 上熟悉而强大的 Alt + Tab 窗口切换体验带到 macOS。轻轻一按，即可在打开的应用与窗口间瞬时切换，让 Mac 上的多任务处理更快更爽……｜方成 印"
   date: 2024-09-14
@@ -1232,7 +1232,7 @@
 - id: app-118
   title: "Aerial Landscapes Wallpaper"
   category: 软件
-  tags: ["软件", "Utilities", "macOS", "Aerial Landscapes Wallpaper"]
+  tags: ["软件", "实用工具", "macOS", "Aerial Landscapes Wallpaper"]
   quark_url: "https://pan.quark.cn/s/f171ae2a4367"
   description: "Aerial Landscapes 把 Mac 桌面变成通往世界的窗口，播放来自各大洲标志性地点的震撼航拍画面。每次坐到 Mac 前，都有新的风景成为你的壁纸——从巴塔哥尼亚之巅到亚得里亚海海岸……｜Philip Loury"
   date: 2026-06-23
