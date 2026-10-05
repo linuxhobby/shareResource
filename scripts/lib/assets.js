@@ -326,6 +326,24 @@ export async function writeQr(item, outDir) {
   return results;
 }
 
+/**
+ * 拷贝 static/ 根级文件到站点根目录（favicon 由 writeFavicon 处理，此处跳过）。
+ * 用于放置必须位于根目录的文件，如搜索引擎验证文件 robots补充、baidu_verify_*.html 等。
+ */
+export function copyStaticRoot(staticDir, outDir) {
+  if (!fs.existsSync(staticDir)) return [];
+  const skip = new Set(['favicon.svg', 'favicon.ico', 'apple-touch-icon.png']);
+  const copied = [];
+  for (const name of fs.readdirSync(staticDir)) {
+    if (skip.has(name) || name.startsWith('.')) continue;
+    const src = path.join(staticDir, name);
+    if (!fs.statSync(src).isFile()) continue;
+    fs.copyFileSync(src, path.join(outDir, name));
+    copied.push(name);
+  }
+  return copied;
+}
+
 /** 拷贝主题静态资源（CSS / JS） */
 export function copyThemeAssets(themeDir, outDir) {
   const src = path.join(themeDir, 'assets');
