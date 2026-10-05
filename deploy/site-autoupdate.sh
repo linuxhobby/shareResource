@@ -6,7 +6,7 @@ set -e
 # cron 的 PATH 很窄，nginx / systemctl 常不在里面，这里补齐（否则构建完不会 reload）
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-SITE_DIR=/opt/ShareResource          # ← 站点目录
+SITE_DIR=/opt/wodewangpan          # ← 站点目录
 BASE_URL=https://your-domain.com     # ← 站点域名（影响 canonical / OG / sitemap）
 LOG=/var/log/site-autoupdate.log
 

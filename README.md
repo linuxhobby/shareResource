@@ -1,4 +1,4 @@
-# ShareResource · 网盘资源分享站
+# wodewangpan · 网盘资源分享站
 
 用 YAML 写资源，构建成**纯静态站点**：海报压缩、二维码、搜索索引、SEO 标签全部在构建期生成，产物丢给 Nginx 就能跑。无数据库、无后端、无登录。
 
@@ -35,7 +35,7 @@
 
 ### 方案 A：VPS + Nginx
 
-服务器为 Ubuntu 22.04，站点目录 `/opt/ShareResource`。
+服务器为 Ubuntu 22.04，站点目录 `/opt/wodewangpan`。
 
 **1）装环境**
 
@@ -48,8 +48,8 @@ node -v   # 需 ≥ 18
 **2）取代码、装依赖**
 
 ```bash
-sudo git clone https://github.com/linuxhobby/wodewangpan.git /opt/ShareResource
-cd /opt/ShareResource && sudo npm ci
+sudo git clone https://github.com/linuxhobby/wodewangpan.git /opt/wodewangpan
+cd /opt/wodewangpan && sudo npm ci
 ```
 
 > `sharp` 可选（`npm i sharp`）：负责压缩与裁切，没装就按原图复制，产物体积会大很多。
@@ -71,8 +71,8 @@ BASE_URL=https://你的域名 npm run build     # 必填，否则 canonical / OG
 **5）配置 Nginx**
 
 ```bash
-sudo install -m644 deploy/nginx-site.conf.example /etc/nginx/conf.d/share-resource.conf
-sudo sed -i 's/your-domain.com/你的域名/g' /etc/nginx/conf.d/share-resource.conf
+sudo install -m644 deploy/nginx-site.conf.example /etc/nginx/conf.d/wodewangpan.conf
+sudo sed -i 's/your-domain.com/你的域名/g' /etc/nginx/conf.d/wodewangpan.conf
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
@@ -80,7 +80,7 @@ Nginx 关键三处（示例文件里都有，不用手改）：
 
 | 配置 | 作用 |
 |---|---|
-| `root /opt/ShareResource/public` | 指向 `public/` 目录本身 |
+| `root /opt/wodewangpan/public` | 指向 `public/` 目录本身 |
 | `try_files $uri $uri/ $uri/index.html =404` | 让 `/resource/mv-010/` 命中目录下的 `index.html` |
 | `error_page 404 /404.html` | 走站内 404 页 |
 
@@ -174,7 +174,7 @@ jobs:
 
 ```bash
 BASE_URL=https://你的域名 \
-REMOTE_USER=root REMOTE_HOST=你的服务器 REMOTE_DIR=/var/www/share-resource \
+REMOTE_USER=root REMOTE_HOST=你的服务器 REMOTE_DIR=/var/www/wodewangpan \
 npm run deploy
 ```
 

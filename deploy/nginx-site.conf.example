@@ -1,4 +1,4 @@
-# 站点 Nginx 配置 —— 放到 /etc/nginx/conf.d/share-resource.conf
+# 站点 Nginx 配置 —— 放到 /etc/nginx/conf.d/wodewangpan.conf
 # 改 3 处即可：server_name、ssl_certificate / ssl_certificate_key（certbot 会自动改）
 # 没有启用访问统计的话，把 access_log 那行改回默认、并删掉 location = /stats.json 与 /hit 两段
 
@@ -6,7 +6,7 @@ server {
     listen 80;
     server_name your-domain.com;          # ← 换成你的域名
 
-    root /opt/ShareResource/public;       # ← 指向 public 目录本身
+    root /opt/wodewangpan/public;       # ← 指向 public 目录本身
     index index.html;
 
     charset utf-8;
