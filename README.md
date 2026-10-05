@@ -194,6 +194,37 @@ curl -s $S/ | grep canonical       # 应是你的真实域名
 
 除 `/nope` 应为 **404**，其余全部 **200**。中文分类页用 curl 要 percent-encoding，浏览器直接访问正常。
 
+### 提交给搜索引擎
+
+| 方式 | 做法 |
+|---|---|
+| **1 · Google Search Console** | 添加站点 → 左侧「站点地图」提交 `https://你的域名/sitemap.xml`（首次验证一次即可） |
+| **2 · 百度站长平台** | 同上提交 sitemap；更快的是「普通收录 → API 推送」：token 存为 `/opt/seo/baidu_token`，用 `submit-baidu` 推送 |
+| **3 · IndexNow（实时推送，技术方式）** | 向 **Bing** 等参与引擎实时递交：站点放一个密钥文件，脚本按 sitemap 分批 POST 给 IndexNow，新页面几分钟内被 Bing 发现 |
+
+方式 3 配置（脚本见 `deploy/submit-indexnow.sh`）：
+
+```bash
+# 1) 生成密钥，放到站点可访问的位置
+sudo mkdir -p /opt/indexnow && openssl rand -hex 16 | sudo tee /opt/indexnow/key.txt
+
+# 2) Nginx 暴露密钥（deploy/nginx-site.conf.example 已含该段）
+#    location = /key.txt { alias /opt/indexnow/key.txt; default_type text/plain; }
+sudo nginx -t && sudo systemctl reload nginx
+curl -s https://你的域名/key.txt     # 应返回那串密钥
+
+# 3) 安装脚本并立即递交一次
+sudo install -m755 deploy/submit-indexnow.sh /usr/local/bin/submit-indexnow
+sudo sed -i 's/www.your-domain.com/你的域名/' /usr/local/bin/submit-indexnow
+sudo /usr/local/bin/submit-indexnow
+tail -3 /var/log/submit-indexnow.log    # 共 559 条：成功 559，失败 0
+
+# 4) 每天自动推（root crontab）
+0 3 * * * /usr/local/bin/submit-indexnow >> /var/log/submit-indexnow.log 2>&1
+```
+
+实测：559 个 URL 分 12 批提交，全部返回 200/202。
+
 ## 目录结构
 
 ```

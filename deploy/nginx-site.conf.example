@@ -41,6 +41,9 @@ server {
     }
     location = /hit { return 204; }
 
+    # IndexNow 密钥（钥匙串方式向 Bing 等实时递交 URL，可删）
+    location = /key.txt { alias /opt/indexnow/key.txt; default_type text/plain; }
+
     error_page 404 /404.html;
 
     location /.well-known/acme-challenge/ { root /var/www/html; }
