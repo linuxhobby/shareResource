@@ -349,7 +349,7 @@
   category: 软件
   tags: ["软件", "音乐", "macOS", "Tuneful for Spotify & Music"]
   quark_url: "https://pan.quark.cn/s/6eab5b0d8e26"
-  description: "Tuneful 为 Spotify 和 Apple Music 带来精美的原生音乐控制：可在刘海、菜单栏或可自定义的迷你播放器中操控音乐，一切浑然天成，宛如 macOS 原生。• 刘海集成：悬停在 MacBook 刘海上方即可唤出音乐播放器……｜Martin Fekete"
+  description: "Tuneful 为 Spotify 和 Apple Music 带来精美的原生音乐控制，可从刘海、菜单栏或可自定义的迷你播放器操控音乐，完全融入 macOS。刘海集成：悬停即唤出播放器，带触感反馈，外观与行为可自定义；菜单栏播放器：菜单栏直接显示正在播放的内容，点击展开精致的控制浮层，多种样式可选；迷你播放器：多款精美样式让控制始终顺手；无需打开 Spotify 或 Apple Music，即可从刘海、菜单栏或迷你播放器把当前歌曲加入收藏；用 Swift 与 SwiftUI 打造，快速流畅、资源占用低；可接入 Spotify 与 Last.fm，支持曲目记录（scrobble）、更新正在播放状态与收藏曲目。每个界面都是可选的，只开启你需要的部分。｜Martin Fekete"
   date: 2025-01-06
   added: 2026-10-04
   image: app-034.jpg
@@ -423,7 +423,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Activity Bar - Menu Bar Stats"]
   quark_url: "https://pan.quark.cn/s/84426b8abf37"
-  description: "Activity Bar 是一款轻量级工具，在菜单栏实时监控你的系统状态，极简而实用，小屏幕也放得下。CPU：可分别监控系统/用户/空闲/总占用率或一并显示；可监控每个核心占用；视图样式支持百分比或自定义……｜Denis Litvin"
+  description: "Activity Bar 是一款轻量级工具，在菜单栏实时监控系统状态，极简而实用，小屏幕也放得下。CPU：可监控系统、用户、空闲与总占用率（分项或一次全显），并可按核心查看，视图支持百分比或自定义柱状图标。GPU：监控占用率。内存：监控总量、应用、联动、压缩内存及内存压力。网络：显示上传、下载或双向速度，并可显示当前 IP 地址。磁盘：监控已用、可用与总空间，发生写入时红绿闪烁提示。蓝牙设备：查看设备电量并自定义外观。Pro 版可解锁弹窗与小组件中的详细指标。｜Denis Litvin"
   date: 2023-04-09
   added: 2026-10-04
   image: app-041.jpg
@@ -496,7 +496,7 @@
   category: 软件
   tags: ["软件", "音乐", "macOS", "XME LOOPS"]
   quark_url: "https://pan.quark.cn/s/806595433da3"
-  description: "XME Inc. 数十年来为职业艺人和乐队制作音乐，如今也为你的敬拜与世俗演出提供所需的所有 Loop！无论想把敬拜提升到新高度，还是乐队有演出要接，都能满足。功能：全新旋律 Loop……｜XME Inc."
+  description: "XME Inc. 数十年来为职业艺人和乐队制作音乐，如今为你提供敬拜与世俗演出所需的所有 Loop。功能：全新旋律 Loop 支持实时变调；Pad 功能可在任意调性下叠加柔和铺底音色，与鼓组或打击乐 Loop 同步；歌单可跨设备分享；支持重命名 Loop；Loop 自动下载到本机，不必担心网络或服务器问题；可在应用内按需申请 Loop——把所需歌曲链接粘贴到 Contact 即可；Multiloop 为每个 Loop 提供多种变奏；庞大的曲库兼容福音与世俗歌曲，适用于入场、过渡或炫技段落；音乐与软件团队每月持续更新；可调整任意 Loop 的速度并支持 Tap Tempo（长按 Tap 键重置速度）；可创建多个歌单，为不同日期与演出提前规划。｜XME Inc."
   date: 2017-05-14
   added: 2026-10-04
   image: app-048.jpg
@@ -518,7 +518,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Braver Search"]
   quark_url: "https://pan.quark.cn/s/6a616f2c31be"
-  description: "用 Braver Search 提升你的 Safari 浏览体验——获得 Brave 出色的隐私搜索，同时保留 Safari 强大的生态功能，隐私与便利无需二选一。*非 Brave Software 官方应用，与其无任何关联……｜Brenden Bishop"
+  description: "用 Braver Search 提升 Safari 浏览体验：获得 Brave 出色的隐私搜索，同时保留 Safari 强大的生态功能，隐私与便利无需二选一。主要功能：iOS 与 macOS 一键设置；搜索请求即时重定向到 Brave Search；跨设备同步设置；内置支持 Brave 的 AI 摘要；简单开关随时切换。保留 Safari 生态优势：设备间接力（Handoff）、已存密码与自动填充数据、iCloud 钥匙串与验证码、你喜爱的 Safari 扩展，与 Apple 生态完整集成。隐私保护：搜索在抵达 Safari 默认引擎之前就被重定向，零数据存储、零追踪，搜索历史真正私密。iPhone、iPad 与 Mac 体验一致，设置自动同步。注：本应用并非 Brave Software 官方产品，与其无任何关联。｜Brenden Bishop"
   date: 2025-02-23
   added: 2026-10-04
   image: app-050.jpg
@@ -540,7 +540,7 @@
   category: 软件
   tags: ["软件", "音乐", "macOS", "Pine Player"]
   quark_url: "https://pan.quark.cn/s/b450339128ee"
-  description: "高品质视频与 Hi-Res 音频于一身的播放器。Pine Player Pro 是 macOS 上的高级媒体播放器，支持从常见视频格式到 Hi-Res 音频、DSD、SACD ISO、MIDI、Tracker 等广泛格式……｜Siseong Ahn"
+  description: "一款播放器同时搞定高品质视频与 Hi-Res 音频。Pine Player Pro 是 macOS 上的高级媒体播放器，支持从常见视频格式到 Hi-Res 音频、DSD、SACD ISO、MIDI 乃至 Tracker 音乐的广泛格式。MIDI 与 SoundBank 合成器：不止播放 MIDI，还能用多种乐器音色演绎同一段音乐、可视化监视并微调演奏，支持外部 MIDI 输出以连接软硬件设备。Tracker 音乐：原生支持 VGM、VGZ、Adlib(ROL)、MOD、XM、S3M、IT 等经典格式，直接调用内嵌的乐句、采样与乐器数据播放，无需转换。视频播放与转换：支持 MP4、MOV、MKV、AVI、WMV、WebM，借 Apple 硬件加速流畅解码，支持 SRT、SMI、SUB 等字幕，提供变速、缩放与 A-B 循环。音频：MP3、M4A、FLAC、AAC、WAV、AIFF、OGG、Opus、WMA、APE、TTA、WavPack，支持 DSD（DSF/DFF）播放、DoP 输出与 SACD ISO。｜Siseong Ahn"
   date: 2016-05-14
   added: 2026-10-04
   image: app-052.jpg
@@ -581,7 +581,7 @@
   category: 软件
   tags: ["软件", "图形与设计", "macOS", "Image optimizer Compression"]
   quark_url: "https://pan.quark.cn/s/f52055dd0c71"
-  description: "ImageOptim 是一款强大的图片无损压缩工具，为图片提供「无损」压缩服务，可减小 60%-90% 的文件体积——压缩后可能只有原图的 1/8 大小，而画质完好无损；同时也是一款图片格式转换工具……｜潇 罗"
+  description: "这是一款强大的图片无损压缩工具，提供「无损」压缩服务：文件体积可减小 60%-90%，压缩后可能只有原图 1/8 大小而画质完好无损；同时也是图片格式转换工具，转换后清晰度不变并保留原始信息。只需把图片拖入即可完成压缩，无需打开浏览器手动下载。功能：支持 PNG/JPG 图片压缩；可拖入整个文件夹自动识别全部图片；支持批量压缩；压缩后可自动替换原图；支持全天自动压缩，一天可处理约 7200 张；支持图片格式转换。格式范围：压缩支持 PNG、JPG、BMP、TIFF；转换支持 PNG、JPG、HEIC、BMP、TIFF、PSD、AI，以及 DNG、NEF、CR2、ARW、RW2、RAF、CRW、CR3、MRW、PTX、PEF、X3F 等 RAW 格式。｜潇 罗"
   date: 2019-02-06
   added: 2026-10-04
   image: app-056.jpg
@@ -623,7 +623,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "Maccy"]
   quark_url: "https://pan.quark.cn/s/38c43e66883d"
-  description: "Maccy 是一款专注本职的剪贴板管理器——让复制历史触手可及，仅此而已。• 快如闪电：不到一秒即可打开并搜索全部剪贴板历史，不干扰你的专注。• 键盘优先：直接输入想找的内容回车即可……｜Antonina Ivanova"
+  description: "Maccy 是一款只专注一件事的剪贴板管理器——让复制历史触手可及，仅此而已。快如闪电：不到一秒即可打开并搜索全部剪贴板历史，不打断你的专注。键盘优先：直接输入想找的内容回车即可，双手不必离开键盘。原生极简设计：没有花哨界面和冗余功能，就像系统自带的剪贴板管理器。安全私密：密码管理器中的内容不会被记录，所有数据只存在你的 Mac 上、绝不上传。可定制可扩展：偏好设置覆盖每个细节，还能用「快捷指令」自动化复杂场景。开源：源码以 MIT 许可发布于 GitHub，App Store 版本用于支持开发。｜Antonina Ivanova"
   date: 2020-10-16
   added: 2026-10-04
   image: app-060.jpg
@@ -716,7 +716,7 @@
   category: 软件
   tags: ["软件", "摄影与视频", "macOS", "Lulucat Flow: Screen Recorder"]
   quark_url: "https://pan.quark.cn/s/83ebeeb41551"
-  description: "Lulucat Flow 可同时录制多个信号源并分别写入各自文件：选择需要的显示器、摄像头、麦克风和系统声音，按下录制，所有源同步开始。**每个源一个文件**：两机位加双麦克风的一次录制会产生四个独立文件，而非一个混合文件……｜GOODWRITE LIMITED"
+  description: "Lulucat Flow 可同时录制多个信号源，并把每一路写入独立文件：选好需要的显示器、摄像头、麦克风和系统声音，按下录制，所有源同步开始。每个源一个文件：两机位加双麦克风的一次录制会生成四个文件，而不是一个混合视频——不做合成、不做混音，文件可直接导入 Final Cut Pro、DaVinci Resolve、Premiere Pro 等任何支持标准 QuickTime 与 AAC 的剪辑软件。信号源：所有连接的显示器（经 ScreenCaptureKit，最高 60fps，可含或不含光标）、所有摄像头（含连续互通相机与 USB 设备，以相机支持的最高格式录制）、每个麦克风与音频接口输入（各为独立音轨）、Mac 播放的系统声音（可录整机或指定应用）。暂停与恢复：暂停时关闭当前文件但保持预览，恢复后在同一个项目中开启新的一组文件；每段录制按启动时刻单独成文件夹，同一文件夹内的文件共享时间轴，可直接并行对齐轨道。工程目录内附 project.json（完整轨道清单）与 AGENTS.md（文件夹结构与文件命名规则说明），文件名不含空格，脚本与编码代理可直接读取处理，`*.WA.mov` 这类通配符即可挑出所有带音轨的视频。录制时可查看每路的实时画面、音量表与分辨率、帧率、编码、文件大小、写入速度，页脚显示剩余磁盘空间与当前码率下的可录时长。｜GOODWRITE LIMITED"
   date: 2026-08-04
   added: 2026-10-04
   image: app-069.jpg
@@ -757,7 +757,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "InsomniaZ - Never Sleep"]
   quark_url: "https://pan.quark.cn/s/bec6beae6ea5"
-  description: "你最需要电脑保持清醒时它却睡着了？InsomniaZ 来解决：合上盖子、起身离开、开始下载——无论怎样，InsomniaZ 都能让 Mac 保持唤醒。无需复杂设置，在菜单栏一键即用。合上 MacBook 去开会时……｜Pawan Dixit"
+  description: "你最需要 Mac 保持清醒时它却睡着了？InsomniaZ 来解决：合上盖子、起身离开、开始下载——无论怎样都能让 Mac 保持唤醒。无需复杂设置，菜单栏点一下即用，开启后就可以忘了它。适用场景：合上 MacBook 带去开会却中断了下载；离开工位喝咖啡被 Teams 标记为「离开」；接上外接显示器合盖后屏幕全黑。功能：合盖防睡眠（有无外接显示器、插电或电池供电皆可）；合盖状态下插拔电源仍持续生效；定时会话——设为 15 分钟、1 小时或 8 小时，到点自动关闭，不必惦记；无限模式整夜保持唤醒；全局快捷键在任何应用中即时切换；高级模式可避免办公软件把你判定为空闲。仅驻留菜单栏，同心圆图标一眼看出状态（启用时上色、关闭时低调），无 Dock 图标、无窗口管理负担。底层采用多层防睡眠机制互相备份，任何一层失效都有其他层兜底，被强制休眠后也会自动恢复保护。完全不收集数据：无分析、无追踪、无网络请求，一切本地完成。｜Pawan Dixit"
   date: 2018-12-21
   added: 2026-10-04
   image: app-073.jpg
@@ -768,7 +768,7 @@
   category: 软件
   tags: ["软件", "社交", "macOS", "Ice Cubes for Mastodon"]
   quark_url: "https://pan.quark.cn/s/d5f4b4139e38"
-  description: "Ice Cubes 是一款快速、可靠且颜值在线的 Mastodon 客户端，可连接任意 Mastodon 实例并使用其丰富功能：浏览主页/跨站/本地时间线、推送通知、时间线同步，以及收藏、书签、转发、分享乃至引用任何嘟文！……｜Thomas Ricouard"
+  description: "Ice Cubes 是一款快速、可靠且美观的 Mastodon 客户端，可连接任意 Mastodon 实例并使用其丰富功能。浏览主页、跨站（联邦）与本地时间线；推送通知；时间线同步；对任意嘟文收藏、加书签、转发、分享乃至引用——引用功能还会把其他嘟文链接嵌入内容中，方便直接阅读。出色的 iPad 支持，含专门的通知栏；可用列表整理时间线，随时增删成员、新建列表，并按列表、关注的话题标签等筛选。接入 Mastodon 强大的流式 API，时间线实时刷新不错过任何内容；还能置顶其他实例的本地时间线，用一个账号跟进多个社区。支持标签分组（用多个标签拼出专属时间线）、探索与搜索、私信专属标签页、在应用内直接编辑个人资料、多账号快速切换，以及大量个性化选项。内置 AI 工具：撰写嘟文时可帮你纠错甚至缩短文字，还能自动生成图片描述。全部开源，源码见 github.com/Dimillian/IceCubesApp。｜Thomas Ricouard"
   date: 2023-01-19
   added: 2026-10-04
   image: app-074.jpg
@@ -799,7 +799,7 @@
   category: 软件
   tags: ["软件", "摄影与视频", "macOS", "Hyper: VTuber Avatar Studio"]
   quark_url: "https://pan.quark.cn/s/cb144fa700dc"
-  description: "面向新手和资深 VTuber 的专业虚拟形象创作工具，支持 Hyper Avatars 与 VRM 文件。定制属于你的精美 3D Hyper Avatar——每个模型均由自家艺术家精心制作，全部预绑定骨骼，开箱即可开播……｜Hyper Online, Inc."
+  description: "面向新手与资深 VTuber 的专业虚拟形象创作工具，支持 Hyper Avatars 与 VRM 文件。创建专属 Hyper Avatar：为 VTubing 定制精美的 3D 形象，所有模型均由自家艺术家制作，全部预绑定骨骼、开箱即用，可从上百科素材中挑选。导入现有模型：已有 VRoid 3D 形象、.VRM 文件或绑定好的 VRChat 角色都能导入 Hyper Studio，在 Studio 里制作 TikTok、Twitch、Twitter 内容或与朋友分享。内置面部与手部动作捕捉：仅用摄像头即可开播，手部捕捉等更多能力持续更新。虚拟摄像头：把 Hyper Avatar 接入 Twitch、YouTube、Zoom 等任意支持摄像头输入的应用，兼容 OBS、StreamLabs，可用绿幕背景将形象叠加到直播、游戏或视频中；进入 Zoom、Discord、Google Meet、Microsoft Teams 会议也不在话下。内置上百种表情与姿势，让形象唱歌、跳舞、打斗。多模型、多角色、多套服装可在同一处统一管理。订阅 Hyper Pro 解锁完整工具。｜Hyper Online, Inc."
   date: 2024-03-28
   added: 2026-10-04
   image: app-077.jpg
@@ -851,7 +851,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Compress Videos: Handbrake"]
   quark_url: "https://pan.quark.cn/s/a5094f52799d"
-  description: "用智能视频压缩为 iPhone 腾出空间——照片和视频可能占掉 iPhone 高达 90% 的存储。空间告急时，是时候压缩视频、缩放超大文件而不牺牲画质了。Video Compressor Pro 功能强大又易于上手……｜Trang Nguyen Sy"
+  description: "用智能视频压缩为 iPhone 腾出空间：照片和视频可能占掉 iPhone 高达 90% 的存储，空间告急时，就该压缩视频、缩放超大文件而不牺牲画质了。Video Compressor Pro 是一款功能强大又易用的视频与文件压缩工具，借鉴 HandBrake 等工具的先进压缩技术，可将 300MB 的视频压到 30MB 并保持 Full HD 分辨率。支持几乎所有主流格式的压缩、转换与缩放，可用现成预设也可自定义分辨率、码率、压缩速度乃至目标文件大小；保存前能预览压缩后的体积，并提供高、普通、低三档画质。其他功能：把视频裁剪到任意长度；剪切后转换不额外损失画质；内置音频提取器，一键把视频转为 MP3；支持 MP4、MOV、AVI、MKV 等格式，压缩后可立即分享，为 iPhone 释放存储空间。｜Trang Nguyen Sy"
   date: 2021-02-16
   added: 2026-10-04
   image: app-082.jpg
@@ -902,7 +902,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "Bitwarden"]
   quark_url: "https://pan.quark.cn/s/a0e3d15b21b0"
-  description: "被 The Verge、U.S. News & World Report、CNET 等媒体评为最佳密码管理器。随时随地跨无限设备管理、存储、保护并共享无限量密码。Bitwarden 为每个人提供开源密码管理方案，无论在家、办公还是移动中；自动生成强密码……｜Bitwarden Inc"
+  description: "被 The Verge、U.S. News & World Report、CNET 等媒体评为最佳密码管理器。随时随地跨无限设备管理、存储、保护并共享无限量密码。Bitwarden 为每个人提供开源密码管理方案，无论在家、办公还是移动中。可按各网站的安全要求生成强随机唯一密码；Bitwarden Send 能把加密信息（文件或明文）快速直达任意收件人；Teams 与 Enterprise 方案便于企业内安全共享密码。世界级加密：密码以先进的端到端加密保护（AES-256、加盐哈希与 PBKDF2 SHA-256），数据始终安全私密。内置密码生成器；得益于全球社区，已支持 40 种语言并持续增加；跨平台应用覆盖任意浏览器、移动设备与桌面系统，敏感数据可在同一保险库内安全共享。｜Bitwarden Inc"
   date: 2018-02-28
   added: 2026-10-04
   image: app-087.jpg
@@ -943,7 +943,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "Cyberduck"]
   quark_url: "https://pan.quark.cn/s/c3920e5b5e64"
-  description: "Cyberduck 是一款支持 FTP、SFTP、WebDAV、Amazon S3、OpenStack Swift、Backblaze B2、Microsoft Azure 与 OneDrive、Google Drive 和 Dropbox 的文件浏览器，可向虚拟主机服务商传输文件，并连接 Rackspace Cloud Files、Google Storage 和 Amazon S3 等云存储账户……｜David Kocher"
+  description: "Cyberduck 是一款文件浏览器，支持 FTP、SFTP、WebDAV、Amazon S3、OpenStack Swift、Backblaze B2、Microsoft Azure 与 OneDrive、Google Drive 和 Dropbox，可向虚拟主机服务商传输文件，也能以同样顺手的界面和随手可取的标签连接 Rackspace Cloud Files、Google Storage、Amazon S3 等云存储账户。支持拖放下载、上传、移动与复制文件，树状视图便于高效浏览大型目录结构；传输管理轻松，可与本地目录双向同步。修改文件时能与任意外部编辑器无缝联动，快速改动内容。还可配置 Amazon CloudFront 与 Akamai CDN，从边缘节点向全球分发文件。｜David Kocher"
   date: 2011-03-01
   added: 2026-10-04
   image: app-091.jpg
@@ -954,7 +954,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "CotEditor"]
   quark_url: "https://pan.quark.cn/s/d67d7b90f4bf"
-  description: "CotEditor 是一款轻量级纯文本编辑器，适合源代码、笔记、Markdown、网页内容等多种场景。界面干净利落，让日常编辑简单舒适；需要进阶操作时，强大的工具随时待命。专为 Mac 打造，只属于 macOS……｜Mineko IMANISHI"
+  description: "CotEditor 是一款轻量级纯文本编辑器，适合源代码、笔记、Markdown、网页内容等多种场景。界面干净利落，让日常编辑简单舒适；需要进阶操作时，强大的工具随时待命。专为 Mac 打造：只面向 macOS，从一开始就遵循系统习惯，与深色模式、版本、iCloud、VoiceOver 无缝集成，设置窗口也放在 Mac 用户习惯的位置。快速、专注、能扛真活：启动迅速，界面简洁有条理；内置 70 多种语言的语法高亮与基于语法的大纲菜单，一眼看清文档结构；还提供强大的查找替换（支持正则）、多光标编辑、脚本支持，以及把细节调到顺手为止的灵活配置。对文本讲究：从文本编码、换行符到 Unicode 规范化与各类书写系统都细致处理——可显示不可见字符，在换行符混用或存在无法以所选编码保存的字符时给出警告，并提供字符检查器与放大字形预览。｜Mineko IMANISHI"
   date: 2015-10-10
   added: 2026-10-04
   image: app-092.jpg
@@ -965,7 +965,7 @@
   category: 软件
   tags: ["软件", "开发工具", "macOS", "Koder Code Editor"]
   quark_url: "https://pan.quark.cn/s/f4104ea610ec"
-  description: "「iPad 上的 Koder：极客们欢呼吧！你可以在 iPad 上写代码了」——GIZMODO / 当日精选应用。Koder 界面简洁而高效，专为触屏编辑设计，售价仅 5.99 美元，性价比出色。想用称手的 iPad 写代码，Koder 是不二之选……｜Reny Mustika"
+  description: "Koder 是 iPad 与 iPhone 上的代码编辑器，曾在 82 个国家被 App Store 列为「编辑精选」，被 GIZMODO 评为当日精选应用。媒体评价：「iPad 上的 Koder：极客们欢呼吧！你可以在 iPad 上写代码了」「界面简洁而高效，专为触屏编辑设计，售价仅 5.99 美元，性价比出色」「支持多种编程语言的成熟代码编辑器」。功能包括：80 多种语言的语法高亮（actionscript、ada、apache、applescript、awk、batch、c、cobol、coffeescript、cpp、csharp、css、elixir、fortran、haskell、html、java、javascript、jsp、latex、less、lisp、lua、markdown、matlab、mysql、objectivec、pascal、perl、php、plist、postscript、powershell、prolog、python、r、ruby、sass、scala、shell、sql、swift 风格脚本、tcltk、vb、verilog、vhdl、xml 等）；代码自动补全；代码片段管理；标签页编辑；查找与替换；多种编辑器主题；支持连接远程与本地文件。无论坐在桌前还是路上，都能随时随地写码。｜Reny Mustika"
   date: 2018-12-23
   added: 2026-10-04
   image: app-093.jpg
@@ -1008,7 +1008,7 @@
   category: 软件
   tags: ["软件", "体育", "macOS", "Brooklyn Nets"]
   quark_url: "https://pan.quark.cn/s/cb6a84e4391d"
-  description: "全新布鲁克林篮网应用重磅回归，为新老球迷而建！数秒内购票、管理并将球票加入电子钱包；实时比赛数据含详细逐回合播报与升级版球员资料；动态比赛视觉：焦点图块和脉冲指示器让你不错过任何精彩时刻……｜Brooklyn Nets"
+  description: "全新布鲁克林篮网官方应用重磅回归，为新老球迷而建！数秒内购票、管理并将球票加入电子钱包；实时比赛数据含详细逐回合播报与升级版球员资料；动态比赛视觉——焦点图块与脉冲指示器标出比赛正酣的时刻；简洁日历视图一眼浏览后续对阵；解锁 My Brooklyn Rewards 专属奖励，季票会员使用更便捷；个性化内容卡片、定向促销与及时的推送提醒让你随时掌握动态；加载更快、更稳定，数据分析更丰富。无论坐在场边还是路上刷比分，官方应用都能让你紧跟每一次扣篮、三分与压哨绝杀。｜Brooklyn Nets"
   date: 2012-10-31
   added: 2026-10-04
   image: app-097.jpg
@@ -1019,7 +1019,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "Corkulous - Your Ideas"]
   quark_url: "https://pan.quark.cn/s/eb65df485aa0"
-  description: "Corkulous（Mac 与 iOS 版）是以自然的方式收集、组织和分享创意的绝妙工具，Mac、iPhone 或 iPad 用户都值得拥有！Corkulous 是一款多用途看板应用，可在看板上放置便签、标签、照片、联系人、形状、连线等，随意布局……｜Corked Labs, LLC"
+  description: "Corkulous（Mac 与 iOS 版）是以自然方式收集、组织和分享创意的绝妙工具，Mac、iPhone 或 iPad 用户都值得拥有！它是一款多用途看板应用：可在看板上放置便签、标签、照片、联系人、形状、连线、PDF、链接预览与任务，还有强大的手绘工具，能用手势快速画出形状和线条。创意可以集中在一块看板上，也能分散到多块看板甚至嵌套的子看板，每块看板都有充足空间与分辨率。可用作软木板、流程图、创意墙、相册、提醒板、思维导图、目标管理、规划表、愿景板、待办清单、备考工具、课程规划等。功能：支持 PDF、视频、链接预览、Emoji、连线、便签、标签、照片、联系人、任务、索引卡、箭头文字与 40 多种形状；手绘工具支持形状与线条手势；可导出分享 PDF、PNG、文本与 Corkulous 文件；通过 iCloud 与 Dropbox 同步看板并可与其他用户共享；强大的搜索能力；完善的拖放支持；深色与浅色模式；iOS/Mac 多窗口；Markdown 文本格式；多档看板分辨率；自由平移与缩放；可把看板存为模板复用；支持嵌套看板；生物识别锁定内容；Mac 上支持触控栏与菜单快捷操作；iOS/Mac 均支持键盘快捷键。｜Corked Labs, LLC"
   date: 2017-02-14
   added: 2026-10-04
   image: app-098.jpg
@@ -1030,7 +1030,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Hidden Bar"]
   quark_url: "https://pan.quark.cn/s/66c23a8c264c"
-  description: "Hidden 让你隐藏菜单栏图标，还 Mac 一个清爽的菜单栏。功能：登录自启、5/10/15/30/60 秒后自动隐藏、全局快捷键显示/隐藏、完整菜单栏模式、支持 RTL 语言。如需更多信息或功能建议，欢迎联系：macos@……｜Dwarves Foundation"
+  description: "Hidden 让你隐藏菜单栏图标，还 Mac 一个清爽的菜单栏。功能：登录时自动启动；5、10、15、30 或 60 秒后自动隐藏；用全局快捷键显示或隐藏；展开时占用完整菜单栏的模式（对 MacBook Air、13 英寸 MacBook Pro 等小屏用户尤其实用）；支持阿拉伯语等 RTL 语言。新版还优化了「始终隐藏」功能——不再需要重启应用，并附上使用教程；图标也更新为与最新 macOS 更协调的样式。如需更多信息或希望增加功能，欢迎联系 macos@d.foundation。｜Dwarves Foundation"
   date: 2019-02-19
   added: 2026-10-04
   image: app-099.jpg
@@ -1041,7 +1041,7 @@
   category: 软件
   tags: ["软件", "摄影与视频", "macOS", "Gifski"]
   quark_url: "https://pan.quark.cn/s/5ea39d83b886"
-  description: "把视频转换成高品质 GIF。Gifski 可将视频转成每帧数千色的动画 GIF，这得益于高效的跨帧调色板和时间抖动等精妙技术。注意：Gifski 是转换器而非 GIF 创作工具，不支持从零绘制……｜Sindre Sorhus"
+  description: "把视频转换成高品质 GIF。Gifski 可将视频转成每帧数千色的动画 GIF，这得益于高效的跨帧调色板与时间抖动等精妙技术。请注意：Gifski 是转换器而非 GIF 创作工具，不会支持往 GIF 里添加文字或元素，这类需求更适合用剪辑软件完成。功能：视频裁剪与裁切；精确控制尺寸；控制循环与「溜溜球」往返播放；调节速度与循环延迟；转换前预览 GIF；复制、分享或直接拖出 GIF；提供分享扩展与系统服务；可选生成体积更小的低画质版本；自动保存到「下载」文件夹；最高生成 50fps 的 GIF；也可导出修改后的视频而不转成 GIF；支持「快捷指令」。转换方式：把视频拖到窗口或 Dock 图标；点击「打开」按钮选择视频；或在 Finder 中右键视频，用「打开方式」选择本应用。支持 macOS 支持的所有视频格式（H.264、HEVC、ProRes 等 .mp4/.mov），不支持 QuickTime Animation，建议改用 ProRes 4444 XQ。｜Sindre Sorhus"
   date: 2018-02-23
   added: 2026-10-04
   image: app-100.jpg
@@ -1073,7 +1073,7 @@
   category: 软件
   tags: ["软件", "开发工具", "macOS", "Free Ruler"]
   quark_url: "https://pan.quark.cn/s/f12c1dab66ae"
-  description: "功能：横竖标尺，颜色任选；支持像素、毫米、英寸单位（按 U 切换）；标尺悬浮于其他应用之上（按 F 切换）；窗口可独立或成组移动（按 G 切换）；显示/隐藏标尺阴影（按 S）……｜Pascal Balthrop"
+  description: "Free Ruler 在屏幕上提供横竖标尺：颜色随意选，单位可在像素、毫米、英寸之间循环切换（按 U），标尺可悬浮在其他应用之上（按 F），窗口可独立移动或成组移动（按 G），可显示或隐藏标尺阴影（按 S），可把标尺原点对齐到鼠标位置（按 O），按 Command-R 重置标尺位置。新版改进了成组标尺的体验：可将成组标尺合并为单一窗口，并能在不成组的情况下单独隐藏或显示横向、纵向标尺臂。｜Pascal Balthrop"
   date: 2019-10-13
   added: 2026-10-04
   image: app-103.jpg
@@ -1084,7 +1084,7 @@
   category: 软件
   tags: ["软件", "开发工具", "macOS", "Flycut (Clipboard manager)"]
   quark_url: "https://pan.quark.cn/s/14cfa8b2edb5"
-  description: "Flycut 是一款简洁的面向开发者的剪贴板管理器，基于开源应用 Jumpcut 打造，本身同样开源：http://github.com/TermiT/flycut。每次复制代码片段，Flycut 都会存入历史；之后即使中途又复制了别的，也能用 Shift-Command-V 依次粘贴……｜General Arcade (Pte. Ltd.)"
+  description: "Flycut 是一款简洁的面向开发者的剪贴板管理器，基于开源应用 Jumpcut 打造，自身同样开源（github.com/TermiT/flycut）。每次复制代码片段，Flycut 都会存入历史；之后即使当前剪贴板里是别的内容，也能用 Shift-Command-V 调出历史依次粘贴，热键与其他设置可在偏好中调整。由开发者、为开发者而做。｜General Arcade (Pte. Ltd.)"
   date: 2011-06-08
   added: 2026-10-04
   image: app-104.jpg
@@ -1095,7 +1095,7 @@
   category: 软件
   tags: ["软件", "娱乐", "macOS", "Cronica"]
   quark_url: "https://pan.quark.cn/s/64d66e849dcb"
-  description: "Cronica——一款精致的极简影视观剧清单应用。记录看过的片、不丢进度、随时准备下一部——覆盖 iPhone、iPad、Mac、Apple Watch、Apple TV 和 Apple Vision Pro。无论刷剧狂魔还是休闲观众，Cronica 都能打理好你的片库……｜Egger & Co"
+  description: "Cronica 是一款精致的极简影视观剧清单应用，覆盖 iPhone、iPad、Mac、Apple Watch、Apple TV 与 Apple Vision Pro：记录看过的片、不丢进度、随时准备下一部，无论你是刷剧狂魔还是休闲观众，都能把片库打理得井井有条。功能：看下一集——首页直达待看剧集，不必翻找上次看到哪；随手把电影与剧集标记为已看，进度与清单同步；当清单中的影片上映或有新剧集上线时收到提醒；片单、评分、笔记与偏好在设备间通过 iCloud 私密同步；支持 Siri 与「快捷指令」（最多 10 个 App 快捷指令），可语音添加片目、标记已看、查看待看、打开搜索；提供主屏幕小组件与控制中心组件；可从 IMDb、Letterboxd、TMDb、JustWatch 等通过分享表单或快捷指令添加片目，并分享能在应用或网页中打开的 cronica.watch 链接；可看预告片，浏览演员、季集与详情；基于 TMDb 的 JustWatch 数据查看各平台上线情况并按常用服务筛选；支持自定义列表、筛选排序、主题配色与首页定制；还可选择连接 SIMKL 或 TMDb 账号同步片库。｜Egger & Co"
   date: 2022-05-05
   added: 2026-10-04
   image: app-105.jpg
@@ -1106,7 +1106,7 @@
   category: 软件
   tags: ["软件", "摄影与视频", "macOS", "Control Room Clock"]
   quark_url: "https://pan.quark.cn/s/3469f157756e"
-  description: "Control Room Clock 是专为广播工程师、制作人员和媒体专业人士打造的精密计时工具，追求准确与清晰。主要功能：常亮显示——悬浮时钟跨应用与空间置顶可见；点击穿透模式……｜Andrew Logan"
+  description: "Control Room Clock 是专为广播工程师、制作人员与媒体专业人士打造的精密计时工具，追求准确与清晰。主要功能：常亮显示——悬浮时钟覆盖在所有应用与空间之上；点击穿透模式——锁定时钟位置，可在其下方正常工作；时间偏移——加减秒数以对齐演播室设备或不同时区；可自定义显示——尺寸、颜色、透明度与字体都能匹配你的控制室布置；12/24 小时制切换，可显示秒；七段数码字体，专业数字显示风格，可读性极佳；极简干净，没有多余干扰，需要时时间就在眼前。适用于广播控制室、电台与电视台演播室、直播现场、流媒体与录音棚，以及任何需要精确时间同步的工作环境。｜Andrew Logan"
   date: 2025-11-26
   added: 2026-10-04
   image: app-106.jpg
@@ -1137,7 +1137,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Blurred"]
   quark_url: "https://pan.quark.cn/s/436c6cdbebc5"
-  description: "一款轻量 macOS 应用，通过调暗非活动窗口来减少干扰。功能：变暗模式——单屏：聚焦主屏最前窗口；并行：聚焦所有屏幕的最前窗口；登录自启；可通过自定义全局快捷键启用/禁用……｜Dwarves Foundation"
+  description: "这是一款 macOS 实用工具，通过调暗非活动窗口来减少干扰、帮助你集中注意力。功能：变暗模式——单屏：只聚焦主屏最前方的窗口；并行：同时聚焦所有屏幕最前方的窗口；登录时自动启动；可用自定义全局快捷键启用或禁用。新版还支持在菜单栏图标上滚动快速调整模糊程度，并新增中文界面。如需更多信息或功能建议，欢迎联系 macos@d.foundation。｜Dwarves Foundation"
   date: 2020-02-20
   added: 2026-10-04
   image: app-109.jpg
@@ -1158,7 +1158,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Auto Mute :Screen Lock & Sleep"]
   quark_url: "https://pan.quark.cn/s/541c25b43c64"
-  description: "受够了你离开时别人偷按播放/暂停键，打探你在看什么听什么？**AutoMute 自动解决问题**：锁屏或休眠的瞬间静音 Mac，回来解锁后自动恢复音量……｜khalid altariqi"
+  description: "受够了你离开时别人在 Mac 上偷按播放或暂停键，打探你在看什么、听什么？AutoMute 自动解决问题：锁屏或 Mac 休眠的瞬间静音，回来解锁后音频恢复到你离开前的状态——不用多余操作、不用提醒、不打断任何事。锁上 Mac，剩下的交给它。新版新增「断开耳机自动静音」：任何耳机、耳塞、蓝牙音频设备或外接音频设备断开时，自动静音内置扬声器，避免声音突然外放。｜khalid altariqi"
   date: 2026-08-19
   added: 2026-10-04
   image: app-111.jpg
@@ -1169,7 +1169,7 @@
   category: 软件
   tags: ["软件", "音乐", "macOS", "Background Music: DJ Radios"]
   quark_url: "https://pan.quark.cn/s/46950ed71d32"
-  description: "面向商业场所的专业背景音乐：DJ Radios 提供 DJ 精选的未发行音乐，专为咖啡馆、餐厅、零售店等商业场所设计。曲目不受表演版权组织（PRO）管理，是合法的替代或补充方案……｜SAS Corvaisier"
+  description: "面向商业场所的专业背景音乐：DJ Radios 提供 DJ 精选的未发行音乐，专为咖啡馆、餐厅、零售店等商业场所打造。曲目不受表演版权组织（PRO）管理，可作为传统音乐授权的合法替代或补充。为什么选 DJ Radios：只放未发行音乐——所有内容由独立 DJ、制作人、艺人与厂牌直接提供并授权商业播放；PRO 合规更简单——可生成记录订阅周期的官方证明，向检查人员出示，覆盖 ASCAP、BMI、SESAC（美国）、PRS for Music（英国）、SOCAN（加拿大）、APRA AMCOS（澳新）等全球主要组织，一键证明你的音乐不在 PRO 曲库内；一份订阅在 iPhone、iPad、Mac 与 Apple TV 通用；全天候不间断直播 DJ Set，为公共空间量身打造，不重复、不中断。免费档提供 1 小时试用与全品质收听；周订阅含 7 天免费试用，可随时取消；年订阅比周订阅省 50% 以上；另可一次性购买终身访问，终身会员支持离线下载。｜SAS Corvaisier"
   date: 2025-11-24
   added: 2026-10-04
   image: app-112.jpg
@@ -1180,7 +1180,7 @@
   category: 软件
   tags: ["软件", "音乐", "macOS", "Aural Wiz"]
   quark_url: "https://pan.quark.cn/s/258ef88041dc"
-  description: "用 Aural Wiz 学习辨识音程、音阶、调式、和弦与终止式。无论你是为正式音乐训练中的听音考试备考的学生，还是想提升听力的乐手，它都是不可或缺的伙伴……｜Bijoy Thangaraj"
+  description: "用 Aural Wiz 学习辨识音程、音阶、调式、和弦与终止式。无论你是为正式音乐训练中的听音考试备考的学生，还是想提升听力的乐手，它都是不可或缺的伙伴。提供学习与练习两种模式：学习模式可播放音程、音阶、调式、和弦或终止式，帮助你理解它们的听感；练习模式会播放一段旋律或和声，由你来识别它究竟是什么——实践证明这是提升听力的有效方式。不妨把它加入每日练耳例程。｜Bijoy Thangaraj"
   date: 2017-03-22
   added: 2026-10-04
   image: app-113.jpg
@@ -1191,7 +1191,7 @@
   category: 软件
   tags: ["软件", "医疗", "macOS", "ArMed eHealth"]
   quark_url: "https://pan.quark.cn/s/a610f3c3f8c3"
-  description: "Armed eHealth 应用与亚美尼亚国家集中电子健康系统对接，旨在便利患者使用医疗服务。当前版本可：查看你的注册家庭医生、为注册医生预约门诊……｜SYLEX SA"
+  description: "ArMed eHealth 应用与亚美尼亚国家集中电子健康系统对接，旨在方便患者使用医疗服务。当前版本支持：查看你的注册家庭医生；一键为注册医生预约门诊；接收通知；身份认证后查看就诊记录；查看付费就诊、卡片绑定与支付；管理医疗数据访问权限；查看关联人员；查看个人资料。后续版本将支持公民查看护理计划、医疗文档、化验与影像结果，以及处方续药（电子处方）等服务。｜SYLEX SA"
   date: 2020-05-11
   added: 2026-10-04
   image: app-114.jpg
@@ -1223,7 +1223,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "AltTab Switcher"]
   quark_url: "https://pan.quark.cn/s/bca9d78027ff"
-  description: "AltTab 窗口切换器——把 Windows 上熟悉而强大的 Alt + Tab 窗口切换体验带到 macOS。轻轻一按，即可在打开的应用与窗口间瞬时切换，让 Mac 上的多任务处理更快更爽……｜方成 印"
+  description: "把 Windows 上熟悉而强大的 Alt + Tab 窗口切换体验带到 macOS：轻轻一按，即可在打开的应用与窗口之间瞬时切换，让 Mac 上的多任务处理更快、更顺、更直觉。无论你是刚从 Windows 迁移过来、工作中同时开着一堆应用，还是只想更高效地操作桌面，它都能帮你保持专注与效率。除键盘切换外，还提供带实时缩略图的窗口总览，一眼就能认出目标窗口；也可以用鼠标直接点击缩略图跳转，比键盘更快一步。功能：熟悉的 Alt-Tab 切换体验；快捷键可自定义（含 Control + Tab、Option + Tab）；窗口缩略图预览；点击缩略图直接切换窗口；快速高效；与 macOS 无缝融合。｜方成 印"
   date: 2024-09-14
   added: 2026-10-04
   image: app-117.jpg
@@ -1234,7 +1234,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Aerial Landscapes Wallpaper"]
   quark_url: "https://pan.quark.cn/s/f171ae2a4367"
-  description: "Aerial Landscapes 把 Mac 桌面变成通往世界的窗口，播放来自各大洲标志性地点的震撼航拍画面。每次坐到 Mac 前，都有新的风景成为你的壁纸——从巴塔哥尼亚之巅到亚得里亚海海岸……｜Philip Loury"
+  description: "Aerial Landscapes 把 Mac 桌面变成通往世界的窗口，播放来自各大洲标志性地点的震撼航拍画面。每次坐到 Mac 前，都有新的风景成为你的壁纸——从巴塔哥尼亚之巅到亚得里亚海海岸。应用安静地驻留菜单栏：没有 Dock 图标、没有窗口要管理，只有美景在其他一切之下播放；点击菜单栏图标可查看正在播放的内容、跳到下一段，或在需要专注时暂停。功能：数十段来自北美、欧洲等地的航拍素材；片段之间平滑交叉淡入淡出；全局快捷键（⌃⌥→ / ⌃⌥← / ⌃⌥空格）在任意应用中切换或暂停；多显示器支持，视频在所有已连接的屏幕上播放；直接从云端串流，不占用 Mac 存储；纯菜单栏运行，完全不打扰。｜Philip Loury"
   date: 2026-06-23
   added: 2026-10-04
   image: app-118.jpg
