@@ -234,7 +234,6 @@ data/                # 一个分类一个 YAML，构建时自动合并
 static/
   favicon.svg        # 站点图标，构建时生成 favicon.ico / apple-touch-icon.png
   images/            # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
-  其它根级文件        # 原样复制到站点根目录，如 baidu_verify_*.html（搜索引擎验证文件）
 theme/assets/        # 前端样式与脚本，构建时拷到 public/assets/
 scripts/             # 构建与预览
 tools/

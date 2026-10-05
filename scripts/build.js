@@ -11,7 +11,7 @@ import {
   syncHeaderCounts,
   clipDesc,
 } from './lib/data.js';
-import { prepareImages, writeQr, writeFavicon, copyThemeAssets, copyStaticRoot } from './lib/assets.js';
+import { prepareImages, writeQr, writeFavicon, copyThemeAssets } from './lib/assets.js';
 import {
   listPage,
   detailPage,
@@ -153,8 +153,6 @@ write(
 );
 write(path.join(outDir, 'sitemap.xml'), sitemapXml(baseUrl, items, categories));
 copyThemeAssets(themeDir, outDir);
-const rootFiles = copyStaticRoot(staticDir, outDir);
-if (rootFiles.length) console.log(`  · 根目录静态文件：${rootFiles.join('、')}`);
 
 console.log(
   `\n完成：${total} 个资源 · ${categories.length} 个分类 · ${((Date.now() - t0) / 1000).toFixed(1)}s\n输出目录：public/`
