@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | 线上 | https://www.wodewangpan.top |
-| 仓库 | `git@github.com:linuxhobby/ShareResource.git` |
+| 仓库 | `git@github.com:linuxhobby/wodewangpan.git` |
 | 内容 | 406 个资源 · 7 个分类（电影 244 / 电视剧 72 / 纪录片 77 / 动漫 1 / 游戏 2 / 软件 9 / 其他 1） |
 | 更新方式 | 推到 `main`，VPS 每 30 分钟自动拉取并重建 |
 
@@ -48,7 +48,7 @@ node -v   # 需 ≥ 18
 **2）取代码、装依赖**
 
 ```bash
-sudo git clone https://github.com/linuxhobby/ShareResource.git /opt/ShareResource
+sudo git clone https://github.com/linuxhobby/wodewangpan.git /opt/ShareResource
 cd /opt/ShareResource && sudo npm ci
 ```
 
