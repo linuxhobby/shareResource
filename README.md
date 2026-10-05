@@ -223,6 +223,24 @@ tail -3 /var/log/submit-indexnow.log    # 共 559 条：成功 559，失败 0
 0 3 * * * /usr/local/bin/submit-indexnow >> /var/log/submit-indexnow.log 2>&1
 ```
 
+方式 2 的 API 推送同样可以脚本化（脚本见 `deploy/submit-baidu.sh`）：
+
+```bash
+# 1) 百度站长平台完成站点验证后，从「普通收录 → API 提交」拿到 token
+echo '你的token' | sudo tee /opt/seo/baidu_token && sudo chmod 600 /opt/seo/baidu_token
+
+# 2) 安装脚本并立即推一次
+sudo install -m755 deploy/submit-baidu.sh /usr/local/bin/submit-baidu
+sudo sed -i 's#www.wodewangpan.top#你的域名#g' /usr/local/bin/submit-baidu
+sudo /usr/local/bin/submit-baidu
+tail -3 /var/log/submit-baidu.log
+
+# 3) 每天自动推（root crontab）
+10 3 * * * /usr/local/bin/submit-baidu
+```
+
+> 百度按站点发放每日配额（新站通常只有几十条/天）。脚本会先探测当天剩余配额再分批推送，推不完的次日自动续上，已推送过的 URL 记录在 `/var/lib/baidu-submitted.txt` 不会重复提交。配额随站点抓取量提升，建议同时在站长平台手动提交一次 sitemap 作为兜底。
+
 实测：559 个 URL 分 12 批提交，全部返回 200/202。
 
 ## 目录结构
