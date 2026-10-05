@@ -302,7 +302,7 @@ ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
   return layout({
     site,
     assetVersion: ctx.assetVersion,
-    title: activeCat || `${homeTitle}（${total} 部）`,
+    title: activeCat || `${homeTitle}（${total} 项）`,
     description: activeCat
       ? `${activeCat}资源合集，共 ${items.length} 个，夸克网盘链接，扫码即存`
       : homeDesc,
