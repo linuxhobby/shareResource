@@ -254,7 +254,7 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
   quark_url: https://pan.quark.cn/s/xxxx    # 各网盘链接，至少填一个
   baidu_url: https://pan.baidu.com/s/xxxx
   baidu_code: sf2k          # 提取码
-  description: 4K 国语中字   # 可选，详情页正文；卡片摘要与 meta 由构建自动截取
+  description: 4K 国语中字   # 可选，详情页正文，上限 1000 字（超出构建时自动截断）
   date: 2013-01-30          # 可选，上映 / 发行日期
   added: 2026-09-21         # 可选，加入时间，决定排序（不填则排最前）
   image: mv-010.jpg         # 可选，默认取 static/images/<id>.<ext>

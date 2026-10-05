@@ -13,6 +13,17 @@ const NETDISK_PRESETS = [
   { key: 'mobile_url', code: 'mobile_code', kind: 'mobile', name: '移动云盘' },
 ];
 
+/** 详情页简介字数上限（按 Unicode 字符计，中文一字一符）；超出才截断，保证页面不被超长文本撑爆 */
+const MAX_DESC = 1000;
+
+/** 按字符数截断（不会切断代理对 / emoji），超长补省略号 */
+export function clipDesc(text, max = MAX_DESC) {
+  const s = String(text || '').replace(/\s+/g, ' ').trim();
+  if (s === '' || max <= 0) return s;
+  const chars = [...s];
+  return chars.length <= max ? s : chars.slice(0, max).join('') + '…';
+}
+
 export function hashId(input) {
   let h = 2166136261;
   for (let i = 0; i < input.length; i++) {
@@ -170,7 +181,7 @@ export function normalizeResources(rawList) {
       title,
       category: String(raw.category || '未分类').trim(),
       tags: toTags(raw.tags),
-      description: String(raw.description || raw.desc || '').trim(),
+      description: clipDesc(raw.description || raw.desc || ''),
       image: raw.image ? String(raw.image) : '',
       date,
       added,
