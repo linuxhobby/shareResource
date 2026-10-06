@@ -22,7 +22,8 @@ const esc = (s) =>
 
 const W = 480;
 const H = 720;
-const ICON = 300;
+// 图标边长（源图小时调小，避免放大糊）
+const ICON = Math.max(80, Number(arg('icon-size', '300')) || 300);
 const FONT = 'PingFang SC,Helvetica Neue,Arial,sans-serif';
 
 const icon = arg('icon');
