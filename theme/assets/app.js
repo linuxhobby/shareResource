@@ -3,6 +3,9 @@
 
   var dataEl = document.getElementById('list-data');
   var items = dataEl ? JSON.parse(dataEl.textContent) : [];
+  // 列表总条数与分类：HTML 只内联了前两屏，其余从 search-index.json 补齐
+  var TOTAL = parseInt(dataEl && dataEl.getAttribute('data-total'), 10) || items.length;
+  var CAT = (dataEl && dataEl.getAttribute('data-category')) || '';
   var listEl = document.getElementById('list');
   var moreEl = document.getElementById('more');
   var input = document.getElementById('q');
@@ -49,13 +52,30 @@
     '</a></li>';
   }
 
-  function renderMore() {
-    shown = Math.min(shown + PAGE, items.length);
+  /** 把 items 补齐到全站/本分类全集（数据来自异步加载的 search-index.json） */
+  function refill() {
+    if (!globalIndex) return;
+    items = CAT ? globalIndex.filter(function (it) { return it.category === CAT; }) : globalIndex;
+  }
+
+  function paint() {
     listEl.innerHTML = items.slice(0, shown).map(function (it, i) { return cardHtml(it, i < NEWEST); }).join('');
     if (moreEl) {
-      moreEl.hidden = shown >= items.length;
-      moreEl.textContent = '加载更多（剩余 ' + (items.length - shown) + '）';
+      moreEl.hidden = shown >= TOTAL;
+      moreEl.textContent = '加载更多（剩余 ' + (TOTAL - shown) + '）';
     }
+  }
+
+  function renderMore() {
+    shown = Math.min(shown + PAGE, Math.max(items.length, TOTAL));
+    // 数据不够时先异步取全站索引，取到后再渲染
+    if (shown > items.length && !globalIndex) {
+      moreEl.textContent = '加载中…';
+      loadGlobalIndex(function () { refill(); paint(); });
+      return;
+    }
+    if (items.length < TOTAL) refill();
+    paint();
   }
 
   /**
@@ -106,7 +126,7 @@
       resultsEl.hidden = true;
       resultsEl.innerHTML = '';
       listEl.hidden = false;
-      if (moreEl) moreEl.hidden = shown >= items.length;
+      if (moreEl) moreEl.hidden = shown >= TOTAL;
       return;
     }
     listEl.hidden = true;
@@ -135,6 +155,9 @@
   }
 
   if (moreEl) moreEl.addEventListener('click', renderMore);
+
+  // 空闲时预取全站索引，让「加载更多」和搜索无需等待网络
+  window.addEventListener('load', function () { setTimeout(loadGlobalIndex, 1000); });
 
   if (input) {
     input.addEventListener('input', function () {
