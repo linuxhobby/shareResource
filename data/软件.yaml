@@ -100,6 +100,7 @@
   description: "OpenShot for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-010.jpg
 
 
 - id: app-011
@@ -110,6 +111,7 @@
   description: "Zettlr for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-011.jpg
 
 
 - id: app-012
@@ -120,6 +122,7 @@
   description: "Zed for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-012.jpg
 
 
 - id: app-013
@@ -141,6 +144,7 @@
   description: "ueli 是一款跨平台按键启动器：按下自定义热键唤出搜索框，即可启动应用、打开文件、执行网页搜索与命令，还能自定义工作流与扩展，支持 macOS（开源免费，主页 https://ueli.app）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-014.jpg
 
 
 - id: app-015
@@ -151,6 +155,7 @@
   description: "由 @wez 用 Rust 编写的 GPU 加速跨平台终端模拟器与多路复用器，支持 macOS，分屏、标签页与配置一应俱全（开源免费，主页 https://wezterm.org/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-015.jpg
 
 
 - id: app-016
@@ -183,6 +188,7 @@
   description: "一款开源的 macOS 小型 Wi-Fi 分析工具（开源免费，主页 https://nolze.github.io/tiny-wifi-analyzer/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-018.jpg
 
 
 - id: app-019
@@ -193,6 +199,7 @@
   description: "Pritunl 是面向企业的 VPN 服务器管理客户端，可在 macOS 上集中配置与监控 VPN 服务、用户与权限（开源免费，主页 https://forum.pritunl.com）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-019.jpg
 
 
 - id: app-020
@@ -214,6 +221,7 @@
   description: "为 Final Cut Pro 打造的前卫 Marker（标记）提取工具，运行在 macOS 上，可导出并整理标记数据（开源免费，主页 https://markerdata.theacharya.co）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-021.jpg
 
 
 - id: app-022
@@ -224,6 +232,7 @@
   description: "一款免费、开放源代码且采用 fair-code 许可的 Mac 应用卸载清理工具（开源免费，主页 https://itsalin.com/appInfo/?id=pearcleaner）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-022.jpg
 
 
 - id: app-023
@@ -234,6 +243,7 @@
   description: "基于 Leaflet.js 和 Electron 的极简图片查看器，支持 macOS，轻量看图无负担（开源免费，主页 https://github.com/sprout2000/leafview）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-023.jpg
 
 
 - id: app-024
@@ -244,6 +254,7 @@
   description: "macOS 复古电子游戏模拟器合集（开源免费，主页 https://openemu.org）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-024.jpg
 
 
 - id: app-025
@@ -331,6 +342,7 @@
   description: "在 macOS 上反转物理滚轮的滚动方向，同时保留触控板的「自然」滚动（开源免费，主页 https://github.com/ther0n/UnnaturalScrollWheels）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-032.jpg
 
 
 - id: app-033
@@ -374,6 +386,7 @@
   description: "基于 Leaflet.js 和 Tauri 的极简图片查看器，支持 macOS，启动快、占用低（开源免费，主页 https://github.com/sprout2000/tauview）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-036.jpg
 
 
 - id: app-037
@@ -405,6 +418,7 @@
   description: "关闭窗口时自动退出 macOS 应用（开源免费，主页 https://github.com/onebadidea/swiftquit）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-039.jpg
 
 
 - id: app-040
@@ -437,6 +451,7 @@
   description: "为 macOS 的 Command-Q 添加全局延迟，防止误退应用（开源免费，主页 https://github.com/dteoh/SlowQuitApps）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-042.jpg
 
 
 - id: app-043
@@ -469,6 +484,7 @@
   description: "Mac 鼠标与触控板实用工具（开源免费，主页 https://linearmouse.app）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-045.jpg
 
 
 - id: app-046
@@ -479,6 +495,7 @@
   description: "macOS 开源 Markdown 编辑器（开源免费，主页 https://macdown.uranusjr.com/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-046.jpg
 
 
 - id: app-047
@@ -489,6 +506,7 @@
   description: "Script Manager 源码版：一个简单的应用，用于创建、导入、编辑并轻松执行任何格式规范的 shell 脚本，支持 macOS（开源免费，主页 https://github.com/SmartPack/ScriptManager）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-047.jpg
 
 
 - id: app-048
@@ -554,6 +572,7 @@
   description: "面向阅读爱好者的完整开源「稍后读」解决方案，支持 macOS，可离线归档文章并做高亮与标注（开源免费，主页 https://github.com/omnivore-app/omnivore）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-053.jpg
 
 
 - id: app-054
@@ -564,6 +583,7 @@
   description: "就像 Mac 上的「文本编辑」，但专为 Markdown 而生（开源免费，主页 http://tiny.cc/markedit）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-054.jpg
 
 
 - id: app-055
@@ -574,6 +594,7 @@
   description: "轻松符号化（Symbolicate）macOS/iOS 崩溃报告（开源免费，主页 https://github.com/inket/MacSymbolicator）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-055.jpg
 
 
 - id: app-056
@@ -595,6 +616,7 @@
   description: "备份并同步你的应用设置（开源免费，主页 https://github.com/lra/mackup）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-057.jpg
 
 
 - id: app-058
@@ -616,6 +638,7 @@
   description: "macOS 缺失的键盘快捷键实用工具（开源免费，主页 https://github.com/zenangst/KeyboardCowboy）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-059.jpg
 
 
 - id: app-060
@@ -637,6 +660,7 @@
   description: "在 macOS 菜单栏一键启动 iOS 和 Android 模拟器的工具（开源免费，主页 https://www.minisim.app/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-061.jpg
 
 
 - id: app-062
@@ -647,6 +671,7 @@
   description: "Karabiner-Elements 是一款强大的 macOS 键盘自定义工具（开源免费，主页 https://karabiner-elements.pqrs.org/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-062.jpg
 
 
 - id: app-063
@@ -679,6 +704,7 @@
   description: "MacBox 是 86Box 的 macOS 图形界面封装：用它管理虚拟机配置、启动参数与磁盘镜像，无需再敲命令行（开源免费，主页 https://github.com/Moonif/MacBox）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-065.jpg
 
 
 - id: app-066
@@ -689,6 +715,7 @@
   description: "Mac Mouse Fix——让你 10 美元的鼠标比苹果触控板还好用！（开源免费，主页 https://macmousefix.com/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-066.jpg
 
 
 - id: app-067
@@ -699,6 +726,7 @@
   description: "KeePassXC 是 Windows 应用「KeePass Password Safe」的跨平台社区移植版，支持 macOS，可在 Mac 上统一管理密码库（开源免费，主页 https://keepassxc.org/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-067.jpg
 
 
 - id: app-068
@@ -709,6 +737,7 @@
   description: "Itsycal 是一款小巧的 Mac 菜单栏日历。官网：http://www.mowglii.com/itsycal（开源免费，主页 https://github.com/sfsam/Itsycal）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-068.jpg
 
 
 - id: app-069
@@ -730,6 +759,7 @@
   description: "基于 Web 技术构建的开源屏幕录制工具，支持 macOS，录制、编辑与分享一步到位（开源免费，主页 https://getkap.co）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-070.jpg
 
 
 - id: app-071
@@ -740,6 +770,7 @@
   description: "Jan 是 ChatGPT 的开源替代品，可 100% 离线运行在你的电脑上，支持 macOS，本地模型随时可用（开源免费，主页 https://jan.ai/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-071.jpg
 
 
 - id: app-072
@@ -750,6 +781,7 @@
   description: "开源的按键可视化工具，支持 macOS，录屏、教学与直播时展示按键操作（开源免费，主页 https://github.com/keycastr/keycastr）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-072.jpg
 
 
 - id: app-073
@@ -782,6 +814,7 @@
   description: "IINA 是 macOS 上的现代视频播放器：基于 mpv 打造，界面原生、几乎通吃所有格式，支持画中画、在线字幕与触控栏操作，体验贴合 macOS（开源免费，主页 https://iina.io）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-075.jpg
 
 
 - id: app-076
@@ -792,6 +825,7 @@
   description: "HostsX 是一款 hosts 文件管理工具，可在 macOS 上快速切换与编辑 hosts 配置，方便本地调试与开发环境切换（开源免费，主页 https://github.com/jiannaiwei/HostsX）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-076.jpg
 
 
 - id: app-077
@@ -813,6 +847,7 @@
   description: "🚀 ice.js 是基于 React 的渐进式应用框架，配套桌面工具支持 macOS，可用于快速搭建与调试前端应用（开源免费，主页 https://ice.work）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-078.jpg
 
 
 - id: app-079
@@ -823,6 +858,7 @@
   description: "开源 API 开发生态 • 离线、本地部署与云端皆可 • Web、桌面与 CLI 全覆盖 • Postman、Insomnia 的开源替代品，支持 macOS（开源免费，主页 https://hoppscotch.io）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-079.jpg
 
 
 - id: app-080
@@ -875,6 +911,7 @@
   description: "用 Lua 实现强大到惊人的 macOS 桌面自动化（开源免费，主页 http://www.hammerspoon.org）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-084.jpg
 
 
 - id: app-085
@@ -885,6 +922,7 @@
   description: "功能强大又简单易用的截图软件，支持 macOS，截图后可立即标注、模糊与分享（开源免费，主页 https://flameshot.org）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-085.jpg
 
 
 - id: app-086
@@ -895,6 +933,7 @@
   description: "隐私优先、用 Rust 编写的跨平台文本扩展器，支持 macOS，输入缩写即可展开常用文本与模板（开源免费，主页 https://espanso.org）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-086.jpg
 
 
 - id: app-087
@@ -916,6 +955,7 @@
   description: "png2icons 的图形界面封装，支持 macOS，一键把 PNG 转成各平台所需图标（开源免费，主页 https://github.com/sprout2000/elephicon）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-088.jpg
 
 
 - id: app-089
@@ -926,6 +966,7 @@
   description: "Diffusion Bee for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-089.jpg
 
 
 - id: app-090
@@ -936,6 +977,7 @@
   description: "DevToys for Mac——开发者的瑞士军刀（开源免费，主页 https://github.com/DevToys-app/DevToysMac）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-090.jpg
 
 
 - id: app-091
@@ -1001,6 +1043,7 @@
   description: "🦖 macOS 的浏览器提示器（打开链接时选择用哪个浏览器）（开源免费，主页 https://browserosaurus.com）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-096.jpg
 
 
 - id: app-097
@@ -1055,6 +1098,7 @@
   description: "Calendr 是 macOS 菜单栏日历，采用 MVVM 架构，结合 RxSwift、AppKit 与 SwiftUI 实现：在菜单栏一眼查看日程与提醒，不占桌面空间（开源免费，主页 https://github.com/pakerwreah/Calendr）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-101.jpg
 
 
 - id: app-102
@@ -1120,6 +1164,7 @@
   description: "一款轻量的 macOS 日历与时间显示应用（开源免费，主页 https://github.com/ZzzM/CalendarX）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-107.jpg
 
 
 - id: app-108
@@ -1130,6 +1175,7 @@
   description: "解锁 MacBook Pro XDR 显示屏的全部亮度（开源免费，主页 https://brightintosh.de）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-108.jpg
 
 
 - id: app-109
@@ -1151,6 +1197,7 @@
   description: "你的 Mac 背着你梦寐以求的电池应用（开源免费，主页 https://batteryboi.ovatar.io/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-110.jpg
 
 
 - id: app-111
@@ -1205,6 +1252,7 @@
   description: "macOS 菜单栏状态指示灯，可自定义颜色与监听端口，脚本与命令行即可改变指示灯状态（开源免费，主页 https://github.com/tonsky/AnyBar）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-115.jpg
 
 
 - id: app-116
@@ -1248,4 +1296,5 @@
   description: "跨平台 OpenGL 终端模拟器，支持 macOS，以 GPU 加速带来极速响应与低延迟（开源免费，主页 https://alacritty.org）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-119.jpg
 
