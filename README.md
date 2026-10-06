@@ -273,7 +273,7 @@ homeH1: 网盘资源索引 · 全部资源                 # 首页 H1（分类�
 disclaimer: 本站仅提供网盘资源索引，所有文件均存放于第三方网盘…
 categories: [电影, 电视剧, 纪录片, 动漫, 游戏, 软件, 其他]   # 分类栏顺序；未列出的按资源数倒序追加在末尾
 contact:                             # 页脚联系方式（可选，整段删掉则不显示）
-  twitter: "@joyxu1010"              # 写 @用户名 或完整链接都行
+  twitter: "@xspalice"               # 写 @用户名 或完整链接都行
   telegram: "https://t.me/wodewangpantop"
 icp: ""                              # 备案号，留空不显示
 stats: local                         # 页脚统计：local = 本地｜busuanzi = 不蒜子｜留空不显示

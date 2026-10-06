@@ -20,7 +20,7 @@ stats: local
 # 页脚联系方式（可选，留空整段则不显示）：twitter 写 @用户名 或完整链接；telegram 写完整链接或 @用户名
 # 页面上只显示平台小图标（Twitter / Telegram / 邮箱），账号名不露出，仅写进 title 与 aria-label
 contact:
-  twitter: "@joyxu1010"
+  twitter: "@xspalice"
   telegram: "https://t.me/wodewangpantop"
 # 备案号（可选，留空则不显示）
 icp: ""
