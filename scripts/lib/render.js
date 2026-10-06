@@ -286,6 +286,7 @@ export function listPage(ctx) {
     ],
   };
 
+  // 列表数据：只内联前两屏（够首屏 + 一次「加载更多」），剩余按需异步补齐，避免 HTML 过大导致抓取超时
   const body = `${heading}
 <div id="results" class="results" hidden></div>
 <ul id="list" class="grid">
@@ -297,7 +298,6 @@ ${
     : ''
 }
 ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
-// 列表数据：只内联前两屏（够首屏 + 一次「加载更多」），剩余按需异步补齐，避免 HTML 过大导致抓取超时
 <script type="application/json" id="list-data" data-total="${indexData.length}" data-category="${esc(activeCat)}">${JSON.stringify(indexData.slice(0, pageSize * 2)).replace(/</g, '\\u003c')}</script>`;
 
   return layout({
