@@ -52,7 +52,7 @@ a:hover { text-decoration: underline; }
 
 /* ── 分类标签栏 ───────────────────────── */
 .cats {
-  max-width: 760px;
+  max-width: 880px;
   margin: 0 auto;
   padding: 12px 16px 4px;
   display: flex;
@@ -63,7 +63,7 @@ a:hover { text-decoration: underline; }
 .cat {
   flex: 0 0 auto;
   padding: 5px 12px;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--muted);
   background: #fff;
   border: 1px solid var(--border);
@@ -73,7 +73,7 @@ a:hover { text-decoration: underline; }
 .cat:hover { text-decoration: none; color: var(--brand); }
 .cat.is-on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600; }
 .cats--wide { max-width: 1180px; }
-.cat__n { margin-left: 5px; font-size: 12px; opacity: .65; }
+.cat__n { margin-left: 5px; font-size: 13px; opacity: .65; }
 
 /* ── 列表页 ──────────────────────────── */
 .page__title { font-size: 18px; margin: 16px 0 12px; display: flex; align-items: baseline; gap: 8px; }
@@ -238,7 +238,7 @@ mark {
 
 /* ── 页脚 ────────────────────────────── */
 .foot { padding: 28px 16px 40px; text-align: center; }
-.foot p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.8; }
+.foot p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.8; }
 .foot__icp, .foot__stat { margin-top: 4px !important; }
 .foot__contact { margin-top: 8px !important; display: flex; justify-content: center; align-items: center; gap: 14px; }
 .foot__contact a, .foot__contact span { display: inline-flex; align-items: center; padding: 3px; border-radius: 5px; color: var(--muted); text-decoration: none; }
