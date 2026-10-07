@@ -444,27 +444,40 @@ export function notFoundPage(ctx) {
   });
 }
 
+const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** 页面真实更新日期：优先入库日 added，回退内容日期 date；都没有则返回空（此时不写 lastmod） */
+function lastmodOf(item) {
+  if (DAY_RE.test(item.added || '')) return item.added;
+  if (DAY_RE.test(item.date || '')) return item.date;
+  return '';
+}
+
+/** 一组资源里最新的更新日期，用作首页 / 分类页的 lastmod */
+function lastmodOfList(list) {
+  return list.map(lastmodOf).filter(Boolean).sort().pop() || '';
+}
+
 export function sitemapXml(baseUrl, resources, categories) {
-  const lastmod = new Date().toISOString().slice(0, 10);
+  // lastmod 必须是页面真实变化日期：每次构建把全站刷成同一天，搜索引擎会判定为不可信并降低抓取频率
+  const line = (loc, lastmod, priority) =>
+    `  <url><loc>${esc(loc)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}<priority>${priority}</priority></url>`;
   const urls = [
-    { loc: baseUrl + '/', priority: '1.0' },
-    ...categories.map((c) => ({
-      loc: `${baseUrl}/category/${encodeURIComponent(categorySlug(c))}/`,
-      priority: '0.8',
-    })),
-    ...resources.map((r) => ({
-      loc: `${baseUrl}/resource/${encodeURIComponent(r.id)}/`,
-      priority: '0.6',
-    })),
+    line(baseUrl + '/', lastmodOfList(resources), '1.0'),
+    ...categories.map((c) =>
+      line(
+        `${baseUrl}/category/${encodeURIComponent(categorySlug(c))}/`,
+        lastmodOfList(resources.filter((r) => r.category === c)),
+        '0.8'
+      )
+    ),
+    ...resources.map((r) =>
+      line(`${baseUrl}/resource/${encodeURIComponent(r.id)}/`, lastmodOf(r), '0.6')
+    ),
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls
-  .map(
-    (u) =>
-      `  <url><loc>${esc(u.loc)}</loc><lastmod>${lastmod}</lastmod><priority>${u.priority}</priority></url>`
-  )
-  .join('\n')}
+${urls.join('\n')}
 </urlset>
 `;
 }
