@@ -334,6 +334,7 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
 | 游戏 | Steam 竖版封面 `https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/library_600x900_2x.jpg` |
 | 软件 | 应用商店官方图标，用 `tools/icon-poster.mjs` 合成 600×900 |
 | 查不到图 | 不填 `image`，构建自动回退分类占位海报 |
+| 电子书 | 豆瓣图书封面，用 `tools/book-cover-douban.mjs` 抓取（约 500×750），做法见 [经验总结](#经验总结) |
 
 ## 新增资源
 
