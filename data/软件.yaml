@@ -1300,3 +1300,58 @@
   added: 2026-10-04
   image: app-119.jpg
 
+
+- id: app-120
+  title: "OBS Studio"
+  category: 软件
+  tags: ["软件", "直播", "录屏", "视频", "macOS", "Windows", "OBS Studio"]
+  quark_url: "https://pan.quark.cn/s/9201298c4375"
+  description: "免费开源的直播与录屏软件，跨 Windows / macOS / Linux 平台，本次收录 32.2.2 版，含 macOS（Intel 与 Apple 芯片）与 Windows x64 安装包。支持多路视频与音频采集、场景与来源自由编排、实时混流与转场，可一键推流到 B 站、抖音、YouTube、Twitch 等平台，也能本地录制高码率视频；内置音频混音器、绿幕抠像、虚拟摄像头、录制回放与快捷键控制，插件与脚本生态庞大，是网络直播、网课录屏、游戏实况和视频创作的主力工具。（开源免费，主页 https://obsproject.com）｜OBS Project"
+  date: 2026-10-07
+  added: 2026-10-07
+  image: app-120.jpg
+
+
+- id: app-121
+  title: "PortableApps.com Platform"
+  category: 软件
+  tags: ["软件", "便携软件", "启动器", "效率工具", "Windows", "PortableApps"]
+  quark_url: "https://pan.quark.cn/s/7b841b75f613"
+  description: "PortableApps.com 平台的便携软件启动器，本次收录 30.5 版安装程序。它把常用软件装进 U 盘、移动硬盘或本地文件夹里随身携带，换台电脑插上就能用，不写入系统注册表、不留使用痕迹。平台自带清晰的分类菜单与搜索，可一键安装、更新、卸载 PortableApps 格式的便携软件，浏览器、办公、影音、开发调试等数百款都有对应便携版；支持主题与图标自定义、多设备同步、备份还原，适合常出差、要借用别人电脑或需要干净工作环境的用户。（开源免费，主页 https://portableapps.com）｜PortableApps.com"
+  date: 2026-10-07
+  added: 2026-10-07
+  image: app-121.jpg
+
+
+- id: app-122
+  title: "COMFAST CF-WP1200 驱动"
+  category: 软件
+  tags: ["软件", "驱动", "无线网卡", "蓝牙", "Windows", "CF-WP1200"]
+  quark_url: "https://pan.quark.cn/s/4038296175ce"
+  description: "COMFAST CF-WP1200 系列 PCIe 无线网卡的 Windows 驱动合集，含 WiFi 与蓝牙两部分。该系列采用 Intel 8265AC 芯片方案，PCIe-X1 接口，双频 1200Mbps（2.4GHz 300Mbps 加 5GHz 867Mbps），支持 802.11ac / a / b / g / n 与 MU-MIMO，蓝牙 4.2，配外置 2×6dBi 高增益天线，兼容各品牌主板的 PCIe 插槽。本驱动适用于 CF-WP1200、CF-WP1200 V2、CF-WP1200 PRO、CF-WP1200-M 四个型号，覆盖 Windows 7 / 8 / 8.1 / 10，装好后无线网络与蓝牙即可正常工作。（官方网站 http://www.comfast.cn）｜COMFAST 深圳市四海众联"
+  date: 2026-10-07
+  added: 2026-10-07
+  image: app-122.jpg
+
+
+- id: app-123
+  title: "HEU KMS Activator"
+  category: 软件
+  tags: ["软件", "激活工具", "系统工具", "Windows", "Office", "HEU KMS Activator"]
+  quark_url: "https://pan.quark.cn/s/c96ea2fef94b"
+  description: "轻量的 Windows 与 Office 激活工具，免安装、解压即用，本次收录 v61.1.0。智能激活会按数字许可证、KMS38、OEM、KMS 的优先级自动挑选最合适的方式，并跳过已经永久激活的系统；支持本地搭建 KMS 服务器、安装与卸载自动续期（含任务计划模式）、清除 KMS 客户端信息，做数字许可证与 KMS38（有效期至 2038 年）激活，OEM 激活与 $OEM$ 文件夹生成，密钥安装、卸载、查看与 Office 许可证清理，激活信息备份还原，Windows 10 版本切换，Office 零售版转批量授权版，并提供静默参数方便批量部署。覆盖 Windows XP 到 11 及全系 Server、Office 2010 到 2021 与 365，完全离线也能完成激活。请仅在测试与学习环境中使用，商业场景请购买正版授权。（开源免费，主页 https://github.com/zbezj/HEU_KMS_Activator）｜知彼而知己"
+  date: 2026-10-07
+  added: 2026-10-07
+  image: app-123.jpg
+
+
+- id: app-124
+  title: "Office Tool Plus"
+  category: 软件
+  tags: ["软件", "Office", "部署工具", "系统工具", "Windows", "Office Tool Plus"]
+  quark_url: "https://pan.quark.cn/s/c5334a80e215"
+  description: "基于微软官方 Office 部署工具（ODT）与 Click-to-Run 机制打造的 Office 部署与管理工具，绿色免安装，本次收录的是解压目录版。可以在图形界面里创建、导入、导出安装配置，从任意更新通道下载任意语言的 Office，按需勾选 Word、Excel、PowerPoint、Outlook、OneNote、Teams、OneDrive 等组件后一键部署，也能随时增删已装组件；支持制作带静默安装配置的 ISO 镜像用于离线装机，在线、电话、KMS 三种激活方式与许可证、密钥、KMS 管理，无需重装即可升降级更新通道，强制卸载装不干净的 Office（覆盖 2003 到最新版本），另有重置设置、修复安装与激活、文档转换等内置工具箱。支持 Microsoft 365、Office 2016 / 2019 / 2021 / 2024 以及 Visio、Project 全系。（开源免费，主页 https://otp.landian.vip）｜Yerong 蓝点网"
+  date: 2026-10-07
+  added: 2026-10-07
+  image: app-124.jpg
+
