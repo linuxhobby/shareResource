@@ -255,8 +255,10 @@ static/
 theme/assets/        # 前端样式与脚本，构建时拷到 public/assets/
 scripts/             # 构建与预览
 tools/
-  sitestats.py       # 访问统计脚本（VPS 方案用到）
-  icon-poster.mjs    # 把应用图标合成 2:3 竖版海报
+  sitestats.py           # 访问统计脚本（VPS 方案用到）
+  icon-poster.mjs        # 把应用图标合成 2:3 竖版海报（软件 / 音频等非影视资源）
+  book-cover-douban.mjs  # 从豆瓣图书抓书籍封面（电子书 bk- 优先用它，见「经验总结」）
+  book-poster.mjs        # 豆瓣查无此书时，生成书封海报兜底
 deploy/              # 部署用：Nginx 配置示例、自动更新脚本、统计日志格式
 public/              # 构建产物，部署这个目录（约 19MB，不入库）
 ```
@@ -320,7 +322,7 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
       code: ab12
 ```
 
-**id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件，与 `static/images/` 里的配图同名。
+**id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件、`bk-` 电子书、其他，与 `static/images/` 里的配图同名。
 
 **新增一个分类**：建 `data/<分类>.yaml`，把分类名加进 `site.yaml` 的 `categories`，`npm run build` 即可。
 
@@ -367,3 +369,39 @@ npm run dev                                     # build + serve 一步到位
 - **访问统计**：Nginx 日志 → `sitestats.py` 增量解析 → `/stats.json` → 页脚数字；PV 排除爬虫与非页面请求，UV 只统计带访客 cookie 的请求
 - **静态资源带版本号**（`/assets/style.css?v=<commit>`），Nginx 缓存 30 天也能在部署后立即生效
 - `public/` 不入库，仓库只留源码与数据
+
+## 经验总结
+
+日常维护里踩过、值得记住的几条配置图相关的经验。
+
+### 电子书封面：抓豆瓣正版封面
+
+`tools/book-poster.mjs` 能生成凑合看的书封（渐变底 + 书本图形 + 书名），但同一批书做出来只有颜色不一样、几乎分不出是哪本。**优先抓出版社的正版封面**：
+
+```bash
+node tools/book-cover-douban.mjs --title "牧羊少年奇幻之旅" --out static/images/bk-002.jpg
+node tools/book-cover-douban.mjs --title "飞越疯人院" --author "肯·克西" --out static/images/bk-001.jpg
+node tools/book-cover-douban.mjs --title "强风吹拂" --pick 26210487 --out static/images/bk-004.jpg
+node tools/book-cover-douban.mjs --title "肖申克的救赎" --list        # 只看候选，不下载
+```
+
+豆瓣没有开放 API（Google Books 全天 429 配额耗尽、Open Library 本机连不通），脚本走的是图书搜索页：
+
+| 步 | 做法 |
+|---|---|
+| 搜索 | `book.douban.com/subject_search?search_text=<书名>`，页面内嵌 `"items": [...]` JSON，含 `title` / `abstract`（作者 · 译者 · 出版社 · 年份）/ `cover_url` / `id` |
+| 取大图 | 封面地址把 `/m/public/` 换成 `/l/public/`，得到约 500×750 的封面，正好是站点要的 2:3 |
+| 反爬 | 请求**必须带**浏览器 UA 与 `Referer: https://book.douban.com/`，否则返回 418 / 403；请求过密会间歇返回空结果，脚本内置了间隔与重试 |
+
+四个实测踩过的坑：
+
+1. 别用 `/j/subject_suggest?q=` 这个简化接口，索引不全，《飞越疯人院》就搜不到，要用上面的搜索页。
+2. 同一书名往往有多个版本（不同出版社 / 年份 / 译本），用 `--author` 给作者关键字，或先 `--list` 看好再 `--pick <豆瓣条目id>` 指定。
+3. **有些条目的封面是「封面+封底」展开图**（《飞越疯人院》2015 重庆版就是），放进卡片会被裁得莫名其妙。**入库前务必把图打开看一眼**，是展开图就换一个版本。
+4. 豆瓣查无此书（部分书目已下架）时，才退回 `tools/book-poster.mjs` 生成，不要留占位图。
+
+### 软件配图：拿不到官方图标就自己画
+
+Windows 工具类资源（驱动、激活工具、Office 部署器）常常在 iTunes / GitHub / 官网上都找不到像样的图标。这时候画一个 512×512 的白色线性图标（WiFi 信号、钥匙、下载箭头这类通用符号就够），交给 `tools/icon-poster.mjs` 合成海报（`--title` / `--sub` / `--c1` / `--c2` 控制文字与配色），出来的观感和正版图标的海报是一套的，比塌落到占位图强得多。
+
+顺带一条：GitHub 组织头像用 `https://github.com/<org>.png?size=460` 直接取，别去猜组织的数字 ID，猜错会拿到完全不相干的头像。
