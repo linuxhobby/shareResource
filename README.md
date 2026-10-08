@@ -250,6 +250,7 @@ tail -3 /var/log/submit-baidu.log
 ## 目录结构
 
 ```
+logo/                # logo 设计与候选稿，定稿为 logo/logo.svg（即站点图标源文件）
 data/                # 一个分类一个 YAML（英文文件名），构建时自动合并
   site.yaml          # 站名、分类顺序、免责声明、页脚联系方式、首屏条数
   movie.yaml         # 电影
