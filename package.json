@@ -12,6 +12,7 @@
     "serve": "node scripts/serve.js",
     "dev": "node scripts/build.js && node scripts/serve.js",
     "new": "node scripts/new-resource.js",
+    "audit:css": "node scripts/audit-css.js",
     "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {

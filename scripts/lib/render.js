@@ -380,7 +380,7 @@ export function detailPage(ctx) {
     : '';
 
   const body = `<nav class="crumb"><a href="/">首页</a><span>/</span><a href="${catHref(item.category)}">${esc(item.category)}</a></nav>
-<article class="card detail">
+<article class="detail">
   <div class="detail__media">
     <img class="poster" src="${esc(img.detail)}" width="240" height="360" alt="${esc(item.title)}海报" decoding="async" fetchpriority="high">
     ${qrBlock}
@@ -467,7 +467,7 @@ export function notFoundPage(ctx) {
     categories,
     counts,
     total,
-    body: `<div class="card empty-card"><p class="empty">页面不存在</p><a class="btn btn--primary" href="/">返回首页</a></div>`,
+    body: `<div class="empty-card"><p class="empty">页面不存在</p><a class="btn btn--primary" href="/">返回首页</a></div>`,
     noindex: true,
   });
 }
