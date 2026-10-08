@@ -250,7 +250,6 @@ tail -3 /var/log/submit-baidu.log
 ## 目录结构
 
 ```
-logo/                # logo 设计与候选稿，定稿为 logo/logo.svg（即站点图标源文件）
 data/                # 一个分类一个 YAML（英文文件名），构建时自动合并
   site.yaml          # 站名、分类顺序、免责声明、页脚联系方式、首屏条数
   movie.yaml         # 电影
@@ -262,7 +261,7 @@ data/                # 一个分类一个 YAML（英文文件名），构建时�
   ebook.yaml         # 电子书
   misc.yaml          # 其他
 static/
-  favicon.svg        # 站点图标，构建时生成 favicon.ico / apple-touch-icon.png
+  favicon.svg        # 站点图标唯一源文件（换 logo 就改它）；构建时拷到根目录并生成 favicon.ico / apple-touch-icon.png
   share.jpg          # 首页品牌分享卡（1200×630），构建时拷到站点根目录供 og:image 用
   images/            # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # 前端样式与脚本，构建时拷到 public/assets/
