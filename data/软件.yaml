@@ -867,9 +867,10 @@
   category: 软件
   tags: ["软件", "macOS", "Hello HTTP"]
   quark_url: "https://pan.quark.cn/s/b42906c5e1ea"
-  description: "Hello HTTP for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
+  description: "跨平台开源 HTTP 调试客户端：支持 HTTP 与 REST API、WebSocket、GraphQL（含订阅）及 gRPC 端点测试，定位为 Postman、Insomnia 的本地开源替代品，数据全部留在本机、坚持不上云。macOS、Windows、Linux 三端均已稳定发布，本条为 macOS 版安装包，下载后拖入「应用程序」文件夹即可使用；安装包未经开发者签名，首次打开需在系统设置中放行（开源免费，主页 https://sunny-chung.github.io/hello-http/）"
   date: 2026-10-04
   added: 2026-10-04
+  image: app-080.jpg
 
 
 - id: app-081
