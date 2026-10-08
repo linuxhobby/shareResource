@@ -389,8 +389,8 @@ ${facts.map(([k, v]) => `    <tr><th scope="row">${k}</th><td>${v}</td></tr>`).j
       ${item.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join('')}
       ${item.date ? `<span class="tag tag--plain">${esc(item.date)}</span>` : ''}
     </div>
-    <p class="detail__desc">${esc(item.description) || '<span class="muted">暂无介绍</span>'}</p>
     ${factsHtml}
+    <p class="detail__desc">${esc(item.description) || '<span class="muted">暂无介绍</span>'}</p>
     <div class="links">
       ${item.links.length ? item.links.map(linkRow).join('\n') : '<p class="muted">暂无可用链接</p>'}
     </div>
