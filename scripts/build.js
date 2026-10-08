@@ -11,7 +11,13 @@ import {
   syncHeaderCounts,
   clipDesc,
 } from './lib/data.js';
-import { prepareImages, writeQr, writeFavicon, copyThemeAssets } from './lib/assets.js';
+import {
+  prepareImages,
+  writeQr,
+  writeFavicon,
+  copyThemeAssets,
+  POSTER_WIDTHS,
+} from './lib/assets.js';
 import {
   listPage,
   detailPage,
@@ -91,6 +97,25 @@ try {
 console.log(`处理配图（${total} 条）…`);
 const { map: images, missing } = await prepareImages(items, { staticDir, rootDir: root, outDir });
 if (missing) console.log(`  · ${missing} 条缺少配图，使用占位图`);
+
+// 配图尺寸调整后（例如详情页不再单独出 180 宽），旧宽度的文件会一直躺在 public/img
+// 里越积越多，这里按当前宽度集合清理掉遗留版本
+{
+  const imgDir = path.join(outDir, 'img');
+  const keepW = new Set(POSTER_WIDTHS.map(String));
+  let staleImg = 0;
+  for (const name of fs.readdirSync(imgDir)) {
+    const m = /^(.*)-(\d+)\.(?:webp|jpe?g|png|avif|gif|svg)$/i.exec(name);
+    if (!m || keepW.has(m[2])) continue;
+    try {
+      fs.rmSync(path.join(imgDir, name));
+      staleImg++;
+    } catch {
+      /* 清理失败不影响访问 */
+    }
+  }
+  if (staleImg) console.log(`  · 已清理 ${staleImg} 个旧尺寸配图（当前生成宽度：${POSTER_WIDTHS.join('/')}）`);
+}
 
 if (await writeFavicon(staticDir, outDir)) console.log('  · 已生成 favicon.svg / favicon.ico / apple-touch-icon.png');
 

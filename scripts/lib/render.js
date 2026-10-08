@@ -378,7 +378,7 @@ export function detailPage(ctx) {
   const body = `<nav class="crumb"><a href="/">首页</a><span>/</span><a href="${catHref(item.category)}">${esc(item.category)}</a></nav>
 <article class="card detail">
   <div class="detail__media">
-    <img class="poster" src="${esc(img.detail)}" width="180" height="270" alt="${esc(item.title)}海报" decoding="async" fetchpriority="high">
+    <img class="poster" src="${esc(img.detail)}" width="240" height="360" alt="${esc(item.title)}海报" decoding="async" fetchpriority="high">
     ${qrBlock}
   </div>
   <div class="detail__main">
@@ -444,6 +444,9 @@ export function detailPage(ctx) {
     jsonLd,
     keywords: [item.title, item.category, ...item.tags].slice(0, 8).join(','),
     rssHref: `/category/${encodeURIComponent(categorySlug(item.category))}/feed.xml`,
+    // 详情页与首页/分类页同宽容器，海报卡片左右边线才能严格对齐
+    wide: true,
+    footNavCurrent: `/resource/${encodeURIComponent(item.id)}/`,
   });
 }
 

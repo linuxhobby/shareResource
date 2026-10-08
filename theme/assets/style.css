@@ -9,6 +9,11 @@
   --page-w: 760px;
   --page-wide: 1180px;
   --gutter: 16px;
+  /* 宫格参数：详情页海报宽度 = 宫格卡片宽度，两页海报尺寸与左右边线才能完全一致 */
+  --cols: 5;
+  --gap-x: 14px;
+  --page-inner: calc(min(var(--page-wide), 100vw) - var(--gutter) * 2);
+  --tile-w: calc((var(--page-inner) - var(--gap-x) * (var(--cols) - 1)) / var(--cols));
 }
 
 * { box-sizing: border-box; }
@@ -87,8 +92,8 @@ a:hover { text-decoration: underline; }
 /* 海报宫格：按最新排序，等宽自适应列 */
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 18px 14px;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: 18px var(--gap-x);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -207,7 +212,8 @@ mark {
   border: 1px solid var(--border);
   border-radius: 12px;
 }
-.detail__media { flex: 0 0 180px; display: flex; flex-direction: column; gap: 12px; }
+/* 宽度取宫格卡片的计算宽度，海报与首页卡片完全同尺寸 */
+.detail__media { flex: 0 0 var(--tile-w); display: flex; flex-direction: column; gap: 12px; }
 /* 详情页海报与列表卡片保持同一套视觉：同为 2:3 竖版、相同圆角与描边 */
 .poster {
   width: 100%;
@@ -221,7 +227,7 @@ mark {
 }
 /* 二维码框与海报左右边线对齐 */
 .qrbox { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; box-sizing: border-box; }
-.qrbox__img { width: 120px; height: 120px; display: block; margin: 0 auto; }
+.qrbox__img { width: 100%; max-width: 150px; height: auto; aspect-ratio: 1 / 1; display: block; margin: 0 auto; }
 .qrbox__cap { font-size: 12px; color: var(--muted); margin-top: 6px; }
 .qrbox__switch { display: flex; gap: 6px; margin-top: 8px; }
 .qrbtn {
@@ -305,14 +311,15 @@ mark {
 
 /* ── 移动端 ──────────────────────────── */
 /* 窄屏逐级减列：5 → 4 → 3 → 2 */
-@media (max-width: 1000px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 820px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 10px; } }
-@media (max-width: 480px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* 断点只调 --cols / --gap-x，宫格卡片与详情页海报宽度会同步变化 */
+@media (max-width: 1000px) { :root { --cols: 4; } }
+@media (max-width: 820px) { :root { --cols: 3; --gap-x: 10px; } .grid { gap: 14px var(--gap-x); } }
+@media (max-width: 480px) { :root { --cols: 2; } }
 
 @media (max-width: 640px) {
   .tile__title { font-size: 15px; }
   .detail { flex-direction: column; }
-  .detail__media { flex-direction: row; align-items: flex-start; gap: 14px; }
+  .detail__media { flex: 0 0 auto; flex-direction: row; align-items: flex-start; gap: 14px; }
   .poster { width: 150px; }
   .qrbox { flex: 1; width: auto; }
   .linkrow__url { flex-basis: 100%; }

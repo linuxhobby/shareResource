@@ -3,11 +3,13 @@ import path from 'node:path';
 import QRCode from 'qrcode';
 
 const IMAGE_EXT = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'svg'];
-// 详情页与列表页统一用 2:3 竖版比例，两图同宽档，视觉完全一致
-const DETAIL = { w: 180, h: 270 };
+// 详情页海报不再单独出一版：直接复用列表卡片这张 240×360，
+// 两页就是同一张图、同一个 2:3 比例，放大到宫格卡片宽度也不会糊
 const CARD = { w: 240, h: 360 };
 const THUMB = { w: 60, h: 90 };
-const SIZES = [DETAIL, CARD, THUMB];
+const SIZES = [CARD, THUMB];
+/** 当前正在生成的配图宽度，构建时用它清理旧尺寸遗留 */
+export const POSTER_WIDTHS = SIZES.map((s) => s.w);
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
@@ -239,8 +241,7 @@ function resolveSource(item, staticDir, rootDir) {
 }
 
 const VARIANTS = [
-  { key: 'detailExt', size: DETAIL, quality: 82 },
-  { key: 'cardExt', size: CARD, quality: 80 },
+  { key: 'cardExt', size: CARD, quality: 82 },
   { key: 'thumbExt', size: THUMB, quality: 78 },
 ];
 
@@ -249,7 +250,7 @@ async function renderVariants(sharp, src, destBase) {
   if (!sharp) {
     // 没有 sharp：原图直接复用，靠 CSS 裁切
     for (const v of VARIANTS) fs.copyFileSync(src, `${destBase}-${v.size.w}.${ext.slice(1)}`);
-    return { detailExt: ext.slice(1), cardExt: ext.slice(1), thumbExt: ext.slice(1) };
+    return { cardExt: ext.slice(1), thumbExt: ext.slice(1) };
   }
   try {
     for (const v of VARIANTS) {
@@ -258,16 +259,16 @@ async function renderVariants(sharp, src, destBase) {
         .webp({ quality: v.quality })
         .toFile(`${destBase}-${v.size.w}.webp`);
     }
-    return { detailExt: 'webp', cardExt: 'webp', thumbExt: 'webp' };
+    return { cardExt: 'webp', thumbExt: 'webp' };
   } catch {
     for (const v of VARIANTS) fs.copyFileSync(src, `${destBase}-${v.size.w}${ext}`);
-    return { detailExt: ext.slice(1), cardExt: ext.slice(1), thumbExt: ext.slice(1) };
+    return { cardExt: ext.slice(1), thumbExt: ext.slice(1) };
   }
 }
 
 /**
- * 处理全部配图：生成详情页 180×260 与列表页 60×90 两份 WebP
- * 返回 id -> { detail, thumb }
+ * 处理全部配图：生成 240×360 海报（列表页与详情页共用）与 60×90 缩略图两份 WebP
+ * 返回 id -> { detail, card, thumb }（detail 与 card 指向同一个文件）
  */
 export async function prepareImages(items, { staticDir, rootDir, outDir }) {
   const sharp = await loadSharp();
@@ -295,10 +296,11 @@ export async function prepareImages(items, { staticDir, rootDir, outDir }) {
       continue;
     }
     const destBase = path.join(imgDir, item.id);
-    const { detailExt, cardExt, thumbExt } = await renderVariants(sharp, src, destBase);
+    const { cardExt, thumbExt } = await renderVariants(sharp, src, destBase);
+    const card = `/img/${encodeURIComponent(item.id)}-${CARD.w}.${cardExt}`;
     map.set(item.id, {
-      detail: `/img/${encodeURIComponent(item.id)}-${DETAIL.w}.${detailExt}`,
-      card: `/img/${encodeURIComponent(item.id)}-${CARD.w}.${cardExt}`,
+      detail: card,
+      card,
       thumb: `/img/${encodeURIComponent(item.id)}-${THUMB.w}.${thumbExt}`,
     });
     processed++;
