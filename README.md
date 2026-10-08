@@ -250,9 +250,16 @@ tail -3 /var/log/submit-baidu.log
 ## 目录结构
 
 ```
-data/                # 一个分类一个 YAML，构建时自动合并
+data/                # 一个分类一个 YAML（英文文件名），构建时自动合并
   site.yaml          # 站名、分类顺序、免责声明、页脚联系方式、首屏条数
-  电影.yaml 电视剧.yaml 纪录片.yaml 动漫.yaml 游戏.yaml 软件.yaml 电子书.yaml 其他.yaml
+  movie.yaml         # 电影
+  tv.yaml            # 电视剧
+  documentary.yaml   # 纪录片
+  anime.yaml         # 动漫
+  game.yaml          # 游戏
+  software.yaml      # 软件
+  ebook.yaml         # 电子书
+  misc.yaml          # 其他
 static/
   favicon.svg        # 站点图标，构建时生成 favicon.ico / apple-touch-icon.png
   share.jpg          # 首页品牌分享卡（1200×630），构建时拷到站点根目录供 og:image 用
@@ -331,7 +338,7 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
 
 **id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件、`bk-` 电子书、`ot-` 其他，后接三位编号，与 `static/images/` 里的配图同名。
 
-**新增一个分类**：建 `data/<分类>.yaml`，把分类名加进 `site.yaml` 的 `categories`，`npm run build` 即可。
+**新增一个分类**：建 `data/<英文名>.yaml`（建议缩写，中文文件名在 Git 与命令行里会变成转义串），把分类名加进 `site.yaml` 的 `categories`，`npm run build` 即可。
 
 ### 配图规范
 
@@ -361,7 +368,7 @@ npm run dev                                     # build + serve 一步到位
 
 三种方式加资源：
 
-1. **交互式**：`npm run new`，逐项询问后写入 `data/<分类>.yaml`
+1. **交互式**：`npm run new`，逐项询问后按「分类 → 英文文件名」写入 `data/`（如 电影 → `movie.yaml`）
 2. **直接改 YAML**，然后 `npm run build`
 3. **批量**：先把网盘目录编号重命名，再出公开永久链接，然后按格式批量写 YAML
 

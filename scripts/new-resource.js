@@ -18,9 +18,26 @@ if (!title) {
   process.exit(1);
 }
 
+// 数据文件统一用英文/缩写命名（中文文件名在命令行、Git 与部分工具里容易变成转义串）
+// 分类 → data/<file>.yaml；未列出的分类按同名文件落到 data/<分类>.yaml
+const DATA_FILE = {
+  电影: 'movie',
+  电视剧: 'tv',
+  纪录片: 'documentary',
+  动漫: 'anime',
+  游戏: 'game',
+  软件: 'software',
+  电子书: 'ebook',
+  其他: 'misc',
+};
+
 const category = await get('分类', '影视');
-// 按分类落到对应数据文件：data/<分类>.yaml，不存在则创建
-const file = path.join(root, 'data', `${category.replace(/[\\/]/g, '-')}.yaml`);
+// 反查：输入的是文件名或英文缩写时也能落到已存在的文件
+const known = Object.entries(DATA_FILE).find(
+  ([cn, en]) => category === cn || String(category).toLowerCase() === en
+);
+const base = known ? known[1] : category.replace(/[\\/]/g, '-');
+const file = path.join(root, 'data', `${base}.yaml`);
 const tags = await get('标签（逗号分隔）');
 const quark = await get('夸克链接');
 const baidu = await get('百度链接');
