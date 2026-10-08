@@ -221,11 +221,11 @@ ${catNav(site, categories, counts, activeCat, total, wide)}
 ${body}
 </main>
 <footer class="foot wrap${wide ? ' wrap--wide' : ''}">
+  ${footNav(footNavCurrent)}
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
   ${STATS_HTML[site.stats] || ''}
   ${contactHtml(site.contact)}
-  ${footNav(footNavCurrent)}
 </footer>
 ${STATS_SCRIPT[site.stats] || ''}
 <script src="/assets/app.js${v}" defer></script>

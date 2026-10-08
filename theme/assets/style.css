@@ -288,7 +288,7 @@ mark {
 .foot__contact a, .foot__contact span { display: inline-flex; align-items: center; padding: 3px; border-radius: 5px; color: var(--muted); text-decoration: none; }
 .foot__contact a:hover { color: var(--brand); background: rgba(127, 127, 127, .1); }
 /* 页脚导航：网站首页 | 关于本站 | 网站地图 | RSS订阅 */
-.foot__nav { margin-top: 12px !important; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; font-size: 14px; }
+.foot__nav { margin: 0 0 10px !important; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; font-size: 14px; }
 .foot__nav a { color: var(--muted); text-decoration: none; }
 .foot__nav a:hover { color: var(--brand); text-decoration: underline; }
 .foot__nav a[aria-current="page"] { color: var(--brand); font-weight: 600; }
