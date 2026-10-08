@@ -335,7 +335,7 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
 |---|---|
 | 电影 / 电视剧 / 纪录片 / 动漫 | TMDB 海报 `https://image.tmdb.org/t/p/w500/<path>.jpg`（500×750） |
 | 游戏 | Steam 竖版封面 `https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/library_600x900_2x.jpg` |
-| 软件 | 应用商店官方图标，用 `tools/icon-poster.mjs` 合成 480×720 |
+| 软件 | 应用商店官方图标，用 `tools/icon-poster.mjs` 合成 480×720，做法见 [经验总结](#经验总结) |
 | 查不到图 | 不填 `image`，构建自动回退分类占位海报 |
 | 电子书 | 豆瓣图书封面，用 `tools/book-cover-douban.mjs` 抓取（约 500×750），做法见 [经验总结](#经验总结) |
 | 电子书（套装 / 合辑） | 豆瓣没有对应单册封面，用 `tools/set-poster.mjs` 自制 480×720 深色封面，见 [经验总结](#经验总结) |
@@ -420,8 +420,39 @@ node tools/set-poster.mjs --kicker "STEPHEN KING" --prefix "斯蒂芬·金的" -
 2. 主色只用一档，层次全靠透明度堆。第一版把红色氛围光做成大范围晕染，出图发糊，像背景沾了块污渍；收成书名背后的一小片光池，再把四角压暗，画面立刻干净。
 3. **自制封面没有参考物可以对，出图一定要打开看一眼**再入库，别只看脚本打印的尺寸就提交。
 
-### 软件配图：拿不到官方图标就自己画
+### 软件配图：用 App Store 官方图标合成海报
 
-Windows 工具类资源（驱动、激活工具、Office 部署器）常常在 iTunes / GitHub / 官网上都找不到像样的图标。这时候画一个 512×512 的白色线性图标（WiFi 信号、钥匙、下载箭头这类通用符号就够），交给 `tools/icon-poster.mjs` 合成海报（`--title` / `--sub` / `--c1` / `--c2` 控制文字与配色），出来的观感和正版图标的海报是一套的，比塌落到占位图强得多。
+软件 / 音频这类资源在 TMDB 上一定命中不了，别直接留占位图。做法是从 App Store 拿官方图标，再用 `tools/icon-poster.mjs` 合成 2:3 竖版海报：
 
-顺带一条：GitHub 组织头像用 `https://github.com/<org>.png?size=460` 直接取，别去猜组织的数字 ID，猜错会拿到完全不相干的头像。
+```bash
+# 1) 查图标（无需鉴权）：Mac 软件用 entity=macSoftware，iOS / 通用用 entity=software
+curl -s "https://itunes.apple.com/search?term=AdGuard&entity=macSoftware&country=cn&limit=3"
+# 结果里取 artworkUrl512（512×512）；别急着用，先比对 trackName / sellerName / bundleId
+
+# 2) 合成海报
+node tools/icon-poster.mjs --icon "<artworkUrl512>" --out static/images/app-005.jpg \
+  --title "AdGuard" --sub "广告拦截 · 隐私保护" --c1 "#2f8f5b" --c2 "#7ccb95" --radius 22
+```
+
+| 参数 | 作用 |
+|---|---|
+| `--icon` | 图标，本地文件路径或图片 URL 都行 |
+| `--title` / `--sub` | 海报上的应用名与一句话定位，都可省（不给就留白） |
+| `--c1` / `--c2` | 背景渐变两端，默认墨绿；拿不准就用默认 |
+| `--radius` | 图标圆角，按边长百分比；直角方形图标给 `22`，图标本身已带圆角就别加 |
+| `--icon-size` | 图标边长，默认 300；源图小时调小，避免放大发糊 |
+
+输出固定 480×720 JPEG，图标居中偏上，与站内其它海报同一套观感。
+
+四条踩过的经验：
+
+1. **别拿搜索结果第一条就用**：同一个词常回来好几个不相干的应用（搜 `AdGuard` 会混进 AdBlocker Pro、uBlock Origin Lite）。`limit` 给 3~5 条，比对 `trackName` / `sellerName` / `bundleId` 确认是同一个东西，再取 `artworkUrl512`。
+2. 关键词宁短勿长：`Parallels Desktop 18` 带版本号经常搜不到，用 `Parallels Desktop` 再自己挑版本。`entity` 选错（Mac 应用去 `software` 里搜）会一无所获，两个都试一遍；`country=cn` 影响结果集与名称本地化。
+3. 圆角只加一次：先打开 `artworkUrl512` 原图看一眼，图标本身已带圆角就不要再给 `--radius`，直角方形图标才加 `--radius 22`——加两层会看到明显的双圆角。
+4. **出图必须打开看一眼再入库**：标题太长会顶到边、图标偏小、`--sub` 缺省时标题位置会下移，这些只有看图才发现。用 `sharp` 把结果转成 PNG 预览即可。批量补图（本站一次补过 49 / 51 条）时，合成完抽查几张卡片，别只看脚本打印的尺寸。
+
+### 软件配图（二）：拿不到官方图标就自己画
+
+上一节的官方图标这条路走不通时的兜底做法。Windows 工具类资源（驱动、激活工具、Office 部署器）常常在 iTunes / GitHub / 官网上都找不到像样的图标。这时候画一个 512×512 的白色线性图标（WiFi 信号、钥匙、下载箭头这类通用符号就够），交给 `tools/icon-poster.mjs` 合成海报（参数同上，`--title` / `--sub` / `--c1` / `--c2` 控制文字与配色），出来的观感和正版图标的海报是一套的，比塌落到占位图强得多。
+
+中间还有一档可选：开源工具常能在 GitHub 上取到项目 / 组织头像当图标，`https://github.com/<org>.png?size=460` 直接取，别去猜组织的数字 ID，猜错会拿到完全不相干的头像。
