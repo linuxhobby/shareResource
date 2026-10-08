@@ -1,17 +1,21 @@
 /**
  * 列出简介过短的资源，方便逐条补写。
  *
- * Bing / Google 对「模板重 + 正文稀」的聚合页容忍度很低，
- * 589 条里有 236 条简介不足 120 字，这些页面最容易被判为 thin content。
- * 本脚本按字数升序输出清单，优先处理的就是排在最前面的那些。
+ * Bing / Google 对「模板重 + 正文稀」的聚合页容忍度很低，简介越短越容易被判 thin content。
+ * 现在的硬标准是**正文不低于 300 字**（2026-10-08 从 200 提高），所以默认阈值就是 300。
+ *
+ * 字数口径与 fill-desc.mjs、skill 的 check-desc.mjs 三处必须一致：
+ * 先剥掉【第 N 季 · 共 M 集】这类标签，再剥掉结尾 ｜TMDB 评分 / ｜作者 / ｜开发者 署名。
  *
  * 用法：
- *   npm run list:short                 # 列出不足 120 字的全部条目
- *   npm run list:short -- --max=80     # 只看不足 80 字的
+ *   npm run list:short                 # 列出正文不足 300 字的全部条目（默认阈值 300）
+ *   npm run list:short -- --max=200    # 换个阈值复核
  *   npm run list:short -- --limit=30   # 只列最前的 30 条
- *   npm run list:short -- --cat=软件    # 只看某个分类
+ *   npm run list:short -- --cat=电影    # 只看某个分类
  *
- * 结果同时写入 .tmp/short-desc.md（已 gitignore），可以直接对着它改 YAML。
+ * 结果同时写入 .tmp/short-desc.md（已 gitignore）。补写走 fill-desc.mjs：
+ * 把新正文放进 .tmp/desc-draft.json（{ "id": "正文" }），node tools/fill-desc.mjs --apply，
+ * 脚本会自动接回【…】标签与 ｜… 后缀，并检查新正文是否达到 300 字。
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -26,36 +30,42 @@ const arg = (key, fallback) => {
   return hit ? hit.slice(key.length + 3) : fallback;
 };
 
-const max = Number(arg('max', 120));
+const max = Number(arg('max', 300));
 const limit = Number(arg('limit', 0)) || Infinity;
 const cat = arg('cat', '');
 
 const { items } = normalizeResources(loadResources(path.join(root, 'data')));
-const len = (s) => [...String(s || '').trim()].length;
+/** 正文字数：剥掉【…】标签与结尾 ｜… 署名后缀，与 fill-desc.mjs 的 bodyLen 同一口径 */
+const bodyLen = (s) =>
+  [...String(s || '')
+    .replace(/【[^】]*】/g, '')
+    .replace(/｜[^｜]{1,40}\s*$/, '')
+    .trim()].length;
 
 const short = items
-  .filter((it) => (!cat || it.category === cat) && len(it.description) < max)
-  .sort((a, b) => len(a.description) - len(b.description))
+  .filter((it) => (!cat || it.category === cat) && bodyLen(it.description) < max)
+  .sort((a, b) => bodyLen(a.description) - bodyLen(b.description))
   .slice(0, limit);
 
 if (!short.length) {
-  console.log(`没有简介少于 ${max} 字的条目${cat ? `（分类：${cat}）` : ''}`);
+  console.log(`没有正文少于 ${max} 字的条目${cat ? `（分类：${cat}）` : ''}`);
   process.exit(0);
 }
 
 const lines = short.map(
   (it) =>
-    `| ${len(it.description)} | ${it.id} | ${it.category} | ${it.title} | ${String(it.description || '')
+    `| ${bodyLen(it.description)} | ${it.id} | ${it.category} | ${it.title} | ${String(it.description || '')
       .replace(/\s+/g, ' ')
       .slice(0, 40)}… |`
 );
 
 const md = [
-  `# 简介少于 ${max} 字的资源（${short.length} 条）`,
+  `# 正文少于 ${max} 字的资源（${short.length} 条）`,
   '',
   `> 生成时间：${new Date().toISOString().slice(0, 10)}　按字数升序，排在最前面的最该先补。`,
+  `> 字数按正文计（已剥掉【…】标签与 ｜… 署名后缀）。改写不是照抄 TMDB，正文补到 ${max} 字以上再落盘。`,
   '',
-  '| 字数 | id | 分类 | 标题 | 当前简介 |',
+  '| 正文字数 | id | 分类 | 标题 | 当前简介 |',
   '|---:|---|---|---|---|',
   ...lines,
   '',
@@ -66,3 +76,4 @@ fs.writeFileSync(path.join(root, '.tmp/short-desc.md'), md);
 
 console.log(md);
 console.log(`已写入 .tmp/short-desc.md（${short.length} 条，共 ${items.length} 条资源）`);
+console.log('补写：新正文放进 .tmp/desc-draft.json → node tools/fill-desc.mjs 空跑 → --apply 落盘');
