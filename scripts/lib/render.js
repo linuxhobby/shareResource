@@ -456,8 +456,21 @@ export function detailPage(ctx) {
 }
 
 /**
- * 404 页面：沿用内容页骨架（面包屑 + 卡片），
- * 下面挂一行最新资源宫格，走错路的人顺手就能回到站里。
+ * 404 插画：三张海报，中间那张「消失」（虚线框 + 禁用符号），
+ * 与本站最常见的 404 原因——资源被取消分享——对应得上。
+ */
+const NF_ART = `<svg class="nf__art" viewBox="0 0 240 116" role="presentation" aria-hidden="true">
+  <rect x="18" y="24" width="54" height="76" rx="8" fill="var(--fill-placeholder)"/>
+  <rect x="93" y="24" width="54" height="76" rx="8" fill="none" stroke="var(--brand)" stroke-width="2" stroke-dasharray="6 6"/>
+  <rect x="168" y="24" width="54" height="76" rx="8" fill="var(--fill-placeholder)"/>
+  <circle cx="120" cy="62" r="19" fill="none" stroke="var(--brand)" stroke-width="3"/>
+  <line x1="107" y1="49" x2="133" y2="75" stroke="var(--brand)" stroke-width="3" stroke-linecap="round"/>
+</svg>`;
+
+/**
+ * 404 页面：沿用内容页骨架（面包屑 + 卡片）。
+ * 除了大号 404 与操作按钮，再给出「大家在找」标签入口和一行最新资源，
+ * 让人不必退回搜索引擎，从这一页就能继续走下去。
  */
 export function notFoundPage(ctx) {
   const { site, categories, counts, total, images, indexAll } = ctx;
@@ -466,6 +479,29 @@ export function notFoundPage(ctx) {
     ? `<h2>最新入库</h2>
 <ul class="grid">${picks.map((it, i) => cardHtml(it, images, false, i < 5)).join('')}</ul>`
     : '';
+
+  // 全站出现频次最高的标签作为快捷搜索入口；同一分类最多占 2 个位置，
+  // 否则热词会清一色来自收录最多的那个分类（电影），覆盖不到软件 / 电子书等
+  const tagStat = new Map();
+  for (const it of indexAll || []) {
+    for (const t of it.tags || []) {
+      const s = tagStat.get(t) || { n: 0, cat: it.category };
+      s.n++;
+      tagStat.set(t, s);
+    }
+  }
+  const perCat = new Map();
+  const tagsRow = [...tagStat]
+    .sort((a, b) => b[1].n - a[1].n)
+    .filter(([, s]) => {
+      const used = perCat.get(s.cat) || 0;
+      if (used >= 2) return false;
+      perCat.set(s.cat, used + 1);
+      return true;
+    })
+    .slice(0, 8)
+    .map(([t]) => `<a class="cat" href="/?q=${encodeURIComponent(t)}">${esc(t)}</a>`)
+    .join('');
 
   return layout({
     site,
@@ -483,14 +519,16 @@ export function notFoundPage(ctx) {
     body: `<nav class="crumb"><a href="/">首页</a><span>/</span><span>页面不存在</span></nav>
 <div class="card-page">
   <div class="nf">
+    ${NF_ART}
     <h1 class="nf__code">404</h1>
-    <p class="nf__title">这个页面走丢了</p>
-    <p class="nf__desc">资源可能已下架、换了地址，或者链接本身写错了。你可以回首页重新找，
-    也可以直接用顶部搜索框（支持拼音首字母）。</p>
+    <p class="nf__title">这个资源没能打开</p>
+    <p class="nf__desc">链接多半已经失效：资源被取消了分享、换了地址，或者是从别处复制来的旧链接。
+    这一页还能让你接着找——看看下面的最新入库，或者用顶部搜索框按片名、拼音首字母搜。</p>
     <p class="nf__acts">
       <a class="btn btn--primary" href="/">返回首页</a>
       <a class="btn" href="/rss/">订阅更新</a>
     </p>
+    ${tagsRow ? `<p class="nf__tags"><span class="nf__tagslabel">大家在找</span>${tagsRow}</p>` : ''}
   </div>
   ${grid}
 </div>`,

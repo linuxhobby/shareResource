@@ -369,11 +369,15 @@ mark {
 
 /* ── 404 页 ──────────────────────────── */
 .nf { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 0 6px; text-align: center; }
+.nf__art { width: 240px; max-width: 100%; height: auto; }
 .nf__code { margin: 0; font-size: clamp(var(--fs-brand), 14vw, var(--fs-display)); line-height: var(--lh-flat); font-weight: 700; color: var(--brand); letter-spacing: 2px; }
 .nf__title { margin: 0; font-size: var(--fs-xl); font-weight: 600; color: var(--text); }
 .nf__desc { margin: 0; max-width: 520px; font-size: var(--fs-lg); line-height: var(--lh-body); color: var(--muted); }
 .nf__acts { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 10px 0 0; }
 .nf__acts .btn { padding: 7px 16px; font-size: var(--fs-md); }
+/* 「大家在找」标签行：胶囊直接复用分类栏的 .cat，形状与其它页面一致 */
+.nf__tags { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin: 12px 0 0; }
+.nf__tagslabel { font-size: var(--fs-sm); color: var(--muted); }
 
 /* ── 页脚 ────────────────────────────── */
 /* 页脚本身也带 .wrap，横向间距由 .wrap 提供，这里不再重复加 padding，否则会比其他区块窄一圈 */
