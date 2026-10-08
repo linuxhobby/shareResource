@@ -59,11 +59,16 @@ for (const [id, body] of Object.entries(draft)) {
     const m = lines[i].match(/^(\s*)description:\s*(.*)$/);
     if (!m) continue;
 
+    /** 先剥掉 YAML 双引号标量的外层引号，才看得到末尾的署名后缀 */
     const raw = m[2].trim();
-    /** 先剥掉 YAML 双引号标量的外层引号，才看得到末尾的评分后缀 */
     const inner = raw.startsWith('"') && raw.endsWith('"') ? raw.slice(1, -1) : raw;
-    const score = inner.match(/｜\s*TMDB\s*[\d.]+\s*$/);
-    const next = score && !body.includes('TMDB') ? `${body}｜${score[0].replace(/^｜\s*/, '')}` : body;
+    /**
+     * 结尾的 ｜后缀一律跟着走：既有「｜TMDB 7.5」这样的评分，
+     * 也有「｜Apple」「｜作者：[美] 斯蒂芬·金」这类厂商 / 作者署名，
+     * 都是数据来源的痕迹，重写正文时不该把它们丢掉。
+     */
+    const score = inner.match(/｜[^｜]{1,40}$/);
+    const next = score && !body.includes(score[0]) ? `${body}${score[0]}` : body;
     const after = `${m[1]}description: ${JSON.stringify(next)}`;
 
     if (after === lines[i]) {

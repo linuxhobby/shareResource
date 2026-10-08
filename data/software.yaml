@@ -64,7 +64,7 @@
   category: 软件
   tags: ["软件", "视频剪辑", "剪映", "短视频", "剪映 2025 国家版"]
   quark_url: "https://pan.quark.cn/s/74165e1e6f1d"
-  description: "剪映 2025 国家版：抖音官方视频剪辑工具的特别版本，解锁会员素材、贴纸、特效与高级导出能力，无水印导出短视频，适合口播、带货与批量剪辑场景。｜剪映"
+  description: "剪映是抖音官方的视频剪辑工具，这一版是特别版本：会员素材、贴纸、字体、转场特效与高级导出直接可用，导出不带水印。它的强项是把短视频那一套流程做得极顺——语音自动转字幕并套现成样式、画面跟着音乐自动卡点、口播常用的降噪与美颜都在手边，还有成套的带货模板和图片成片，批量生产内容时不用来回折腾。Windows 平台可用，不需要剪辑基础，跟着模板就能出片。适合做口播、带货、需要稳定日更的创作者。提醒一句：这类特别版本建议自用学习，正式商用还是请走官方渠道付费支持。下载后按包内说明安装即可。｜剪映"
   date: 2026-10-04
   added: 2026-10-04
   image: app-007.jpg
@@ -86,7 +86,7 @@
   category: 软件
   tags: ["软件", "笔记", "知识管理", "Markdown", "Obsidian"]
   quark_url: "https://pan.quark.cn/s/bf87d215f3a7"
-  description: "Obsidian：基于本地 Markdown 文件的知识管理工具，双向链接与关系图谱把零散笔记连成网络，插件生态丰富，支持多端同步，数据始终保存在自己手里。｜Obsidian"
+  description: "Obsidian 是一款基于本地 Markdown 文件的知识管理工具。它和多数笔记软件最大的区别是：笔记就是你磁盘上的 .md 文件，不锁进私有格式，随时能用别的编辑器打开、能被 Git 管起来。核心玩法是双向链接——A 引用 B，B 底部就自动出现反向链接，日积月累笔记之间织成一张网，关系图谱能直接看出结构。插件生态是它另一块强项：看板、日历、Dataview 查询、模板、发布都在社区里找得到，官方另有同步和发布服务。适合做长期笔记、写长稿、搭知识库的人。｜Obsidian"
   date: 2026-10-04
   added: 2026-10-04
   image: app-009.jpg
@@ -130,7 +130,7 @@
   category: 软件
   tags: ["软件", "社交", "macOS", "WWDCScholars"]
   quark_url: "https://pan.quark.cn/s/0a433df1a8fc"
-  description: "与奖学金及 Swift Student Challenge 获奖者同侪相聚交流，充分享受大会时光！支持 macOS，可在 Mac 上随时查阅与交流。｜Sam Eckert"
+  description: "WWDCScholars 是围绕 WWDC 奖学金圈子做的一个社交 App，后来这项活动延续为 Swift Student Challenge，作者 Sam Eckert。它的用处集中在大会前后：可以翻看历届获奖者的名单、看看他们提交了什么样的 Swift Playground 作品，也能认识同期入围的人互相交流项目。它的价值几乎全在这个「校友圈」上，不在圈子里的人用不上；而且这是款比较早期（2019 年前后）的应用，官方活动形式早已变化，联网数据能否取到并不确定，建议先装上看看能不能用再当回事。支持 macOS。｜Sam Eckert"
   date: 2019-06-05
   added: 2026-10-04
   image: app-013.jpg
@@ -141,7 +141,7 @@
   category: 软件
   tags: ["软件", "macOS", "ueli"]
   quark_url: "https://pan.quark.cn/s/9bf8e4b94001"
-  description: "ueli 是一款跨平台按键启动器：按下自定义热键唤出搜索框，即可启动应用、打开文件、执行网页搜索与命令，还能自定义工作流与扩展，支持 macOS（开源免费，主页 https://ueli.app）"
+  description: "ueli 是一款跨平台的键盘启动器。按下自定义热键唤出搜索框，敲几个字母就能启动应用、打开文件与文件夹、跑 shell 命令、做单位换算，或者把关键词直接丢给搜索引擎。它的扩展机制还能把一串动作打包成一个工作流，比如「打开项目」一次拉起编辑器、终端和几个固定网页。配置和扩展都落在本地文件里，方便跟着 dotfiles 备份。相比 Alfred、Raycast 这类明星产品它更朴素，但胜在 Windows、macOS、Linux 表现一致，也不用被付费墙分成两半。开源免费，主页 https://ueli.app。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-014.jpg
@@ -152,7 +152,7 @@
   category: 软件
   tags: ["软件", "macOS", "WezTerm"]
   quark_url: "https://pan.quark.cn/s/1d1d8d89b810"
-  description: "由 @wez 用 Rust 编写的 GPU 加速跨平台终端模拟器与多路复用器，支持 macOS，分屏、标签页与配置一应俱全（开源免费，主页 https://wezterm.org/）"
+  description: "WezTerm 是 @wez 用 Rust 写的跨平台终端，同样走 GPU 加速渲染。它和 Alacritty 的取舍正好相反：多路复用（类似 tmux 的分屏与会话管理）和 SSH 客户端直接做进了终端本身，标签页、切分面板、回溯搜索都是现成的，不必再叠一层工具。配置用 Lua 写，能细到「按当前目录自动换配色」「不同主机套不同外观」；字体连字与回退链的调整也很完备。适合想要一个「开箱就能用、又足够能改」终端的人，Windows、Linux、macOS 体验一致。开源免费，主页 https://wezterm.org/。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-015.jpg
@@ -174,7 +174,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "Tabby - Browser Tab Manager"]
   quark_url: "https://pan.quark.cn/s/a81b30432101"
-  description: "Tabby 是一款浏览器标签页管理工具，帮你从繁多的浏览器标签中理清头绪，节省时间、提升效率。需要 macOS 14（Sonoma）及以上。｜Fischnet Solutions, Inc."
+  description: "Tabby 是给「标签页开得太多」这件事准备的管理器。它的思路是把标签从浏览器窗口里抽出来，按网站或项目分组保存，需要的时候整组恢复，不必逐个回忆昨天那十几个网页分别在哪。对同时推进好几个项目、浏览器常年挂着几十上百个标签的人来说，它能省下反复重建上下文的成本；研究、写作、查资料这类多线任务尤其明显。要注意它要求 macOS 14（Sonoma）及以上，装之前先确认系统版本。导入现有浏览器的标签也是它用起来最顺手的一步。｜Fischnet Solutions, Inc."
   date: 2022-07-08
   added: 2026-10-04
   image: app-017.jpg
@@ -185,7 +185,7 @@
   category: 软件
   tags: ["软件", "macOS", "Tiny Wi-Fi Analyzer"]
   quark_url: "https://pan.quark.cn/s/81797bc93355"
-  description: "一款开源的 macOS 小型 Wi-Fi 分析工具（开源免费，主页 https://nolze.github.io/tiny-wifi-analyzer/）"
+  description: "Tiny Wi-Fi Analyzer 是一款小巧的 macOS 无线分析工具。它的用处很实际：把附近能搜到的所有网络按信道、信号强度和安全协议列出来并画成图，让你看清自家路由器是不是正和邻居挤在同一个信道上、2.4GHz 该不该换个信道、5GHz 哪一频段更干净。装完在菜单栏点开就能看，不联网、数据全在本地。家里 Wi-Fi 时快时慢、会议室经常掉线、或者刚搬完家想给路由器挑个位置时，对着图调一下信道往往比重启管用得多。这类排查工具平时用不上，需要的时候能省掉一整个下午。开源免费，主页 https://nolze.github.io/tiny-wifi-analyzer/。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-018.jpg
@@ -196,7 +196,7 @@
   category: 软件
   tags: ["软件", "macOS", "Pritunl"]
   quark_url: "https://pan.quark.cn/s/6244279c21ad"
-  description: "Pritunl 是面向企业的 VPN 服务器管理客户端，可在 macOS 上集中配置与监控 VPN 服务、用户与权限（开源免费，主页 https://forum.pritunl.com）"
+  description: "Pritunl 是面向团队的 VPN 方案，分服务端和客户端：服务端用来集中管理 VPN 服务、用户、群组权限与路由策略，这个 macOS 客户端负责最后那段接入。管理员把配置文件或邀请链接发过来，导入之后就能连上，日常的切换连接、查看状态都在图形界面里完成。它对准的是已经有 Pritunl 部署的公司或团队——远程办公、多地组网这类场景；个人用户如果只是想找个能翻墙的免费 VPN，这个完全不对路，别下错。开源免费，主页 https://forum.pritunl.com。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-019.jpg
@@ -218,7 +218,7 @@
   category: 软件
   tags: ["软件", "macOS", "Marker Data"]
   quark_url: "https://pan.quark.cn/s/196a9f4d8870"
-  description: "为 Final Cut Pro 打造的前卫 Marker（标记）提取工具，运行在 macOS 上，可导出并整理标记数据（开源免费，主页 https://markerdata.theacharya.co）"
+  description: "Marker Data 是给 Final Cut Pro 用户做的标记处理工具。剪辑时打的标记往往不只是提示：客户的修改意见、配音的时间点、要交付的字幕参考，全都堆在时间线上。这个工具负责把标记数据从 FCPXML 里提取出来，整理成表格或文本导出去，方便发给客户看、交给字幕组，或者自己统计数量和时长。对手工一个个抄标记的人能省下大量重复劳动，也减少抄漏。适合接纪录片、广告、长期外包的剪辑从业者。开源免费，主页 https://markerdata.theacharya.co。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-021.jpg
@@ -229,7 +229,7 @@
   category: 软件
   tags: ["软件", "macOS", "PearCleaner"]
   quark_url: "https://pan.quark.cn/s/a683246591b5"
-  description: "一款免费、开放源代码且采用 fair-code 许可的 Mac 应用卸载清理工具（开源免费，主页 https://itsalin.com/appInfo/?id=pearcleaner）"
+  description: "PearCleaner 是 Mac 上的应用卸载与残留清理工具。拖动图标到废纸篓只删掉了主程序，偏好设置、缓存、日志、应用支持目录里的文件往往还散在各处，日积月累就是好几个 G。它的做法是：选中要卸载的 App，把关联文件一并扫出来列给你，先看再删，不满意可以单独取消勾选；反过来也能查某个 App 究竟在系统里放了些什么。还支持按大小找大文件、清理通用缓存。界面比同类商业工具朴素，但免费开源（fair-code 许可），也不常驻后台偷资源。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-022.jpg
@@ -240,7 +240,7 @@
   category: 软件
   tags: ["软件", "macOS", "LeafView"]
   quark_url: "https://pan.quark.cn/s/32603f93f857"
-  description: "基于 Leaflet.js 和 Electron 的极简图片查看器，支持 macOS，轻量看图无负担（开源免费，主页 https://github.com/sprout2000/leafview）"
+  description: "LeafView 是一款极简的 Mac 图片查看器，用 Electron 打包、Leaflet.js 负责图像渲染。它的克制程度很高：不做图库管理、不做批量处理、不做任何编辑，只把「双击、看图、关掉」这件事做快。支持常见格式、缩放拖拽、适应窗口和全屏浏览，临时看一眼截图或者翻几张参考图时不用等大型程序加载。作者 sprout2000 还做了同系列的 Tauview（Tauri 版本），界面和功能几乎一致，差别只在打包方式：Electron 兼容性更稳，Tauri 更省内存。开源免费，主页 https://github.com/sprout2000/leafview。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-023.jpg
@@ -295,7 +295,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "MeetingBar"]
   quark_url: "https://pan.quark.cn/s/391aadfc4405"
-  description: "会议触手可及！MeetingBar 在 macOS 状态栏显示你的日历日程，一键创建或加入会议；还有丰富的高级设置，让日历与会议管理随心所欲。｜Andrii Leitsius"
+  description: "MeetingBar 解决的是开会前那两分钟的慌乱。日历里明明写着这个会，但链接藏在邀请的角落里，下一个会什么时候开始也得翻半天——它把今天剩下的日程直接摆进菜单栏，点开就能看到每场会的时间和「加入」按钮，Zoom、Google Meet、Teams 这类常见链接它会自己识别出来，一点即进。还支持直接从菜单栏发起临时会议、显示距离下一场还剩多久。对一天被切成好几段、在不同会议平台之间反复横跳的人，这个小小入口能省下大量找链接的时间。｜Andrii Leitsius"
   date: 2020-10-04
   added: 2026-10-04
   image: app-028.jpg
@@ -306,7 +306,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "MakeItHome - Screen extender"]
   quark_url: "https://pan.quark.cn/s/088180690984"
-  description: "MakeItHome：你的个性化开源工作区。把最常用的应用放在鼠标一挥即达之处，突破屏幕边界的限制，自在扩展你的桌面空间，支持 macOS。｜Riccardo Cecchini"
+  description: "MakeItHome 的思路是把「最常用的东西放在手边」这件小事做彻底：它提供一块可以自定义的常驻面板，把你常用的应用、文件夹和链接摆到鼠标一挥就到的位置，不必回到 Dock，也不用先最小化眼前的窗口去翻Finder。它更像给 Mac 加了一条随身工具带——藏在系统深处的目录、临时在用的素材夹、几个频繁切换的小工具，都可以收进去固定下来。适合显示器不够宽、或者受不了在层层窗口里找东西的人。作者 Riccardo Cecchini，主打开源工作区。支持 macOS。｜Riccardo Cecchini"
   date: 2022-12-02
   added: 2026-10-04
   image: app-029.jpg
@@ -339,7 +339,7 @@
   category: 软件
   tags: ["软件", "macOS", "UnnaturalScrollWheels"]
   quark_url: "https://pan.quark.cn/s/5ccf926dff51"
-  description: "在 macOS 上反转物理滚轮的滚动方向，同时保留触控板的「自然」滚动（开源免费，主页 https://github.com/ther0n/UnnaturalScrollWheels）"
+  description: "macOS 的滚动方向设置一直有个二选一的麻烦：要么让触控板保持「自然」滚动（内容跟着手指走），要么为了外接鼠标把方向反转，系统不区分输入设备，两者只能取其一。UnnaturalScrollWheels 专门治这个：它只反转物理滚轮的方向，触控板那套自然滚动原样保留。于是同一台 Mac 上插着鼠标和用触控板时都符合直觉，不会因为换了输入设备就上下颠倒。工具极轻，设一次基本就忘了它。适合同时用两种输入设备、被这个方向问题困扰很久的人。开源免费。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-032.jpg
@@ -372,7 +372,7 @@
   category: 软件
   tags: ["软件", "美食佳饮", "macOS", "Tomato Bar"]
   quark_url: "https://pan.quark.cn/s/d743608560e7"
-  description: "Tomato Bar 应用帮你查找最近的门店、浏览菜单并提前下单，省时省力；还可在应用内累积会员积分、查看奖励进度，支持 macOS。｜Tomato Bar LLC"
+  description: "Tomato Bar 是 Mac 菜单栏上的番茄工作法计时器。平时它只占菜单栏一格，点开能看到当前这一轮的剩余时间，也可以暂停、跳过或重置。节奏按番茄工作法来：专注一段时间、短休息一下，完成若干轮再安排一次长休息，具体时长都能自己调。它比较讨巧的地方是能和系统的「勿扰 / 专注模式」联动，专注计时期间自动屏蔽通知，结束时用提示音提醒，也支持全局快捷键直接开一轮。适合容易被消息打断、想给自己定个明确节奏的人——不联网、不注册，装上就能用。开源免费，macOS 原生包，下载后拖入「应用程序」文件夹即可使用。｜Tomato Bar LLC"
   date: 2020-07-13
   added: 2026-10-04
   image: app-035.jpg
@@ -383,7 +383,7 @@
   category: 软件
   tags: ["软件", "macOS", "Tauview"]
   quark_url: "https://pan.quark.cn/s/59654547d72d"
-  description: "基于 Leaflet.js 和 Tauri 的极简图片查看器，支持 macOS，启动快、占用低（开源免费，主页 https://github.com/sprout2000/tauview）"
+  description: "Tauview 是一款走极简路线的 Mac 图片查看器，用 Leaflet.js 渲染图像、Tauri 做外壳，比起 Electron 那套体积更小、启动更快、内存更省。它只做一件事：双击就把图打开，支持缩放拖拽、适应窗口和全屏浏览，常见格式都能吃下。想快速看一眼截图或翻几张参考图时，不用等重量级程序慢慢起来。作者 sprout2000 另外还有一个 Electron 版本的兄弟项目 LeafView，界面和功能差不多，差别只在打包技术——要兼容性更稳就 Electron，要省资源就 Tauri。开源免费，主页 https://github.com/sprout2000/tauview。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-036.jpg
@@ -405,7 +405,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Pika"]
   quark_url: "https://pan.quark.cn/s/71a79e30adf1"
-  description: "Pika（读作 pi·kuh，与 picker 谐音）是一款易于使用的开源 macOS 原生取色器，帮你快速抓取屏幕上的颜色并以所需格式输出，让设计师工作快人一步。｜David Charles Gleason"
+  description: "Pika 是 macOS 原生的开源取色器，名字谐音 picker。用法极简：拿起它吸取屏幕上任意一点的颜色，然后按需要的格式输出——HEX、RGB、HSL 都有，连 Swift 的 UIColor、CSS 变量这类能直接粘进代码的写法也备好了。设计师与前端之间来回核对颜色时最省事，看到界面上某个调得挺好的灰也能立刻抓下来存着。它还保留最近取过的颜色历史，不至于眼睛一离开就找不回来。作者 David Charles Gleason。支持 macOS。｜David Charles Gleason"
   date: 2024-12-11
   added: 2026-10-04
   image: app-038.jpg
@@ -416,7 +416,7 @@
   category: 软件
   tags: ["软件", "macOS", "SwiftQuit"]
   quark_url: "https://pan.quark.cn/s/82cf9ec8f993"
-  description: "关闭窗口时自动退出 macOS 应用（开源免费，主页 https://github.com/onebadidea/swiftquit）"
+  description: "macOS 和 Windows 的习惯不一样：Windows 上关掉最后一个窗口通常就退出了程序，Mac 上关窗之后 App 还留在后台，久了 Dock 里挂一串没在用的图标，内存和电量都在悄悄消耗。SwiftQuit 把这套改回 Windows 的样子——关掉某个应用的最后一个窗口时就自动退出它。工具常驻后台、无需配置，也可以设一份例外名单，把邮件、备忘录、下载工具这类希望常驻的程序排除掉。适合从 Windows 转过来的人，或者单纯不喜欢后台堆着一堆程序的人；装上以后基本就在后台安静待着，不会打扰你。开源免费，主页 https://github.com/onebadidea/swiftquit。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-039.jpg
@@ -427,7 +427,7 @@
   category: 软件
   tags: ["软件", "效率", "macOS", "Reminders"]
   quark_url: "https://pan.quark.cn/s/44420c3c3961"
-  description: "「提醒事项」让你更轻松地记住要做的事：购物清单、工作项目或任何想追踪的事项都不在话下；借助 iCloud，所有设备自动同步，提醒随身携带，Mac 上同样开箱即用。｜Apple"
+  description: "「提醒事项」是苹果自带的待办应用，Mac 上随系统就有。用法很朴素：想到什么随手记一条，购物清单、工作任务、旅行准备都能往里塞，可以按时间提醒，也能按地点提醒——走到超市门口才弹出来的那种。清单能分组、能拆子任务，靠着 iCloud 在 iPhone、iPad、Mac 之间自动同步，在哪台设备上改动都一样。更进一步可以把一个清单共享给家人：谁买完谁勾掉，对方那边立刻更新。适合不想为了记待办再装一个 App、也懒得折腾同步方案的人。｜Apple"
   date: 2016-05-23
   added: 2026-10-04
   image: app-040.jpg
@@ -449,7 +449,7 @@
   category: 软件
   tags: ["软件", "macOS", "SlowQuitApps"]
   quark_url: "https://pan.quark.cn/s/4b6fa3e9b9aa"
-  description: "为 macOS 的 Command-Q 添加全局延迟，防止误退应用（开源免费，主页 https://github.com/dteoh/SlowQuitApps）"
+  description: "macOS 的 Command-Q 没有任何二次确认，写文档或开会投屏时手滑带上旁边的 Q，辛苦半天的窗口就没了。SlowQuitApps 的做法很轻：给全局的 Command-Q 加一段可配置的延迟（默认约一秒），按住不放才会真正退出，退出前还会显示倒计时，松手就取消。它不弹窗、不改你的使用习惯，只是把那个危险瞬间拉长到来得及后悔。可以设自选时长，也能按应用单独排除。适合经常演示、投屏、协作，或者单纯手不稳的人；装上以后它的存在感接近于零，直到哪天真救了你一次。开源免费，主页 https://github.com/dteoh/SlowQuitApps。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-042.jpg
@@ -460,7 +460,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Plash"]
   quark_url: "https://pan.quark.cn/s/d92462a5b9b2"
-  description: "把任意网页变成桌面壁纸，让桌面「动」起来：可以显示你喜爱的新闻网站、社交动态或随机风景照，甚至能拿动图 GIF 当壁纸，还支持添加多个页面，玩法无穷，支持 macOS。｜Sindre Sorhus"
+  description: "Plash 能把任意网页变成 Mac 的桌面壁纸。填上网址，那个页面就铺到墙纸的位置：可以常挂一张缓慢变化的气象雷达图、一份实时数据面板，或者干脆放 GIF 动图让桌面动起来。它可以添加多个网页随时切换，还能选择这个网页要不要响应鼠标——需要交互就让它点得到，不需要就把事件穿透到后面的桌面图标。配合隐藏 Dock，观感上几乎就是一块真的动态桌面。作者 Sindre Sorhus 一向做这类小而美的 Mac 工具。支持 macOS。｜Sindre Sorhus"
   date: 2020-01-08
   added: 2026-10-04
   image: app-043.jpg
@@ -493,7 +493,7 @@
   category: 软件
   tags: ["软件", "macOS", "Macdown"]
   quark_url: "https://pan.quark.cn/s/ddfafe83d514"
-  description: "macOS 开源 Markdown 编辑器（开源免费，主页 https://macdown.uranusjr.com/）"
+  description: "Macdown 是 macOS 上一款老牌开源 Markdown 编辑器，作者 uranusjr，界面走原生双栏：左边写源码，右边实时渲染，改动立刻看得见。语法上支持 GFM、表格、任务列表、脚注、MathJax 公式和代码块高亮，写完可以直接导出 HTML 或 PDF。它和后来那批 Electron 编辑器最大的区别是轻——体积小、启动快、界面干净，更像系统自带的备忘录，代价是没有标签页和插件生态。适合只想在本机安静写文档、记笔记、写博客初稿的人，不需要协同也不需要发布流程。开源免费，主页 https://macdown.uranusjr.com/。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-046.jpg
@@ -548,7 +548,7 @@
   category: 软件
   tags: ["软件", "游戏", "macOS", "Quicksilver - Galaxy Road to Arcade Adventures"]
   quark_url: "https://pan.quark.cn/s/ff4a7c5c8cfb"
-  description: "在这款时尚又令人上瘾的游戏里与时间赛跑、锻炼反应力！动感的音乐和经典复古的美术风格让它一玩难忘，还可与全球玩家争夺最高分，支持 macOS。｜Daniel Reichert"
+  description: "《Quicksilver - Galaxy Road to Arcade Adventures》是一款休闲街机风的小游戏，2015 年上架。玩法围绕「与时间赛跑」：障碍和机会轮番涌来，你得在越来越快的节奏里不断做出反应，到后段基本靠肌肉记忆撑着。它的卖点是动感的电子配乐加上复古像素美术，两者咬合得很紧，听感和手感都带上那个年代街机的味道；成绩可以上传排行榜和全球玩家比一比。适合通勤路上、休息间隙来上几局，也适合本来就喜欢复古视觉和内容简洁的休闲玩家。支持 macOS。｜Daniel Reichert"
   date: 2015-11-21
   added: 2026-10-04
   image: app-051.jpg
@@ -570,7 +570,7 @@
   category: 软件
   tags: ["软件", "macOS", "Omnivore"]
   quark_url: "https://pan.quark.cn/s/84e3d6f066c3"
-  description: "面向阅读爱好者的完整开源「稍后读」解决方案，支持 macOS，可离线归档文章并做高亮与标注（开源免费，主页 https://github.com/omnivore-app/omnivore）"
+  description: "Omnivore 是给重度阅读者做的开源「稍后读」方案。看到长文来不及读，先丢进来，它会把正文抓取下来重新排版，去掉广告、导航栏和花哨样式，改成适合长时间盯着读的版式，图片和代码块都保留。读的时候可以划重点、写批注，这些内容同步回个人 Library，也能导出到 Obsidian、Notion、Readwise 这类工具里接着加工。文章都能离线归档，配上高亮和自由标签，攒起来就是自己的资料库。适合每天要消化大量文章的人。开源免费，主页 https://github.com/omnivore-app/omnivore。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-053.jpg
@@ -581,7 +581,7 @@
   category: 软件
   tags: ["软件", "macOS", "MarkEdit"]
   quark_url: "https://pan.quark.cn/s/0ecfeacbd2c0"
-  description: "就像 Mac 上的「文本编辑」，但专为 Markdown 而生（开源免费，主页 http://tiny.cc/markedit）"
+  description: "MarkEdit 的定位很清楚：像 Mac 自带的「文本编辑」那样轻，但只用来写 Markdown。它由开源社区用 Swift 写成，双击打开就能写，不需要配置工作区或导入项目。语法高亮、目录大纲、即时预览、字数统计都在，还支持 TeX 公式和一批批处理命令——给列表排序、大小写转换、按列编辑这类重复操作能一次搞定。原生带来的最大好处是启动几乎没有延迟，改几行 README、记一段笔记不必等主力编辑器缓缓打开。适合把 Markdown 当日常书写格式的人；如果要 Markdown 之外还要管版本、插件和发布流程，它则有意保持克制。开源免费，主页 http://tiny.cc/markedit。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-054.jpg
@@ -592,7 +592,7 @@
   category: 软件
   tags: ["软件", "macOS", "MacSymbolicator"]
   quark_url: "https://pan.quark.cn/s/82e09197ea44"
-  description: "轻松符号化（Symbolicate）macOS/iOS 崩溃报告（开源免费，主页 https://github.com/inket/MacSymbolicator）"
+  description: "MacSymbolicator 是给苹果平台开发者排查崩溃用的工具。线上崩溃日志捞下来时，里面往往只有一串内存地址，「符号化」就是把这些地址还原成可读的函数名、文件名和行号——这一步做得成做不成，直接决定你能不能看懂问题出在哪。手工做要拼 dSYM 路径、敲命令行，版本多了之后尤其容易搞混归档。MacSymbolicator 把这些做成图形界面：拖入崩溃日志，再给到对应的 dSYM 或 App 归档，它自己匹配符号表并输出可读结果。适合经常处理线上崩溃、需要翻旧版本归档的开发者，能省下不少查 Objective-C 符号的时间。开源免费，主页 https://github.com/inket/MacSymbolicator。macOS 原生包，拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-055.jpg
@@ -636,7 +636,7 @@
   category: 软件
   tags: ["软件", "macOS", "Keyboard Cowboy"]
   quark_url: "https://pan.quark.cn/s/e91ea3b2841a"
-  description: "macOS 缺失的键盘快捷键实用工具（开源免费，主页 https://github.com/zenangst/KeyboardCowboy）"
+  description: "Keyboard Cowboy 补的是 macOS 一直没做好的那块：系统级的快捷键与自动化。它分三层用法——最基础是把任意应用启动、菜单命令、文件夹跳转绑定到一个全局快捷键；往上是把一串操作排成流水线，比如启动某个项目时依次打开编辑器、切到指定桌面、摆好窗口、跑起本地服务；最上层是按当前所在 App 或所在桌面自动切换整套快捷键方案。配置存在本地文件里，可以跟着 dotfiles 一起备份。适合重度键盘流，或者觉得启动器只解决了一半流程、窗口管理与多步操作的组合拳还需要自己拼的人。开源免费，主页 https://github.com/zenangst/KeyboardCowboy。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-059.jpg
@@ -658,7 +658,7 @@
   category: 软件
   tags: ["软件", "macOS", "MiniSim"]
   quark_url: "https://pan.quark.cn/s/d52d91b9730f"
-  description: "在 macOS 菜单栏一键启动 iOS 和 Android 模拟器的工具（开源免费，主页 https://www.minisim.app/）"
+  description: "MiniSim 是给移动端开发者准备的菜单栏小工具。Xcode 的设备面板层级深、Android Studio 启动又慢，而日常开发中「把模拟器拉起来看一眼」这件事频率极高——它把这个动作压缩到菜单栏一点：列出本机已创建的 iOS 模拟器与 Android 虚拟设备，点一下就启动，也支持一键关机，还能按运行状态筛选、自定义设备显示名。对 Flutter、React Native 或者原生双端开发的人是日常刚需；偶尔需要截个图验证适配、或者只是想在 iPhone 模拟器里翻一翻的人，也省得先等 Xcode 转圈。开源免费，主页 https://www.minisim.app/。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-061.jpg
@@ -669,7 +669,7 @@
   category: 软件
   tags: ["软件", "macOS", "Karabiner-Elements"]
   quark_url: "https://pan.quark.cn/s/4dca82c98051"
-  description: "Karabiner-Elements 是一款强大的 macOS 键盘自定义工具（开源免费，主页 https://karabiner-elements.pqrs.org/）"
+  description: "Karabiner-Elements 是 macOS 上改键能力的天花板。它的玩法从简单到离谱：把 Caps Lock 改成「单按是 Esc、组合按是 Control」，把闲置的Fn 键变成 Hyper 超键；也能给外接键盘单独配一套方案，笔记本自带键盘保持原样。再往上可以手写 JSON 规则，实现「左右 Shift 单按分别输出左右括号」这类复合修改，规则还能从社区分享的仓库里一键导入。对 HHKB、60% 键盘和 Vim 用户几乎是必备品。要注意它工作在驱动层面，macOS 大版本升级之后有时要等新版兼容。开源免费，主页 https://karabiner-elements.pqrs.org/。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-062.jpg
@@ -702,7 +702,7 @@
   category: 软件
   tags: ["软件", "macOS", "MacBox"]
   quark_url: "https://pan.quark.cn/s/77d078b85a67"
-  description: "MacBox 是 86Box 的 macOS 图形界面封装：用它管理虚拟机配置、启动参数与磁盘镜像，无需再敲命令行（开源免费，主页 https://github.com/Moonif/MacBox）"
+  description: "MacBox 是 86Box 的 macOS 图形界面封装。86Box 本身是历史悠久的老式 PC 模拟器，能忠实还原 386、486、Pentium 那一代机器，用来跑 DOS 和 Windows 9x 时代的软件，代价是配置文件和启动参数相当繁琐。MacBox 把这些搬到图形界面里管理：选机型、定 CPU 和内存、挂载软盘硬盘镜像、挑显卡声卡，统统变成点选，不用再手搓配置。适合想让一台老 PC 复活、跑早期软件，或者对旧硬件有研究兴趣的人。开源免费，主页 https://github.com/Moonif/MacBox。macOS 原生包，拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-065.jpg
@@ -713,7 +713,7 @@
   category: 软件
   tags: ["软件", "macOS", "Mac Mouse Fix"]
   quark_url: "https://pan.quark.cn/s/01bcfdfbdac8"
-  description: "Mac Mouse Fix：让你 10 美元的鼠标比苹果触控板还好用！（开源免费，主页 https://macmousefix.com/）"
+  description: "Mac Mouse Fix 是把普通鼠标拉到 Magic Mouse 手感的那一块拼图。苹果自家的鼠标滚轮体验做得很顺，但换成几十块的第三方鼠标之后，滚动方向反了、加速曲线飘忽、侧键完全没用——它把这些全部接管：滚动方向可与触控板保持一致，加速度可以换成线性，还能给中键、侧键分别指派 Mission Control、前进后退、粘贴等动作。另外它有惯性滚动，习惯了触控板的人换回鼠标不会觉得割裂。适合主力用鼠标、又受不了 macOS 默认那套鼠标体验的人，游戏办公两头跑的场景尤其明显。开源免费，主页 https://macmousefix.com/。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-066.jpg
@@ -735,7 +735,7 @@
   category: 软件
   tags: ["软件", "macOS", "Itsycal"]
   quark_url: "https://pan.quark.cn/s/af01f6acf4c3"
-  description: "Itsycal 是一款小巧的 Mac 菜单栏日历。官网：http://www.mowglii.com/itsycal（开源免费，主页 https://github.com/sfsam/Itsycal）"
+  description: "Itsycal 是 Mac 菜单栏上一枚小巧的月历。定位很清楚：不接管日程、不做同步，只在点开时给你一个月的视图，顺便列出当天或未来几天的事件，不必为了确认今天几号专门打开一个窗口。系统日历等账户的事件都能显示，点某一天还能直接新建事件。它最讨喜的地方是够小——菜单栏空间金贵，它只占日期那点宽度，也不抢注意力。适合已经把系统日历用起来、只想要一个常驻入口的人。官网 http://www.mowglii.com/itsycal。开源免费，主页 https://github.com/sfsam/Itsycal。macOS 原生包，拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-068.jpg
@@ -757,7 +757,7 @@
   category: 软件
   tags: ["软件", "macOS", "Kap"]
   quark_url: "https://pan.quark.cn/s/a8071c3ed1c9"
-  description: "基于 Web 技术构建的开源屏幕录制工具，支持 macOS，录制、编辑与分享一步到位（开源免费，主页 https://getkap.co）"
+  description: "Kap 是开源的屏幕录制工具，基于 Web 技术构建，主打把「录下来到发出去」这一段做顺：框选区域或全屏录制，支持麦克风录入（配合音频插件还能录到系统声音），录完自带轻量编辑器，可以裁剪片头片尾、调整分辨率，然后导出 GIF、MP4、WebM，配好账号还能一键上传生成短链接。对 Mac 用户来说最实在的一点是 GIF 这条链路终于不用绕：写文档、提缺陷单、录操作演示、录 bug 复现，几步就能做出可以直接贴走的动图。适合开发者、产品经理和做教学内容的创作者。开源免费，主页 https://getkap.co。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-070.jpg
@@ -768,7 +768,7 @@
   category: 软件
   tags: ["软件", "macOS", "Jan"]
   quark_url: "https://pan.quark.cn/s/eb72d9555f21"
-  description: "Jan 是 ChatGPT 的开源替代品，可 100% 离线运行在你的电脑上，支持 macOS，本地模型随时可用（开源免费，主页 https://jan.ai/）"
+  description: "Jan 是一个把大模型搬到本机运行的开源桌面应用。界面和操作习惯接近 ChatGPT，区别在于所有对话、模型和配置都留在自己的电脑上：不用注册账号，断网照样能聊，数据不外传。它通过 llama.cpp 加载 GGUF 格式的开源模型，也能按需接入云端大模型作为备选，本地跑不通的任务可以临时切过去。对在意隐私、想在飞机或无网环境里写草稿、或者只是好奇心重想试试本地模型的人都很合适。需要注意的是本地推理速度取决于内存和芯片，选模型时留意标注的体积和最低配置，别一上来就拉七十亿参数的大模型。开源免费，主页 https://jan.ai/。macOS 原生包，拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-071.jpg
@@ -779,7 +779,7 @@
   category: 软件
   tags: ["软件", "macOS", "KeyCastr"]
   quark_url: "https://pan.quark.cn/s/20cbbc7b2d01"
-  description: "开源的按键可视化工具，支持 macOS，录屏、教学与直播时展示按键操作（开源免费，主页 https://github.com/keycastr/keycastr）"
+  description: "KeyCastr 是按键可视化工具：你敲什么，屏幕上就同步显示什么。录屏教程、直播、产品演示、讲课时观众看不见你的手，多这样一层显示，别人就能跟上操作节奏。它会把修饰键渲染成 ⌘、⇧、⌥ 这类符号，也能显示连击序列，显示时长、位置、字体、配色和背景都可以调，另有「只显示修饰键」的简洁模式。可视化插件还能自己写，想做得更贴合自己的录屏风格也不难。适合做教学内容、内部培训、开源项目演示的人，录完 Export 出来直接就是成品。开源免费，主页 https://github.com/keycastr/keycastr。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-072.jpg
@@ -812,7 +812,7 @@
   category: 软件
   tags: ["软件", "macOS", "IINA"]
   quark_url: "https://pan.quark.cn/s/a3710e68737c"
-  description: "IINA 是 macOS 上的现代视频播放器：基于 mpv 打造，界面原生、几乎通吃所有格式，支持画中画、在线字幕与触控栏操作，体验贴合 macOS（开源免费，主页 https://iina.io）"
+  description: "IINA 是 macOS 上的现代视频播放器，底层用 mpv。它的价值在于把 mpv 几乎通吃的解码能力和地道的 Mac 界面合到一处：原生窗口、深色模式、触控栏控制、画中画、Force Touch 快进都贴合 Mac 的使用习惯，在线字幕搜索和逐帧截图这些细节也做得很到位。相比 VLC 它更符合 macOS 的审美，相比 QuickTime 它能吃下的格式多得多——mkv、HEVC、外挂字幕都不在话下。适合当作 Mac 的默认播放器。开源免费，主页 https://iina.io。macOS 原生包，拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-075.jpg
@@ -845,7 +845,7 @@
   category: 软件
   tags: ["软件", "macOS", "Ice"]
   quark_url: "https://pan.quark.cn/s/2f056d98424a"
-  description: "🚀 ice.js 是基于 React 的渐进式应用框架，配套桌面工具支持 macOS，可用于快速搭建与调试前端应用（开源免费，主页 https://ice.work）"
+  description: "Ice 是整理 macOS 菜单栏的工具。Mac 用久了，右上角会被各种图标塞满，系统自带的收纳能力却很有限。Ice 的做法是给菜单栏划一道可拖动的分隔线：常用图标留在左边，不常用的收进右边，需要时点一下展开，或者按快捷键临时呼出。图标可以逐个设为「总显示」「自动隐藏」或「从不显示」，也能设定某些 App 在有活动时才露脸。习惯之后桌面上方会清爽很多，截图和录屏时也不用再临时去关一堆菜单栏。适合已经被菜单栏图标挤到放不下、又不想一个个进 App 设置里翻开关的人。开源免费，主页 https://github.com/jordanbaird/Ice。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-078.jpg
@@ -878,7 +878,7 @@
   category: 软件
   tags: ["软件", "音乐", "macOS", "The Jukebox App - Desktop"]
   quark_url: "https://pan.quark.cn/s/a6c8245822e0"
-  description: "用 Mac 办一场点歌派对，以 Spotify 为曲库：宾客用手机加入，添加歌曲并为歌曲投票。主办派对需要 Spotify Premium 会员。｜Benjamin Barnett"
+  description: "The Jukebox App 把 Mac 变成聚会上的点唱机：以 Spotify 为曲库，启动后生成一个房间，宾客用手机扫码或输入房间码加入，各自把想听的歌加进队列，还能给别人点的歌投票，票数高的自动往前排。这样一来播放列表不再由某个人独裁，气氛也更容易热起来。要注意主办的人需要有 Spotify Premium 会员，一般宾客不必付费。适合家里聚会、生日、办公室活动时用——与其把手机递来递去排队点歌，不如让大家自己决策。｜Benjamin Barnett"
   date: 2024-08-25
   added: 2026-10-04
   image: app-081.jpg
@@ -900,7 +900,7 @@
   category: 软件
   tags: ["软件", "macOS", "Freeter"]
   quark_url: "https://pan.quark.cn/s/76c09b69fe0f"
-  description: "Freeter，更聪明的电脑工作方式：用工作区把项目、文件、网页与待办归类整合，一键切换上下文，支持 macOS（开源免费，主页 https://freeter.io/）"
+  description: "Freeter 想解决的是「每次开工都要先花十分钟摆桌面」这个问题。它的单位是工作区：一个项目往往牵着一堆文件夹、几个常用网页、特定软件和一批待办，Freeter 把这一整套打包成一个工作区，点一下全部就位，切走时当前这套自动收起来，下次回来还是原样。它也允许只用其中一部分——比如把常用文件夹钉在一个总是可见的面板上，或者当成一个随呼随到的暂存区。适合手上同时转着好几个项目、上下文来回切换的人，做设计、剪辑、策划这类素材散在各处的工种尤其省事。开源免费，主页 https://freeter.io/。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-083.jpg
@@ -911,7 +911,7 @@
   category: 软件
   tags: ["软件", "macOS", "Hammerspoon"]
   quark_url: "https://pan.quark.cn/s/84306791d1f7"
-  description: "用 Lua 实现强大到惊人的 macOS 桌面自动化（开源免费，主页 http://www.hammerspoon.org）"
+  description: "Hammerspoon 是 macOS 上的桌面自动化框架，用 Lua 书写。它把窗口布局、应用切换、快捷键重绑定、剪贴板历史、菜单栏自定义、Wi-Fi 与电源状态监听这些系统接口统一暴露出来，几十行 Lua 就能拼出自己想要的行为：一个按键把窗口摆到左半屏并顺手呼出终端、连上公司网络自动开勿扰并调低音量、给常用长句绑个全局快捷键。它是当年 Mjolnir 的延续，配置即代码，改完重载即刻生效。适合愿意折腾、希望电脑完全按自己习惯运转的人；只想点几下鼠标就配置好的话，它的门槛偏高。开源免费，主页 http://www.hammerspoon.org。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-084.jpg
@@ -922,7 +922,7 @@
   category: 软件
   tags: ["软件", "macOS", "Flameshot"]
   quark_url: "https://pan.quark.cn/s/065d3a45378e"
-  description: "功能强大又简单易用的截图软件，支持 macOS，截图后可立即标注、模糊与分享（开源免费，主页 https://flameshot.org）"
+  description: "Flameshot 是一站式截图工具，Linux 上尤其普及，Windows 和 macOS 也能用。它和系统自带截图的差别在于「截完立刻能改」：框选范围之后直接进入标注界面，箭头、方框、马赛克、模糊、高亮、序号、文字注释都摆在旁边，改完可以另存、复制到剪贴板，配好图床还能一键上传生成分享链接。选区会自动吸附窗口边界，也能按上一次的区域重复截图，批量做教程配图时省事不少。适合写文档、提缺陷单、给同事远程解释问题、或者做技术分享的人——截图这件小事一次做完，不用再打开第二个软件。开源免费，主页 https://flameshot.org。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-085.jpg
@@ -933,7 +933,7 @@
   category: 软件
   tags: ["软件", "macOS", "Espanso"]
   quark_url: "https://pan.quark.cn/s/3d97ce0d7e0b"
-  description: "隐私优先、用 Rust 编写的跨平台文本扩展器，支持 macOS，输入缩写即可展开常用文本与模板（开源免费，主页 https://espanso.org）"
+  description: "Espanso 是跨平台的文本扩展器：敲一串缩写，立刻展开成你要的那段内容。最常见的用法是把邮箱签名、收货地址、公司抬头、客服模板回复绑到 :sig、:addr 这样的触发词上；更进一步还可以做动态展开——插入当天日期、读取剪贴板内容，或者先执行一段脚本再把结果贴进来。它是隐私优先的设计，配置和展开全在本地完成，不联网不上传，用 Rust 写成，占用很低。相比系统自带的文本替换，它跨平台、支持脚本，也更容易按项目分组管理。适合经常重复输入同质内容的写作、客服、开发工作。开源免费，主页 https://espanso.org。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-086.jpg
@@ -955,7 +955,7 @@
   category: 软件
   tags: ["软件", "macOS", "Elephicon"]
   quark_url: "https://pan.quark.cn/s/e2efab4229ac"
-  description: "png2icons 的图形界面封装，支持 macOS，一键把 PNG 转成各平台所需图标（开源免费，主页 https://github.com/sprout2000/elephicon）"
+  description: "Elephicon 是命令行工具 png2icons 的图形界面封装。做跨平台桌面应用时图标是个烦环节：macOS 要 .icns、Windows 要 .ico，各自还要求把一整套不同尺寸塞进同一个文件。用它的话，把一张 PNG（建议 1024×1024 起步）拖进窗口，一次性就把各平台需要的图标文件和尺寸序列生成出来，省掉敲命令行参数和背尺寸清单的功夫。适合正在用 Electron、Tauri、Flutter 打包桌面应用的开发者，走到发布环节会需要它。开源免费，主页 https://github.com/sprout2000/elephicon。macOS 原生包，拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-088.jpg
@@ -977,7 +977,7 @@
   category: 软件
   tags: ["软件", "macOS", "DevToysMac"]
   quark_url: "https://pan.quark.cn/s/77a864666aec"
-  description: "DevToys for Mac：开发者的瑞士军刀（开源免费，主页 https://github.com/DevToys-app/DevToysMac）"
+  description: "DevToysMac 是 Windows 上 DevToys 的 macOS 版本，把开发过程中那些「偶尔要用一次」的零碎工具收在同一个窗口里：JSON、XML、YAML 的格式化与校验，Base64 与 URL 编解码，哈希和 HMAC 计算，UUID 生成，JWT 解析，时间戳转换，正则测试，Markdown 预览，图片压缩与格式转换，色值换算等等。以前这些需求多半要临时打开在线工具网页，既慢又担心把敏感数据贴到别人服务器上，它在本地跑完就完事。写代码时经常要临场转个数据、解段 token 的人特别合适，不必为了低频需求装一堆小软件。开源免费，主页 https://github.com/DevToys-app/DevToysMac。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-090.jpg
@@ -1021,7 +1021,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Clop"]
   quark_url: "https://pan.quark.cn/s/8ff8e54ce269"
-  description: "要买烟（Clop）？烟盒空了，却不知道最近的烟草店在哪？有了 Clop 一切迎刃而解：轻松找到最近的烟草店，哪怕周日或深夜。仅覆盖法兰西岛（大巴黎）地区，支持 macOS。｜DatsChill"
+  description: "Clop 是一款地域性极强的小工具，唯一的任务是在法兰西岛（大巴黎地区）帮你找到最近的烟草店。在法国，香烟基本只能在挂 Buraliste 招牌的烟草店买到，这类店关门早，周日和深夜常常一店难求，所以「附近哪家还开着」是真实痛点。它会列出周边店铺位置，告诉你哪间还没打烊。要留意两点：覆盖范围只有大巴黎，人在别的城市或者法国之外基本没用；上架时间也早（2014 年前后），地图数据是否还更新建议先试再依赖。支持 macOS。｜DatsChill"
   date: 2014-11-13
   added: 2026-10-04
   image: app-094.jpg
@@ -1043,7 +1043,7 @@
   category: 软件
   tags: ["软件", "macOS", "Browserosaurus"]
   quark_url: "https://pan.quark.cn/s/6fe751342a77"
-  description: "🦖 macOS 的浏览器提示器（打开链接时选择用哪个浏览器）（开源免费，主页 https://browserosaurus.com）"
+  description: "Browserosaurus 解决的是一个很小却每天都遇到的麻烦：Mac 上点开链接只会用系统默认浏览器。把它装好并设为默认之后，每次点击链接都会弹出一个选择面板，本机装的 Safari、Chrome、Firefox、Edge 之类全在上面，方向键加回车就能挑。它还能按域名或 URL 规则记住偏好——公司内网固定走某浏览器，个人邮箱固定走另一个。对同时装着好几个浏览器、工作账号和个人账号必须严格分开的人，这一个环节能省下大量来回复制粘贴。它也支持把链接直接复制到剪贴板，方便临时存着。开源免费，主页 https://browserosaurus.com。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-096.jpg
@@ -1164,7 +1164,7 @@
   category: 软件
   tags: ["软件", "macOS", "CalendarX"]
   quark_url: "https://pan.quark.cn/s/8456b9dde9d0"
-  description: "一款轻量的 macOS 日历与时间显示应用（开源免费，主页 https://github.com/ZzzM/CalendarX）"
+  description: "CalendarX 是放在 macOS 菜单栏里的一枚小日历。点开就能看到整月视图和当天日期，不必为了瞄一眼今天是几号去翻「日历」或者解锁手机。它的取舍很明确：不做账号同步、不做事件编辑，只负责把日期摆在你随时能看到的地方，和系统日历配合使用最合适。这种工具看着简单，实际能省掉不少细小打断——写周报排期、安排上线时间、随手确认下周三是不是节假日，都不用跳出当前的工作。适合习惯把信息集中在菜单栏、讨厌桌面上堆窗口的人。开源免费，主页 https://github.com/ZzzM/CalendarX。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-107.jpg
@@ -1175,7 +1175,7 @@
   category: 软件
   tags: ["软件", "macOS", "BrightIntosh"]
   quark_url: "https://pan.quark.cn/s/325df8c97bb9"
-  description: "解锁 MacBook Pro XDR 显示屏的全部亮度（开源免费，主页 https://brightintosh.de）"
+  description: "BrightIntosh 专门解决一件事：MacBook Pro 的 XDR 屏明明还能更亮，系统却在日常使用时把亮度按住了。它把这个上限去掉，让整块屏幕在非 HDR 内容下也能跑满 XDR 的高亮度，不需要外接显示器，也不用先播一段 HDR 视频。工具常驻菜单栏，点一下开启，随时切回系统默认。实际用处很直接——在窗边、户外或光线强的房间里工作时，屏幕不用再暗到看不清。要注意长期高亮度会更耗电、也可能更烫，建议按需开启而不是长期挂着。开源免费，主页 https://brightintosh.de。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-108.jpg
@@ -1252,7 +1252,7 @@
   category: 软件
   tags: ["软件", "macOS", "AnyBar"]
   quark_url: "https://pan.quark.cn/s/96cf6cfd934d"
-  description: "macOS 菜单栏状态指示灯，可自定义颜色与监听端口，脚本与命令行即可改变指示灯状态（开源免费，主页 https://github.com/tonsky/AnyBar）"
+  description: "AnyBar 是一盏挂在菜单栏的彩色小圆点，简单到几乎没有界面。它本身不带任何业务逻辑，只监听本机一个 UDP 端口（默认 1738），你从命令行、脚本或任何程序发一个颜色名过去，圆点就变成那个颜色。于是任何长期任务都能被看见——备份进行中挂黄色、跑完变绿色、出错变红色，编译、下载、定时任务、服务器健康检查都可以这样可视化。它支持自定义图像，也能开多个实例分别盯不同的事。极轻、无窗口、常驻不惹事，适合本来就爱写脚本的人。开源免费，主页 https://github.com/tonsky/AnyBar。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-115.jpg
@@ -1296,7 +1296,7 @@
   category: 软件
   tags: ["软件", "macOS", "Alacritty"]
   quark_url: "https://pan.quark.cn/s/202d4b413cc5"
-  description: "跨平台 OpenGL 终端模拟器，支持 macOS，以 GPU 加速带来极速响应与低延迟（开源免费，主页 https://alacritty.org）"
+  description: "Alacritty 是一款把速度放在第一位的跨平台终端模拟器，用 Rust 写成，渲染交给 GPU，滚动和大批量输出时的延迟低到几乎测不出来。它的取舍很彻底：没有标签页、没有内建分屏、没有面板，这些交给 tmux 或你自己的窗口管理器，追求的就是「一个快到不存在的终端窗口」。配置写在 ~/.config/alacritty/alacritty.toml，字体、配色、光标样式、类似 Vim 的文本选择模式都能细调。适合天天泡在命令行、嫌 iTerm2 越来越重或者受不了 Electron 终端耗资源的开发者；如果你想要开箱即用的标签页和一堆可视功能，它会显得过于朴素。开源免费，主页 https://alacritty.org。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-119.jpg
