@@ -285,7 +285,7 @@ contact:                             # 页脚联系方式（可选，整段删�
   twitter: "@xspalice"               # 写 @用户名 或完整链接都行
   telegram: "https://t.me/wodewangpantop"
 icp: ""                              # 备案号，留空不显示
-stats: local                         # 页脚统计：local = 本地｜busuanzi = 不蒜子｜留空不显示
+stats: local                         # 页脚统计：local = 本地（读服务端 /stats.json）｜留空不显示
 pageSize: 35                         # 首屏渲染条数；构建时内联前 pageSize × 2 条，其余由「加载更多」按需补齐
 ```
 

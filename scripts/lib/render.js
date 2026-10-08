@@ -3,17 +3,12 @@ import { categorySlug } from './data.js';
 /** 列表最前面多少条打「最新」角标 */
 const NEWEST_BADGE = 6;
 
-/** 不蒜子访问统计（site.yaml 里 stats: busuanzi 时启用）；脚本加载失败时数字保持占位符，不影响页面 */
-const BUSUANZI_HTML =
-  '<p class="foot__stat">总访问量 <span id="busuanzi_value_site_pv">–</span> · 访客数 <span id="busuanzi_value_site_uv">–</span></p>';
-const BUSUANZI_SCRIPT = '<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>';
-
-/** 本地访问统计（stats: local）：读取 VPS 上由 nginx 日志生成的 /stats.json，不依赖任何第三方。
+/** 页脚访问统计（site.yaml 里 stats: local 时启用）：读取 VPS 上由 nginx 日志生成的 /stats.json，不依赖任何第三方。
  *  同时种一年期 vid cookie 供服务端区分访客；接口不可用时数字保持占位符，不影响页面 */
-const LOCAL_STATS_HTML =
+const STATS_HTML =
   '<p class="foot__stat">总访问量 <span id="stat-pv">–</span> · 访客数 <span id="stat-uv">–</span>' +
   ' · 今日 <span id="stat-tpv">–</span> · 访客 <span id="stat-tuv">–</span></p>';
-const LOCAL_STATS_SCRIPT = `<script>
+const STATS_SCRIPT = `<script>
 (function () {
   var exp = new Date(Date.now() + 31536000000).toUTCString();
   if (!/(^|; )vid=/.test(document.cookie)) {
@@ -37,8 +32,6 @@ const LOCAL_STATS_SCRIPT = `<script>
     .catch(function () {});
 })();
 </script>`;
-const STATS_HTML = { busuanzi: BUSUANZI_HTML, local: LOCAL_STATS_HTML };
-const STATS_SCRIPT = { busuanzi: BUSUANZI_SCRIPT, local: LOCAL_STATS_SCRIPT };
 
 /** 平台图标：24×24 视口，fill currentColor（页脚只出图标，不出账号文字）。 */
 const ICONS = {
@@ -224,10 +217,10 @@ ${body}
   ${footNav(footNavCurrent)}
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
-  ${STATS_HTML[site.stats] || ''}
+  ${site.stats === 'local' ? STATS_HTML : ''}
   ${contactHtml(site.contact)}
 </footer>
-${STATS_SCRIPT[site.stats] || ''}
+${site.stats === 'local' ? STATS_SCRIPT : ''}
 <script src="/assets/app.js${v}" defer></script>
 </body>
 </html>
