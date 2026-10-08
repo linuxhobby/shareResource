@@ -524,3 +524,10 @@ node …/check-desc.mjs --show                                            # 连�
 本 README 的规范同时被夸克同步 skill 复用（位置 `~/.workbuddy/skills/quark-resource-sync/`），改这里的任一条都要同步改 skill 与仓库脚本。
 
 ## SEO建议优化
+
+需要SEO优化的建议写在这里。
+
+## 最新修改
+
+网站代码最新修改内容写在这里。
+
