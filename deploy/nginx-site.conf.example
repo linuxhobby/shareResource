@@ -27,6 +27,12 @@ server {
         access_log off;
     }
 
+    # index.html → 目录式 URL：同一页面避免留下两个可抓取地址（SEO 重复内容）
+    # 用 $request_uri 判断；nginx index 指令触发的是内部重定向、不会改写它，因此不会循环
+    if ($request_uri ~* "^(.*/)index\.html(\?.*)?$") {
+        return 301 $1;
+    }
+
     # 目录式 URL：让 /resource/mv-010/ 命中 resource/mv-010/index.html
     location / {
         try_files $uri $uri/ $uri/index.html =404;
