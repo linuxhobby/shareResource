@@ -18,7 +18,20 @@ import { loadResources } from '../scripts/lib/data.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const apply = process.argv.includes('--apply');
+const strict = process.argv.includes('--strict');
+/** 正文下限，默认 300 字；改这个值要和 skill 里 scripts/check-desc.mjs 的 MIN 保持一致 */
+const MIN = Number((process.argv.find((a) => a.startsWith('--min=')) || '').split('=')[1]) || 300;
 const draftPath = path.join(root, '.tmp/desc-draft.json');
+
+/**
+ * 正文字数：先剥掉开头的「【第 N 季 · 共 M 集】」标签与结尾的「｜TMDB 7.5」这类署名，
+ * 与 skill 的 check-desc.mjs 用的是同一套口径，两边数字才能直接对比。
+ */
+const bodyLen = (s) =>
+  [...String(s || '')
+    .replace(/^【[^】]{1,30}】/, '')
+    .replace(/｜[^｜]{1,40}$/, '')
+    .trim()].length;
 
 if (!fs.existsSync(draftPath)) {
   console.error('找不到 .tmp/desc-draft.json');
@@ -79,6 +92,14 @@ for (const [id, body] of Object.entries(draft)) {
     const after = `${m[1]}description: ${JSON.stringify(next)}`;
 
     if (after === lines[i]) {
+      done = true;
+      break;
+    }
+
+    const shortfall = bodyLen(next) < MIN;
+    if (shortfall) tooShort.push(id);
+    // --strict：不足下限的直接跳过，不碰 YAML、不计入改动数
+    if (strict && shortfall) {
       done = true;
       break;
     }
