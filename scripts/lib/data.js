@@ -13,8 +13,12 @@ const NETDISK_PRESETS = [
   { key: 'mobile_url', code: 'mobile_code', kind: 'mobile', name: '移动云盘' },
 ];
 
-/** 详情页简介字数上限（按 Unicode 字符计，中文一字一符）；超出才截断，保证页面不被超长文本撑爆 */
-const MAX_DESC = 1000;
+/**
+ * 详情页简介字数上限（按 Unicode 字符计，中文一字一符）；超出才截断。
+ * 资源页已改用 1180px 宽容器，正文区约 878px（每行约 60 字），
+ * 1200 字约 20 行、比窄版时的 1000 字更矮，所以把天花板抬到这里是安全的。
+ */
+const MAX_DESC = 1200;
 
 /** 按字符数截断（不会切断代理对 / emoji），超长补省略号 */
 export function clipDesc(text, max = MAX_DESC) {

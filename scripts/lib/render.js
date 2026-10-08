@@ -502,7 +502,7 @@ export function feedXml({ site, items, baseUrl, categories, feedPath = '/feed.xm
         )
         .join('');
       const desc = [
-        poster ? `<p><img src="${esc(poster)}" width="180" alt="${esc(it.title)}"></p>` : '',
+        poster ? `<p><img src="${esc(poster)}" width="240" alt="${esc(it.title)}"></p>` : '',
         it.description ? `<p>${esc(it.description)}</p>` : '',
         links,
       ]
