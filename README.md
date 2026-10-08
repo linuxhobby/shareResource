@@ -384,19 +384,6 @@ npm run audit:css                               # 样式体检：漏样式 / 死
 
 改了配图尺寸参数不必手动清产物：构建时会按当前宽度集合自动清理上一版留下的旧尺寸图片。
 
-## 附：其它自带能力
-
-- **站内搜索**：顶栏即时搜索；`taikong`、`tkbd` 都能搜到「太空部队」（支持拼音全拼与首字母），`Ctrl/⌘ + K` 聚焦，搜索时地址栏变 `/?q=关键词` 可直接分享
-- **SEO**：每页独立的 title / description、canonical、OG / Twitter Card、JSON-LD、`sitemap.xml`、`robots.txt` 全部构建时自动生成
-- **首页分享图单独一张**：`og:image` / `twitter:image` 指向 `/share.jpg`，并带 `og:image:width` / `og:image:height`（1200×630），微信 / Twitter 抓取时能直接按大图卡渲染；分类页与详情页仍用各自资源配图
-- **分享卡是预渲染进仓库的**（`static/share.jpg`）：出图要中文字体，放在构建机或服务器上跑会掉字，所以图提交进 Git，构建只做复制
-- **sitemap `lastmod` 用资源真实入库日期**，不是每次构建全站刷新，避免搜索引擎误判全站频繁变更
-- **首屏内联 + 异步补齐**：列表页只内联前 `pageSize × 2` 条（够首屏与第一次「加载更多」），其余从 `search-index.json` 按需取，586 条时首页 HTML 约 60K
-- **访问统计**：Nginx 日志 → `sitestats.py` 增量解析 → `/stats.json` → 页脚数字；PV 排除爬虫与非页面请求，UV 只统计带访客 cookie 的请求
-- **静态资源带版本号**（`/assets/style.css?v=<commit>`），Nginx 缓存 30 天也能在部署后立即生效
-- **拼音索引是构建期生成的**（`pinyin-pro` 在 `devDependencies`）：装依赖时别加 `--omit=dev`，否则搜索退化成只按字面匹配
-- `public/` 不入库，仓库只留源码与数据
-
 ## 经验总结
 
 日常维护里踩过、值得记住的几条经验，涉及配图、分类与简介文案。
