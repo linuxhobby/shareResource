@@ -3,7 +3,8 @@ import path from 'node:path';
 import QRCode from 'qrcode';
 
 const IMAGE_EXT = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'svg'];
-const DETAIL = { w: 180, h: 260 };
+// 详情页与列表页统一用 2:3 竖版比例，两图同宽档，视觉完全一致
+const DETAIL = { w: 180, h: 270 };
 const CARD = { w: 240, h: 360 };
 const THUMB = { w: 60, h: 90 };
 const SIZES = [DETAIL, CARD, THUMB];

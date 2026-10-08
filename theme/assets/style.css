@@ -151,6 +151,46 @@ mark {
 .empty-card { text-align: center; padding: 40px; }
 .muted { color: var(--muted); }
 
+/* ── 独立内容页（关于本站 / RSS 订阅） ── */
+.card-page {
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.card-page > :first-child { margin-top: 0; }
+.card-page h2 { font-size: 17px; margin: 24px 0 10px; }
+.card-page p, .card-page li, .card-page td, .card-page th { font-size: 14px; color: var(--muted); }
+.card-page ul, .card-page ol { margin: 0 0 12px; padding-left: 22px; }
+.card-page li + li { margin-top: 4px; }
+.card-page strong { color: var(--text); }
+.card-page table { width: 100%; border-collapse: collapse; }
+.card-page th, .card-page td { padding: 7px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+.card-page tbody tr:last-child th, .card-page tbody tr:last-child td { border-bottom: 0; }
+.card-page td:last-child, .card-page thead th:last-child { text-align: right; }
+.card-page code { word-break: break-all; }
+
+/* RSS 订阅地址行：地址 + 复制按钮 */
+.feed-url {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 14px;
+  padding: 10px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+.feed-url__label { font-size: 14px; font-weight: 700; color: var(--brand); flex: 0 0 auto; }
+.feed-url__code {
+  flex: 1 1 260px;
+  min-width: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--muted);
+  word-break: break-all;
+}
+
 /* ── 详情页 ──────────────────────────── */
 .crumb { display: flex; gap: 6px; font-size: 13px; color: var(--muted); margin: 16px 0 10px; }
 
@@ -163,15 +203,19 @@ mark {
   border-radius: 12px;
 }
 .detail__media { flex: 0 0 180px; display: flex; flex-direction: column; gap: 12px; }
+/* 详情页海报与列表卡片保持同一套视觉：同为 2:3 竖版、相同圆角与描边 */
 .poster {
-  width: 180px;
-  height: 260px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
   background: #efeff2;
   display: block;
 }
-.qrbox { border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; }
+/* 二维码框与海报左右边线对齐 */
+.qrbox { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; box-sizing: border-box; }
 .qrbox__img { width: 120px; height: 120px; display: block; margin: 0 auto; }
 .qrbox__cap { font-size: 12px; color: var(--muted); margin-top: 6px; }
 .qrbox__switch { display: flex; gap: 6px; margin-top: 8px; }
@@ -243,6 +287,12 @@ mark {
 .foot__contact { margin-top: 8px !important; display: flex; justify-content: center; align-items: center; gap: 14px; }
 .foot__contact a, .foot__contact span { display: inline-flex; align-items: center; padding: 3px; border-radius: 5px; color: var(--muted); text-decoration: none; }
 .foot__contact a:hover { color: var(--brand); background: rgba(127, 127, 127, .1); }
+/* 页脚导航：网站首页 | 关于本站 | 网站地图 | RSS订阅 */
+.foot__nav { margin-top: 12px !important; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; font-size: 14px; }
+.foot__nav a { color: var(--muted); text-decoration: none; }
+.foot__nav a:hover { color: var(--brand); text-decoration: underline; }
+.foot__nav a[aria-current="page"] { color: var(--brand); font-weight: 600; }
+.foot__sep { color: var(--border); font-size: 12px; user-select: none; }
 .foot__icon { display: block; width: 17px; height: 17px; transition: transform .15s ease; }
 .foot__contact a:hover .foot__icon { transform: translateY(-1px); }
 .foot__stat span { color: var(--text, inherit); font-variant-numeric: tabular-nums; }
@@ -257,8 +307,8 @@ mark {
   .tile__title { font-size: 15px; }
   .detail { flex-direction: column; }
   .detail__media { flex-direction: row; align-items: flex-start; gap: 14px; }
-  .poster { width: 150px; height: 217px; }
-  .qrbox { flex: 1; }
+  .poster { width: 150px; }
+  .qrbox { flex: 1; width: auto; }
   .linkrow__url { flex-basis: 100%; }
   .top__brand { font-size: 16px; }
   .top__search { max-width: 180px; }

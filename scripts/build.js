@@ -15,6 +15,9 @@ import { prepareImages, writeQr, writeFavicon, copyThemeAssets } from './lib/ass
 import {
   listPage,
   detailPage,
+  aboutPage,
+  rssPage,
+  feedXml,
   notFoundPage,
   sitemapXml,
   esc,
@@ -154,6 +157,42 @@ for (const item of items) {
   );
 }
 
+console.log('生成关于本站 / RSS 页面…');
+write(path.join(outDir, 'about', 'index.html'), aboutPage({ ...ctxBase, items }));
+write(path.join(outDir, 'rss', 'index.html'), rssPage({ ...ctxBase, items }));
+
+// RSS 源：全站一份 + 每个分类一份，条目里带上配图与转存链接
+/** 给 feed 用的资源视图（补上绝对配图路径） */
+const feedItems = items.map((it) => ({ ...it, poster: (images.get(it.id) || {}).detail || '' }));
+write(
+  path.join(outDir, 'feed.xml'),
+  feedXml({
+    site,
+    items: feedItems,
+    baseUrl,
+    categories,
+    feedPath: '/feed.xml',
+    title: `${site.title} · 最新资源`,
+    description: site.description || `${site.title}最新入库的网盘资源`,
+  })
+);
+for (const cat of categories) {
+  const list = feedItems.filter((i) => i.category === cat);
+  const catPath = `/category/${encodeURIComponent(categorySlug(cat))}/feed.xml`;
+  write(
+    path.join(path.join(outDir, 'category', categorySlug(cat)), 'feed.xml'),
+    feedXml({
+      site,
+      items: list,
+      baseUrl,
+      categories: [cat],
+      feedPath: catPath,
+      title: `${site.title} · ${cat}`,
+      description: `${site.title}的${cat}分类，共 ${list.length} 个资源`,
+    })
+  );
+}
+
 console.log('生成搜索索引与附加文件…');
 write(path.join(outDir, 'search-index.json'), JSON.stringify(indexAll));
 write(path.join(outDir, '404.html'), notFoundPage(ctxBase));
@@ -161,7 +200,13 @@ write(
   path.join(outDir, 'robots.txt'),
   `User-agent: *\nAllow: /\nSitemap: ${baseUrl}/sitemap.xml\n`
 );
-write(path.join(outDir, 'sitemap.xml'), sitemapXml(baseUrl, items, categories));
+write(
+  path.join(outDir, 'sitemap.xml'),
+  sitemapXml(baseUrl, items, categories, [
+    { path: '/about/', priority: '0.5' },
+    { path: '/rss/', priority: '0.4' },
+  ])
+);
 copyThemeAssets(themeDir, outDir);
 
 console.log(
