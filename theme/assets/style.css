@@ -21,7 +21,7 @@
   --fill-placeholder: #efeff2;            /* 海报占位底色 */
   --fill-hover: rgba(127, 127, 127, 0.1); /* 悬浮浅底 */
 
-  /* ── 字号阶梯：全站只用这 9 档 ── */
+  /* ── 字号阶梯：全站只用这 10 档 ── */
   --fs-xs: 12px;    /* 角标、迷你按钮、页脚分隔符 */
   --fs-sm: 13px;    /* 辅助信息：按钮、等宽地址、说明文字 */
   --fs-base: 14px;  /* 次级信息：标签、页脚、输入框、卡片副标题 */
@@ -31,11 +31,13 @@
   --fs-h2: 20px;    /* 内容页小标题 */
   --fs-h1: 23px;    /* 页面主标题（资源页 / 内容页共用） */
   --fs-brand: 30px; /* 顶栏站名 */
+  --fs-display: 72px; /* 404 大数字 */
 
   /* ── 行高 ── */
   --lh-base: 1.65;   /* 常规元素继承值 */
   --lh-body: 1.85;   /* 长段正文 */
   --lh-tight: 1.4;   /* 标题 */
+  --lh-flat: 1;      /* 纯展示型大数字（404） */
   /* 单行控件的固定高度（配合对应字号保证胶囊不散） */
   --lh-tag: 22px;    /* 标签 */
   --lh-ctl: 20px;    /* 按钮 */
@@ -216,7 +218,6 @@ mark {
 .tag--plain { background: transparent; color: var(--muted); }
 
 .empty { padding: 40px 0; text-align: center; color: var(--muted); }
-.empty-card { text-align: center; padding: 40px; }
 .muted { color: var(--muted); }
 
 /* ── 内容页（关于本站 / RSS 订阅） ────── */
@@ -365,6 +366,14 @@ mark {
 /* 搜索结果容器：显隐由 hidden 控制，空内容时不占位 */
 .results:empty { display: none; }
 .results__hint { font-size: var(--fs-sm); color: var(--muted); padding: 4px 2px 10px; }
+
+/* ── 404 页 ──────────────────────────── */
+.nf { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 0 6px; text-align: center; }
+.nf__code { margin: 0; font-size: clamp(var(--fs-brand), 14vw, var(--fs-display)); line-height: var(--lh-flat); font-weight: 700; color: var(--brand); letter-spacing: 2px; }
+.nf__title { margin: 0; font-size: var(--fs-xl); font-weight: 600; color: var(--text); }
+.nf__desc { margin: 0; max-width: 520px; font-size: var(--fs-lg); line-height: var(--lh-body); color: var(--muted); }
+.nf__acts { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 10px 0 0; }
+.nf__acts .btn { padding: 7px 16px; font-size: var(--fs-md); }
 
 /* ── 页脚 ────────────────────────────── */
 /* 页脚本身也带 .wrap，横向间距由 .wrap 提供，这里不再重复加 padding，否则会比其他区块窄一圈 */

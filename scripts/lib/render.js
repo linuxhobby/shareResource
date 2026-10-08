@@ -455,8 +455,18 @@ export function detailPage(ctx) {
   });
 }
 
+/**
+ * 404 页面：沿用内容页骨架（面包屑 + 卡片），
+ * 下面挂一行最新资源宫格，走错路的人顺手就能回到站里。
+ */
 export function notFoundPage(ctx) {
-  const { site, categories, counts, total } = ctx;
+  const { site, categories, counts, total, images, indexAll } = ctx;
+  const picks = (indexAll || []).slice(0, 5);
+  const grid = picks.length
+    ? `<h2>最新入库</h2>
+<ul class="grid">${picks.map((it, i) => cardHtml(it, images, false, i < 5)).join('')}</ul>`
+    : '';
+
   return layout({
     site,
     assetVersion: ctx.assetVersion,
@@ -467,7 +477,23 @@ export function notFoundPage(ctx) {
     categories,
     counts,
     total,
-    body: `<div class="empty-card"><p class="empty">页面不存在</p><a class="btn btn--primary" href="/">返回首页</a></div>`,
+    canonicalPath: '/404.html',
+    // 与首页 / 分类页 / 内容页同宽容器，顶栏到页脚的左右边线一致
+    wide: true,
+    body: `<nav class="crumb"><a href="/">首页</a><span>/</span><span>页面不存在</span></nav>
+<div class="card-page">
+  <div class="nf">
+    <h1 class="nf__code">404</h1>
+    <p class="nf__title">这个页面走丢了</p>
+    <p class="nf__desc">资源可能已下架、换了地址，或者链接本身写错了。你可以回首页重新找，
+    也可以直接用顶部搜索框（支持拼音首字母）。</p>
+    <p class="nf__acts">
+      <a class="btn btn--primary" href="/">返回首页</a>
+      <a class="btn" href="/rss/">订阅更新</a>
+    </p>
+  </div>
+  ${grid}
+</div>`,
     noindex: true,
   });
 }
