@@ -522,8 +522,7 @@ export function notFoundPage(ctx) {
     ${NF_ART}
     <h1 class="nf__code">404</h1>
     <p class="nf__title">这个资源没能打开</p>
-    <p class="nf__desc">链接多半已经失效：资源被取消了分享、换了地址，或者是从别处复制来的旧链接。
-    这一页还能让你接着找——看看下面的最新入库，或者用顶部搜索框按片名、拼音首字母搜。</p>
+    <p class="nf__desc">没有找到你想要的资源，看看下面的最新入库，或者用顶部搜索框按片名、拼音首字母搜。</p>
     <p class="nf__acts">
       <a class="btn btn--primary" href="/">返回首页</a>
       <a class="btn" href="/rss/">订阅更新</a>
