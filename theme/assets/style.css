@@ -202,7 +202,9 @@ mark {
 }
 
 /* ── 详情页 ──────────────────────────── */
-.crumb { display: flex; gap: 6px; font-size: 13px; color: var(--muted); margin: 16px 0 10px; }
+.crumb { display: flex; gap: 6px; font-size: 15px; color: var(--muted); margin: 16px 0 10px; }
+.crumb a { color: var(--muted); }
+.crumb a:hover { color: var(--brand); }
 
 .detail {
   display: flex;
