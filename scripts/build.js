@@ -91,6 +91,16 @@ if (missing) console.log(`  · ${missing} 条缺少配图，使用占位图`);
 
 if (await writeFavicon(staticDir, outDir)) console.log('  · 已生成 favicon.svg / favicon.ico / apple-touch-icon.png');
 
+// 首页分享卡：仓库里预渲染好的图直接拷到根目录（不依赖构建机的中文字体）
+const shareSrc = path.join(staticDir, 'share.jpg');
+const shareImage = fs.existsSync(shareSrc) ? '/share.jpg' : '';
+if (shareImage) {
+  fs.copyFileSync(shareSrc, path.join(outDir, 'share.jpg'));
+  console.log('  · 已复制首页分享卡 share.jpg');
+} else {
+  console.log('  ! 未找到 static/share.jpg，首页分享图将回退为最新资源的配图');
+}
+
 console.log('生成二维码…');
 const qrMap = new Map();
 for (const item of items) {
@@ -126,7 +136,7 @@ const assetVersion = (() => {
   }
 })();
 
-const ctxBase = { site, categories, counts, total, images, baseUrl, indexAll, assetVersion };
+const ctxBase = { site, categories, counts, total, images, baseUrl, indexAll, assetVersion, shareImage };
 
 console.log('生成列表页…');
 write(path.join(outDir, 'index.html'), listPage({ ...ctxBase, items, activeCat: '', pageSize: site.pageSize }));

@@ -21,6 +21,7 @@
 - **首屏数据内联**：列表页把前 `pageSize × 2` 条内联进 HTML，首屏无 JS 也能看；其余在「加载更多」时从 `search-index.json` 异步补齐，586 条时首页 HTML 约 60K
 - **入库时刻排序**：首页 / 分类页按 `added` 倒序，`added` 写到时分（`"2026-10-07 17:40"`）就能精确到入库先后
 - **访问统计自备**：解析 Nginx 日志生成 `/stats.json`，页脚显示「总访问量 / 访客数 / 今日 / 今日访客」，不依赖第三方
+- **首页专属分享卡**：`og:image` 用预渲染的 `static/share.jpg`（1200×630，品牌渐变 + logo + 站名 + 一句定位），分享出去是一张品牌图而不是某条资源的配图；分类页与详情页仍用各自资源配图
 
 ## 部署
 
@@ -59,6 +60,8 @@ cd /opt/wodewangpan && sudo npm ci
 **3）改成你自己的站点**
 
 编辑 `data/site.yaml`：`title` / `description` 站名站描述、`categories` 分类栏、`contact` 页脚联系方式、`icp` 备案号；`static/favicon.svg` 换成你的图标。
+
+改完站点配置后，顺手重跑一次 `node tools/share-poster.mjs`，它会按新的站名与分类重新生成首页品牌分享卡 `static/share.jpg`（不重跑则沿用旧图）。
 
 资源数据直接改 `data/<分类>.yaml`（格式见 [数据格式](#数据格式)），或先跑通流程后再替换。
 
@@ -253,11 +256,13 @@ data/                # 一个分类一个 YAML，构建时自动合并
   电影.yaml 电视剧.yaml 纪录片.yaml 动漫.yaml 游戏.yaml 软件.yaml 电子书.yaml 其他.yaml
 static/
   favicon.svg        # 站点图标，构建时生成 favicon.ico / apple-touch-icon.png
+  share.jpg          # 首页品牌分享卡（1200×630），构建时拷到站点根目录供 og:image 用
   images/            # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # 前端样式与脚本，构建时拷到 public/assets/
 scripts/             # 构建 / 预览 / 部署脚本（lib/ 是构建核心：读数据、出图片、渲染页面）
 tools/
   sitestats.py           # 访问统计脚本（VPS 方案用到）
+  share-poster.mjs       # 生成首页品牌分享卡 static/share.jpg（改站点配置后重跑）
   icon-poster.mjs        # 把应用图标合成 2:3 竖版海报（软件 / 音频等非影视资源）
   book-cover-douban.mjs  # 从豆瓣图书抓书籍封面（电子书 bk- 优先用它，见「经验总结」）
   book-poster.mjs        # 豆瓣查无此书时，生成书封海报兜底
@@ -371,6 +376,8 @@ npm run dev                                     # build + serve 一步到位
 
 - **站内搜索**：顶栏即时搜索；`taikong`、`tkbd` 都能搜到「太空部队」（支持拼音全拼与首字母），`Ctrl/⌘ + K` 聚焦，搜索时地址栏变 `/?q=关键词` 可直接分享
 - **SEO**：每页独立的 title / description、canonical、OG / Twitter Card、JSON-LD、`sitemap.xml`、`robots.txt` 全部构建时自动生成
+- **首页分享图单独一张**：`og:image` / `twitter:image` 指向 `/share.jpg`，并带 `og:image:width` / `og:image:height`（1200×630），微信 / Twitter 抓取时能直接按大图卡渲染；分类页与详情页仍用各自资源配图
+- **分享卡是预渲染进仓库的**（`static/share.jpg`）：出图要中文字体，放在构建机或服务器上跑会掉字，所以图提交进 Git，构建只做复制
 - **sitemap `lastmod` 用资源真实入库日期**，不是每次构建全站刷新，避免搜索引擎误判全站频繁变更
 - **首屏内联 + 异步补齐**：列表页只内联前 `pageSize × 2` 条（够首屏与第一次「加载更多」），其余从 `search-index.json` 按需取，586 条时首页 HTML 约 60K
 - **访问统计**：Nginx 日志 → `sitestats.py` 增量解析 → `/stats.json` → 页脚数字；PV 排除爬虫与非页面请求，UV 只统计带访客 cookie 的请求

@@ -147,6 +147,7 @@ function layout({
   baseUrl = '',
   canonicalPath = '/',
   ogImage = '',
+  ogImageSize = null,
   ogType = 'website',
   jsonLd = null,
   keywords = '',
@@ -178,7 +179,7 @@ ${keywords ? `<meta name="keywords" content="${esc(keywords)}">\n` : ''}<meta na
 <meta property="og:description" content="${esc(description || site.description)}">
 <meta property="og:url" content="${esc(canonical)}">
 <meta property="og:locale" content="zh_CN">
-${ogImg ? `<meta property="og:image" content="${esc(ogImg)}">\n` : ''}<meta name="twitter:card" content="summary_large_image">
+${ogImg ? `<meta property="og:image" content="${esc(ogImg)}">\n` : ''}${ogImg && ogImageSize ? `<meta property="og:image:width" content="${ogImageSize.w}">\n<meta property="og:image:height" content="${ogImageSize.h}">\n` : ''}<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(fullTitle)}">
 <meta name="twitter:description" content="${esc(description || site.description)}">
 ${ogImg ? `<meta name="twitter:image" content="${esc(ogImg)}">\n` : ''}<link rel="stylesheet" href="/assets/style.css${v}">
@@ -228,7 +229,7 @@ export function cardHtml(item, images, isNew = false, eager = false) {
 }
 
 export function listPage(ctx) {
-  const { site, items, categories, counts, activeCat, total, pageSize, images, baseUrl, indexAll } = ctx;
+  const { site, items, categories, counts, activeCat, total, pageSize, images, baseUrl, indexAll, shareImage } = ctx;
   const first = items.slice(0, pageSize);
   // 首页 SEO 文案取自 site.yaml 的 homeTitle / homeDesc / homeH1，占位符 {total}、{categories}
   const catList = (categories || []).join('、');
@@ -315,7 +316,8 @@ ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
     wide: true,
     baseUrl,
     canonicalPath,
-    ogImage: firstImg,
+    ogImage: activeCat ? firstImg : shareImage || firstImg,
+    ogImageSize: activeCat || !shareImage ? null : { w: 1200, h: 630 },
     jsonLd,
     keywords: activeCat ? `${activeCat},${typeLabel}` : categories.join(','),
   });
