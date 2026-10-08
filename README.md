@@ -31,7 +31,6 @@
 | **A · VPS + Nginx**（推荐，本站线上方案） | 有域名、有VPS主机 | 完全可控，SEO 与访问速度最好 |
 | B · GitHub Pages | 免费、不想管服务器 | 国内访问不稳定 |
 | C · Cloudflare Pages | 免费、海外快 | 同上，国内偶发不通 |
-| D · rsync 直传 | 已有服务器、不经 Git | 一条命令传产物 |
 
 前置：Node ≥ 18（VPS 方案另需 Nginx、Git，Python 3 只在用访问统计时需要）。
 
@@ -105,13 +104,26 @@ sudo certbot --nginx -d 你的域名
 
 ```bash
 sudo install -m755 deploy/site-autoupdate.sh /usr/local/bin/site-autoupdate
-sudo $EDITOR /usr/local/bin/site-autoupdate    # 改开头的 SITE_DIR、BASE_URL 两个变量
+
+# 站点专属的两个值放 /etc/site-autoupdate.conf，与脚本本身分开，
+# 以后脚本升级只要重新 install 一次，配置不会丢
+sudo tee /etc/site-autoupdate.conf >/dev/null <<'EOF'
+SITE_DIR=/opt/wodewangpan
+BASE_URL=https://你的域名
+EOF
+
 sudo crontab -e
 # 加入一行（每小时拉取一次；要更快就把第一个字段改成 */30，即每 30 分钟）
 0 * * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1
 ```
 
-看运行结果：`tail -20 /var/log/site-autoupdate.log`。回滚：在服务器上 `git reset --hard <上一个 commit>` 再 `BASE_URL=... npm run build`，或本机 `git revert` 后推上去。
+看运行结果：`tail -20 /var/log/site-autoupdate.log`。
+
+**想立刻发布、不等 cron**：服务器上执行 `FORCE=1 site-autoupdate`（cron 模式下本地 HEAD 与远端一致时会直接跳过，FORCE 用来强制重跑一次）。
+
+**回滚**：服务器上 `git reset --hard <上一个 commit>` 再 `FORCE=1 site-autoupdate`，或本机 `git revert` 后推上去。
+
+发布过程是原子的：先构建到临时的 `public.new`，全部就绪后才用两次 `mv` 换成 `public`，nginx 始终读到一个完整版本的产物，不会出现「新 HTML 配旧 CSS」这种中间态。
 
 **9）访问统计（可选）**
 
@@ -173,16 +185,6 @@ jobs:
 | Build command | `BASE_URL=https://<项目名>.pages.dev npm run build` |
 | Build output directory | `public` |
 | 环境变量 | `NODE_VERSION` = `20` |
-
-### 方案 D：rsync 直传
-
-```bash
-BASE_URL=https://你的域名 \
-REMOTE_USER=root REMOTE_HOST=你的服务器 REMOTE_DIR=/var/www/wodewangpan \
-npm run deploy
-```
-
-`rsync --delete` 会清掉服务器上已删除的资源页。
 
 ### 上线自检
 
@@ -265,7 +267,7 @@ static/
   share.jpg          # 首页品牌分享卡（1200×630），构建时拷到站点根目录供 og:image 用
   images/            # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # 前端样式与脚本，构建时拷到 public/assets/
-scripts/             # 构建 / 预览 / 部署脚本（lib/ 是构建核心：读数据、出图片、渲染页面）
+scripts/             # 构建 / 预览脚本（lib/ 是构建核心：读数据、出图片、渲染页面）
 tools/
   sitestats.py           # 访问统计脚本（VPS 方案用到）
   share-poster.mjs       # 生成首页品牌分享卡 static/share.jpg（改站点配置后重跑）

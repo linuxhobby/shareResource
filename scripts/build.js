@@ -34,7 +34,13 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = path.join(root, 'data');
 const staticDir = path.join(root, 'static');
 const themeDir = path.join(root, 'theme');
-const outDir = path.join(root, 'public');
+/**
+ * 输出目录。默认仓库根的 public/。
+ * 服务器做原子发布时会传 BUILD_DIR=public.new：先把整站构建到临时目录，
+ * 全部就绪后再整体换到 public，构建过程中的半成品不会被 nginx 读到。
+ */
+const outDirName = process.env.BUILD_DIR || 'public';
+const outDir = path.join(root, outDirName);
 const baseUrl = (process.env.BASE_URL || 'https://example.com').replace(/\/+$/, '');
 if (baseUrl.includes('example.com')) {
   console.log('  ! 未设置 BASE_URL，canonical / OG / sitemap 会指向 example.com');
@@ -93,7 +99,7 @@ for (const [sub, keep] of [['resource', keepIds], ['category', keepCats]]) {
   }
 }
 if (staleFailed) {
-  console.log(`  ! ${staleFailed} 个旧目录未能清理（不影响访问）；可手动执行 rm -rf public 后重新构建`);
+  console.log(`  ! ${staleFailed} 个旧目录未能清理（不影响访问）；可手动执行 rm -rf ${outDirName} 后重新构建`);
 }
 
 // 拼音索引：构建期生成，供站内搜索支持「全拼 / 首字母」输入（产物里只存字符串，不带词典）
@@ -118,7 +124,7 @@ if (missing) console.log(`  · ${missing} 条缺少配图，使用占位图`);
   const imgDir = path.join(outDir, 'img');
   const keepW = new Set(POSTER_WIDTHS.map(String));
   let staleImg = 0;
-  for (const name of fs.readdirSync(imgDir)) {
+  for (const name of fs.existsSync(imgDir) ? fs.readdirSync(imgDir) : []) {
     const m = /^(.*)-(\d+)\.(?:webp|jpe?g|png|avif|gif|svg)$/i.exec(name);
     if (!m || keepW.has(m[2])) continue;
     try {
@@ -263,6 +269,6 @@ write(
 copyThemeAssets(themeDir, outDir);
 
 console.log(
-  `\n完成：${total} 个资源 · ${categories.length} 个分类 · ${((Date.now() - t0) / 1000).toFixed(1)}s\n输出目录：public/`
+  `\n完成：${total} 个资源 · ${categories.length} 个分类 · ${((Date.now() - t0) / 1000).toFixed(1)}s\n输出目录：${outDirName}/`
 );
 console.log(`本地预览：npm run serve  → http://localhost:4321  （站点：${esc(site.title)}）`);

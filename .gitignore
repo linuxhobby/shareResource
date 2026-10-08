@@ -3,6 +3,8 @@ node_modules/
 
 # 构建产物（服务器 clone 后自行 npm run build 生成，不入库）
 public/
+public.new/
+public.old/
 .next/
 out/
 dist/
