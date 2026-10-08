@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="网盘资源站"><linearGradient id="gL2" x1="0.05" y1="0" x2="0.95" y2="1">
-      <stop offset="0" stop-color="#8038f2"/><stop offset=".5" stop-color="#3f63f8"/><stop offset="1" stop-color="#0f8cfc"/>
-    </linearGradient><linearGradient id="pL2" x1="0" y1="0" x2=".4" y2="1">
-      <stop offset="0" stop-color="#2a6cf5"/><stop offset="1" stop-color="#5f9cff"/>
-    </linearGradient><polygon points="32,10 51.05,21 51.05,43 32,54 12.95,43 12.95,21" fill="url(#gL2)" stroke="url(#gL2)" stroke-width="16" stroke-linejoin="round"/><rect x="17" y="20.5" width="13" height="9" rx="2.5" fill="#fff"/>
-  <rect x="17" y="25" width="30" height="17" rx="3.6" fill="#fff"/><path d="M27.7 28.4 38.3 33.5 27.7 38.6Z" fill="url(#pL2)" stroke="url(#pL2)" stroke-width="2.6" stroke-linejoin="round"/></svg>
