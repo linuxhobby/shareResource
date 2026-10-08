@@ -97,7 +97,7 @@
   category: 软件
   tags: ["软件", "macOS", "OpenShot"]
   quark_url: "https://pan.quark.cn/s/2a7a6ceaf2e0"
-  description: "OpenShot for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
+  description: "OpenShot 是一款跨平台的开源视频剪辑软件，Windows、macOS、Linux 都有版本。它主打易上手：拖素材进轨道、裁剪、加转场、叠标题字幕，这些基础操作不看教程也能自己摸出来，关键帧动画和水印叠加也一应俱全，博主视频、课件录屏、家庭影像这类需求一个软件就够。相比 Premiere 和 DaVinci Resolve，它的门槛低得多；相比 iMovie，它在跨平台和多轨控制上更灵活。适合不想为剪辑付费、又接受不了纯命令行工具的人。macOS 原生包，拖入「应用程序」即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-010.jpg
@@ -108,7 +108,7 @@
   category: 软件
   tags: ["软件", "macOS", "Zettlr"]
   quark_url: "https://pan.quark.cn/s/13f0687c73ca"
-  description: "Zettlr for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
+  description: "Zettlr 是一款面向写作、尤其是学术写作的开源 Markdown 编辑器。它不满足于当记事本，而是要把「资料—卡片—成稿」这条链路打通：内置与 Zotero 联动的书库，写的时候能直接拖文献引用；支持 LaTeX 公式、脚注、交叉引用和多种引文格式；成稿可一键导出成 Word、PDF、ODT 或 HTML。对写论文、读书笔记、长篇稿件的人来说，它的价值是把参考文献这类琐事自动化，让注意力留在内容上。Windows、macOS、Linux 都有版本，这是 macOS 原生包，拖入「应用程序」即可。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-011.jpg
@@ -119,7 +119,7 @@
   category: 软件
   tags: ["软件", "macOS", "Zed"]
   quark_url: "https://pan.quark.cn/s/8d336b50ada9"
-  description: "Zed for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
+  description: "Zed 是一款用 Rust 写的现代化代码编辑器，开发团队里有原 Atom 和 Tree-sitter 的核心成员，主打启动快、响应快、内存占用低。它内置语言服务器、语法高亮、多光标、跳转、终端和 Git 面板，最特别的是把多人实时协作直接做进编辑器，适合结对编程和远程调试。相比 VS Code 的插件生态它更轻量、开箱即用，相比 Vim 的上手成本低得多。如果你每天要在大仓库里翻代码、又受不了 Electron 编辑器的拖沓，这个 macOS 原生包值得一试，下载后拖入「应用程序」文件夹即可。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-012.jpg
@@ -251,7 +251,7 @@
   category: 软件
   tags: ["软件", "macOS", "OpenEmu"]
   quark_url: "https://pan.quark.cn/s/daa09128237e"
-  description: "macOS 复古电子游戏模拟器合集（开源免费，主页 https://openemu.org）"
+  description: "OpenEmu 是 macOS 上的复古游戏模拟器前端，开源免费。它自己不写模拟器核心，而是把 NES、SNES、Game Boy、世嘉 MD、PlayStation 等几十种主机核心整合到同一个图形界面里：拖入 ROM 就自动生成带封面、简介的游戏库，外接手柄开箱即识别，存档、即时存档也都是可视化操作。以往在 Mac 上玩老游戏要分别装好几个模拟器、各配一套手柄映射，OpenEmu 把这些步骤一次收拢。想重温童年主机游戏的话这是最省事的做法，界面友好，主页 https://openemu.org。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-024.jpg
@@ -394,7 +394,7 @@
   category: 软件
   tags: ["软件", "macOS", "Swift Bar"]
   quark_url: "https://pan.quark.cn/s/7fbdc7f5420a"
-  description: "强大的 macOS 菜单栏自定义工具（开源免费，主页 https://swiftbar.app）"
+  description: "Swift Bar 是 macOS 上的一款菜单栏自定义工具，开源免费。做法很直接：把任意脚本的输出放到菜单栏。你可以用 shell、Python 或 Swift 写一小段代码，让它定时抓取汇率、服务器状态、待办数量、日程或天气，结果就显示在右上角，点开还能展开二级菜单和快捷操作。它是老牌工具 BitBar 的 Swift 重写版，体积更小、更省电，脚本生态可以直接沿用。对喜欢折腾效率工具的人来说，这是把零散信息收拢到一处的办法，主页 https://swiftbar.app。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-037.jpg
@@ -482,7 +482,7 @@
   category: 软件
   tags: ["软件", "macOS", "LinearMouse"]
   quark_url: "https://pan.quark.cn/s/c8b45ad05fdd"
-  description: "Mac 鼠标与触控板实用工具（开源免费，主页 https://linearmouse.app）"
+  description: "LinearMouse 是 Mac 上一款开源的鼠标与触控板增强工具。macOS 原生的滚动方向和加速度一直不太顺手，它把这些细节交回用户手上：可以反转滚轮方向、把加速曲线改成线性、逐键自定义功能，也能单独给某个应用设置规则，比如修图时让滚轮变成缩放。常驻菜单栏，占用极低。对每天有大量鼠标操作的人，这种细微的顺手感会累积成明显的舒适；外接办公鼠标、罗技 MX 系列的用户尤其能感觉到差别。开源免费，主页 https://linearmouse.app。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-045.jpg
@@ -614,7 +614,7 @@
   category: 软件
   tags: ["软件", "macOS", "Mackup"]
   quark_url: "https://pan.quark.cn/s/6f54ddc00090"
-  description: "备份并同步你的应用设置（开源免费，主页 https://github.com/lra/mackup）"
+  description: "Mackup 是一个命令行工具，用来把散落在主目录各处的应用配置备份并同步到云端或 Git 仓库。它内置一份常见软件的支持列表，知道 ssh、vim、git、zsh、各类编辑器各自把配置放在哪里，跑一遍就把这些文件归到一个统一目录（通常是 Dropbox 或 iCloud），再用符号链接替回去。换机器时只要恢复目录、执行 mackup restore，所有软件的习惯设置一次性就位。对常重装系统或多台机器的人，这一步能省下几小时手动配置。开源免费，代码在 https://github.com/lra/mackup。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-057.jpg
@@ -966,7 +966,7 @@
   category: 软件
   tags: ["软件", "macOS", "Diffusion Bee"]
   quark_url: "https://pan.quark.cn/s/423f58cbab17"
-  description: "Diffusion Bee for macOS：官方原版应用安装包，下载后拖入「应用程序」文件夹即可使用。"
+  description: "Diffusion Bee 是 macOS 上把 Stable Diffusion 打包成图形界面的开源工具。目标很明确：不用装 Python、不用敲命令行，下载打开就能在本地生成图片——写好提示词、选模型和步数，点几下出图，还能做图生图、局部重绘和放大。所有计算都在本机完成，不必联网，也不必为每一次生成付费，对在意隐私或只想随手试几张的人很友好。要注意它对内存和磁盘都不算省，速度取决于机器配置。想体验本地 AI 绘画又不想折腾环境的 Mac 用户，这是门槛最低的一条路。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-089.jpg
@@ -1197,7 +1197,7 @@
   category: 软件
   tags: ["软件", "macOS", "BatteryBoi"]
   quark_url: "https://pan.quark.cn/s/bacfe01bce7e"
-  description: "你的 Mac 背着你梦寐以求的电池应用（开源免费，主页 https://batteryboi.ovatar.io/）"
+  description: "BatteryBoi 是 macOS 上一款开源的电池菜单栏工具。系统自带的电量显示只有几个粗线条状态，它把信息做细：剩余电量、充满还剩多久、当前功耗、电池健康状态都能直接看到，也能按自己的习惯设置充电提醒和阈值通知。对长期插电使用、或常带着笔记本外出办公的人，这些数据能帮着判断什么时候该拔电源、电池是不是开始老化。工具本身轻量，常驻菜单栏几乎不占感知资源，界面也干净。开源免费，主页 https://batteryboi.ovatar.io/。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-110.jpg
