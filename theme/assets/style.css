@@ -228,12 +228,12 @@ mark {
 /* 二维码框与海报左右边线对齐 */
 .qrbox { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; box-sizing: border-box; }
 .qrbox__img { width: 100%; max-width: 150px; height: auto; aspect-ratio: 1 / 1; display: block; margin: 0 auto; }
-.qrbox__cap { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.qrbox__cap { font-size: 13px; color: var(--muted); margin-top: 6px; }
 .qrbox__switch { display: flex; gap: 6px; margin-top: 8px; }
 .qrbtn {
   flex: 1;
-  padding: 4px 0;
-  font-size: 12px;
+  padding: 5px 0;
+  font-size: 13px;
   color: var(--muted);
   background: #fff;
   border: 1px solid var(--border);
@@ -243,9 +243,16 @@ mark {
 .qrbtn.is-on { color: var(--brand); border-color: var(--brand); font-weight: 600; }
 
 .detail__main { flex: 1; min-width: 0; }
-.detail__title { font-size: 20px; line-height: 1.4; margin: 0 0 10px; }
+/* 资源页正文区约 878px 宽，字号可以比普通内容页大一号 */
+.detail__title { font-size: 23px; line-height: 1.4; margin: 0 0 10px; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.detail__desc { margin: 0 0 16px; color: var(--muted); font-size: 14px; white-space: pre-wrap; }
+.detail__desc {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+}
 
 .links { display: flex; flex-direction: column; gap: 8px; }
 .linkrow {
@@ -257,18 +264,18 @@ mark {
   border: 1px solid var(--border);
   border-radius: 8px;
 }
-.linkrow__name { font-weight: 700; color: var(--brand); font-size: 14px; flex: 0 0 auto; }
+.linkrow__name { font-weight: 700; color: var(--brand); font-size: 15px; flex: 0 0 auto; }
 .linkrow__url {
   flex: 1 1 200px;
   min-width: 0;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.linkrow__code { flex: 0 0 auto; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+.linkrow__code { flex: 0 0 auto; font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
 .linkrow__code b { color: var(--text); }
 
 /* ── 按钮 ────────────────────────────── */
@@ -321,6 +328,9 @@ mark {
   .detail { flex-direction: column; }
   .detail__media { flex: 0 0 auto; flex-direction: row; align-items: flex-start; gap: 14px; }
   .poster { width: 150px; }
+  /* 窄屏空间小，标题与正文收回一档 */
+  .detail__title { font-size: 20px; }
+  .detail__desc { font-size: 15px; line-height: 1.75; }
   .qrbox { flex: 1; width: auto; }
   .linkrow__url { flex-basis: 100%; }
   .top__brand { font-size: 16px; }
