@@ -517,47 +517,10 @@ node …/check-desc.mjs --show                                            # 连�
 
 存量改写进度见 [建议优化](#建议优化) 第 3 项：全站 591 条已按 200 字线全部达标（最短 200 字）。按 300 字新标准复核时，用上面的 `--max=300` 重新拉清单，改写完一批就构建 + 推送。
 
-> 这些规范同时被夸克同步 skill 复用，改了要同步改 skill，见下节 [SKILL 变更](#skill-变更)。
+> 这些规范同时被夸克同步 skill 复用，改了要同步改 skill。
 
 ## SKILL 变更
 
-本 README 的内容规范会被**夸克同步 skill** 复用（新资源入库走的就是它），所以改动这里的任意一条，**必须同步改 skill 与仓库脚本**，否则那天入库的新资源会当场不合规。
-
-skill 位置：`~/.workbuddy/skills/quark-resource-sync/`；`~/.codebuddy/skills/quark-resource-sync` 是指向它的符号链接，**改一处即可，不要分成两份维护**。
-
-### 变更点对照表
-
-| 规范 | 本 README 依据 | skill 侧要改 | 仓库侧要改 |
-|---|---|---|---|
-| 简介正文下限 **300 字**（2026-10-08 从 200 提高） | [数据格式](#数据格式) 的 `description`、[剧情简介](#剧情简介别照抄-tmdb正文不低于-300-字) | `SKILL.md` 第 5 步｜`scripts/check-desc.mjs` 的 `MIN` | `tools/fill-desc.mjs` 的 `MIN`｜`tools/list-short-desc.mjs` 的默认 `max`（现 120，README 里靠 `--max=` 显式传） |
-| 简介上限 **1200 字** | 同上 | `SKILL.md` 第 5 步与软件分类两条 | `scripts/lib/data.js` 的 `MAX_DESC`（构建期截断的唯一实现） |
-| **分类文件用英文命名**（2026-10-09 全量改完） | [目录结构](#目录结构)、[新增分类](#数据格式) | `SKILL.md` 数据文件表与新增分类那条｜`references/site-schema.md`｜`trending-sync.mjs` / `scan-new.mjs` / `make-entry.mjs` 的 `CATS`、`process-batch.mjs` 的 `fileMap`、`backfill-desc.mjs` 的 `FILES`、`placeholder-fill.mjs` | `scripts/new-resource.js` 的 `DATA_FILE`（中文分类 → 英文文件名） |
-| 电视剧简介带 `【第 N 季 · 共 M 集】` | [数据格式](#数据格式) | `SKILL.md` 电视剧条目｜`trending-sync.mjs` / `process-batch.mjs` / `backfill-tv-spec.mjs` | `tools/fill-desc.mjs`：改写时自动把原前缀接回新正文之前 |
-| 结尾 `｜TMDB <评分>` 署名 | 同上 | `SKILL.md` 第 5 步第 4 条 | `tools/fill-desc.mjs`：自动接到新正文之后 |
-| 自写文案**禁止破折号**（第三方原文保持原样） | 本 README 尚未收录 | `SKILL.md` 标点规范 | — |
-| 软件分类简介必须是完整中文 | 未收录 | `SKILL.md` 软件分类 | — |
-
-> 表中最后两条 skill 有、README 没有，属于 README 的待补项：改这两条时以 skill 为准，顺手补进本文件。
-
-### 改完怎么验
-
-```bash
-npm run list:short -- --max=300                                            # 仓库口径：列出正文不足 300 字的
-node ~/.workbuddy/skills/quark-resource-sync/scripts/check-desc.mjs         # skill 口径：默认下限同样是 300
-node tools/fill-desc.mjs                                                    # 草稿落盘前空跑，会点名不足 MIN 字的条目
-```
-
-两个脚本各自用手写正则剥掉 `【…】` 与 `｜…` 之后再数字数，**改了一处的统计口径务必同步另一处**，否则同一个条目在两边会报出不同的字数。
-
-### 变更记录
-
-| 日期 | 变更 | 要同步的位置 |
-|---|---|---|
-| 2026-10-08 | 简介下限 200 → **300 字** | 对照表第 1 行四处 |
-| 2026-10-09 | `data/` 文件名中文 → **英文**（`电影.yaml` → `movie.yaml`） | 对照表第 3 行：skill 五份脚本 + `site-schema.md` + `SKILL.md`，仓库 `new-resource.js` |
-
-**踩过的坑**：改成英文命名后，脚本里若仍写着中文文件名，会往 `data/电影.yaml` 这种孤立文件里写数据——文件确实在仓库里存在，但**不参与构建**，页面上一个字都不会变，最后只能把条目搬回 `movie.yaml`。所以先改脚本常量，再动磁盘上的文件名。
-
-**当前达标情况**：全站按 200 字口径已全部达标（591 条，最短 200 字）；按 300 字新口径复核，仍有 **382 条**待补。
+本 README 的规范同时被夸克同步 skill 复用（位置 `~/.workbuddy/skills/quark-resource-sync/`），改这里的任一条都要同步改 skill 与仓库脚本。
 
 ## SEO建议优化
