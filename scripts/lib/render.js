@@ -35,10 +35,6 @@ const STATS_SCRIPT = `<script>
 
 /** 平台图标：24×24 视口，fill currentColor（页脚只出图标，不出账号文字）。 */
 const ICONS = {
-  twitter:
-    '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>',
-  telegram:
-    '<path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.26-1.91.177-.184 3.247-2.977 3.307-3.23.005-.03.01-.14-.052-.198-.063-.058-.155-.038-.222-.023-.094.021-1.6 1.018-4.516 2.99-.427.293-.812.436-1.157.43-.38-.007-1.113-.215-1.657-.392-.67-.218-.699-.809-.08-1.155.916-.44 2.192-1.023 3.436-1.618 1.62-.775 3.51-1.68 4.12-1.98.61-.3 1.363-.32 1.855-.186z"/>',
   email:
     '<path d="M3 6.5h18v11H3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3.7 7.2 8.3 6 8.3-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
 };
@@ -62,10 +58,8 @@ const footNav = (current = '') =>
       }>${esc(i.label)}</a>`
   ).join('')}</nav>`;
 
-/** 页脚联系方式：site.yaml 的 contact 写成 { 平台: 账号或链接 }。
- *  twitter 写 @用户名 或完整链接均可（统一指向 x.com）；telegram 写完整链接或 @用户名（指向 t.me）。
+/** 页脚联系方式：site.yaml 的 contact 写成 { 平台: 账号或链接 }，留空整段则不渲染。
  *  页面上只显示图标，账号名写进 aria-label / title，不直接露出。 */
-const stripUrl = (u) => u.replace(/^https?:\/\/(www\.)?/, '');
 const contactItems = (contact) =>
   contact && typeof contact === 'object'
     ? Object.entries(contact)
@@ -74,21 +68,6 @@ const contactItems = (contact) =>
           const key = String(rawKey).trim().toLowerCase();
           const val = String(rawVal).trim();
           const isUrl = /^https?:/.test(val);
-          const user = val.replace(/^@/, '');
-          if (key === 'twitter')
-            return {
-              label: 'Twitter',
-              icon: iconSvg('twitter'),
-              href: isUrl ? val : `https://x.com/${user}`,
-              text: `@${isUrl ? stripUrl(val).replace(/^(x|twitter)\.com\//, '') : user}`,
-            };
-          if (key === 'telegram')
-            return {
-              label: 'Telegram',
-              icon: iconSvg('telegram'),
-              href: isUrl ? val : `https://t.me/${user}`,
-              text: `@${isUrl ? stripUrl(val).replace(/^t\.me\//, '') : user}`,
-            };
           if (key === 'email')
             return { label: '邮箱', icon: iconSvg('email'), href: `mailto:${val}`, text: val };
           return { label: rawKey, href: isUrl ? val : '', text: val };
