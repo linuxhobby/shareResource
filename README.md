@@ -4,7 +4,7 @@
 
 | | |
 |---|---|
-| 线上 | https://www.wodewangpan.top |
+| 网站 | https://www.wodewangpan.top |
 | 仓库 | `git@github.com:linuxhobby/wodewangpan.git` |
 | 更新方式 | 推到 `main`，VPS 每 60 分钟自动拉取并重建 |
 
