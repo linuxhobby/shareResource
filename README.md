@@ -107,8 +107,8 @@ sudo certbot --nginx -d 你的域名
 sudo install -m755 deploy/site-autoupdate.sh /usr/local/bin/site-autoupdate
 sudo $EDITOR /usr/local/bin/site-autoupdate    # 改开头的 SITE_DIR、BASE_URL 两个变量
 sudo crontab -e
-# 加入一行：
-*/30 * * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1
+# 加入一行（每小时拉取一次；要更快就把第一个字段改成 */30，即每 30 分钟）
+0 * * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1
 ```
 
 看运行结果：`tail -20 /var/log/site-autoupdate.log`。回滚：在服务器上 `git reset --hard <上一个 commit>` 再 `BASE_URL=... npm run build`，或本机 `git revert` 后推上去。
