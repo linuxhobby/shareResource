@@ -2610,13 +2610,14 @@
 
 
 - id: mv-240
-  title: "书情话欲"
+  title: "爱情假说"
   category: 电影
-  tags: ["电影", "书情话欲"]
+  tags: ["电影", "爱情", "喜剧", "爱情假说 The Love Hypothesis"]
   quark_url: "https://pan.quark.cn/s/8cef167b9489"
-  description: "（暂无简介，TMDB 未收录该片）"
-  date: 2026-09-30
+  description: "改编自《纽约时报》畅销小说。博士生奥利弗一时冲动，吻了系里最令人生畏的教授亚当·卡尔森。两人因各自都需要一段「假恋情」而走到一起，这段关系演变成了一场关于化学反应的实验，或许这真能解开爱情谜题。｜TMDB 8.0"
+  date: 2026-09-23
   added: 2026-09-30
+  image: mv-240.jpg
 
 
 - id: mv-241

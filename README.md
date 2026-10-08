@@ -6,7 +6,7 @@
 |---|---|
 | 线上 | https://www.wodewangpan.top |
 | 仓库 | `git@github.com:linuxhobby/wodewangpan.git` |
-| 内容 | 406 个资源 · 7 个分类（电影 244 / 电视剧 72 / 纪录片 77 / 动漫 1 / 游戏 2 / 软件 9 / 其他 1） |
+| 内容 | 586 个资源 · 8 个分类（电影 259 / 电视剧 116 / 纪录片 77 / 动漫 1 / 游戏 2 / 软件 124 / 电子书 6 / 其他 1） |
 | 更新方式 | 推到 `main`，VPS 每 30 分钟自动拉取并重建 |
 
 ## 特性
@@ -18,6 +18,8 @@
 - **SEO 全自带**：canonical、OG / Twitter Card、JSON-LD、sitemap、robots、404 兜底
 - **响应式宫格**：5 列 → 4 列（<1000px）→ 3 列（<820px）→ 2 列（<480px）
 - **分类占位海报**：缺图时自动套用分类海报（渐变底 + 专属底纹 + 徽章图标 + 中英文分类名）
+- **首屏数据内联**：列表页把前 `pageSize × 2` 条内联进 HTML，首屏无 JS 也能看；其余在「加载更多」时从 `search-index.json` 异步补齐，586 条时首页 HTML 约 60K
+- **入库时刻排序**：首页 / 分类页按 `added` 倒序，`added` 写到时分（`"2026-10-07 17:40"`）就能精确到入库先后
 - **访问统计自备**：解析 Nginx 日志生成 `/stats.json`，页脚显示「总访问量 / 访客数 / 今日 / 今日访客」，不依赖第三方
 
 ## 部署
@@ -35,7 +37,7 @@
 
 ### 方案 A：VPS + Nginx
 
-服务器为 Ubuntu 22.04，站点目录 `/opt/wodewangpan`。
+站点目录 `/opt/wodewangpan`；下面命令走 `apt`，Debian / Ubuntu 都能照抄。
 
 **1）装环境**
 
@@ -217,7 +219,7 @@ curl -s https://你的域名/key.txt     # 应返回那串密钥
 sudo install -m755 deploy/submit-indexnow.sh /usr/local/bin/submit-indexnow
 sudo sed -i 's/www.your-domain.com/你的域名/' /usr/local/bin/submit-indexnow
 sudo /usr/local/bin/submit-indexnow
-tail -3 /var/log/submit-indexnow.log    # 共 559 条：成功 559，失败 0
+tail -3 /var/log/submit-indexnow.log    # 本站当前 595 条 URL：成功 595，失败 0
 
 # 4) 每天自动推（root crontab）
 0 3 * * * /usr/local/bin/submit-indexnow >> /var/log/submit-indexnow.log 2>&1
@@ -241,27 +243,27 @@ tail -3 /var/log/submit-baidu.log
 
 > 百度按站点发放每日配额（新站通常只有几十条/天）。脚本会先探测当天剩余配额再分批推送，推不完的次日自动续上，已推送过的 URL 记录在 `/var/lib/baidu-submitted.txt` 不会重复提交。配额随站点抓取量提升，建议同时在站长平台手动提交一次 sitemap 作为兜底。
 
-实测：559 个 URL 分 12 批提交，全部返回 200/202。
+实测：595 个 URL（586 条资源 + 首页 + 8 个分类页）按每批 50 条分 12 批提交，全部返回 200/202。
 
 ## 目录结构
 
 ```
 data/                # 一个分类一个 YAML，构建时自动合并
   site.yaml          # 站名、分类顺序、免责声明、页脚联系方式、首屏条数
-  电影.yaml 电视剧.yaml 纪录片.yaml 动漫.yaml 游戏.yaml 软件.yaml
+  电影.yaml 电视剧.yaml 纪录片.yaml 动漫.yaml 游戏.yaml 软件.yaml 电子书.yaml 其他.yaml
 static/
   favicon.svg        # 站点图标，构建时生成 favicon.ico / apple-touch-icon.png
   images/            # 配图，文件名与资源 id 对应：<id>.jpg / .png / .webp / .svg
 theme/assets/        # 前端样式与脚本，构建时拷到 public/assets/
-scripts/             # 构建与预览
+scripts/             # 构建 / 预览 / 部署脚本（lib/ 是构建核心：读数据、出图片、渲染页面）
 tools/
   sitestats.py           # 访问统计脚本（VPS 方案用到）
   icon-poster.mjs        # 把应用图标合成 2:3 竖版海报（软件 / 音频等非影视资源）
   book-cover-douban.mjs  # 从豆瓣图书抓书籍封面（电子书 bk- 优先用它，见「经验总结」）
   book-poster.mjs        # 豆瓣查无此书时，生成书封海报兜底
   set-poster.mjs         # 套装 / 合辑专用深色封面（豆瓣没有对应单册封面时用，见「经验总结」）
-deploy/              # 部署用：Nginx 配置示例、自动更新脚本、统计日志格式
-public/              # 构建产物，部署这个目录（约 19MB，不入库）
+deploy/              # 部署用：Nginx 配置示例、自动更新脚本、统计日志格式、搜索引擎提交脚本
+public/              # 构建产物，部署这个目录（586 条时约 29MB，不入库）
 ```
 
 ## 站点配置 `data/site.yaml`
@@ -270,17 +272,17 @@ public/              # 构建产物，部署这个目录（约 19MB，不入库�
 title: 我的网盘资源站
 description: 夸克 / 百度网盘资源索引，打开即用，扫码即存
 # 首页 SEO 文案（可选，不填则回退用站名与站描述）；{total} = 资源总数，{categories} = 分类列表
-homeTitle: 我的网盘资源站 - 夸克/百度网盘资源索引   # 构建时自动追加「（406 项）」
+homeTitle: 我的网盘资源站 - 夸克/百度网盘资源索引   # 构建时自动追加「（586 项）」
 homeDesc: 夸克 / 百度网盘资源索引，收录 {total} 个{categories}资源，打开即用，扫码即存
 homeH1: 网盘资源索引 · 全部资源                 # 首页 H1（分类页仍用分类名）
 disclaimer: 本站仅提供网盘资源索引，所有文件均存放于第三方网盘…
-categories: [电影, 电视剧, 纪录片, 动漫, 游戏, 软件, 其他]   # 分类栏顺序；未列出的按资源数倒序追加在末尾
+categories: [电影, 电视剧, 纪录片, 动漫, 游戏, 软件, 电子书, 其他]   # 分类栏顺序；未列出的按资源数倒序追加在末尾
 contact:                             # 页脚联系方式（可选，整段删掉则不显示）
   twitter: "@xspalice"               # 写 @用户名 或完整链接都行
   telegram: "https://t.me/wodewangpantop"
 icp: ""                              # 备案号，留空不显示
 stats: local                         # 页脚统计：local = 本地｜busuanzi = 不蒜子｜留空不显示
-pageSize: 35                         # 首屏渲染条数，其余由「加载更多」渲染
+pageSize: 35                         # 首屏渲染条数；构建时内联前 pageSize × 2 条，其余由「加载更多」按需补齐
 ```
 
 联系方式在页面上只显示为平台小图标（Twitter / Telegram / 邮箱），账号名写在 `title` 与 `aria-label` 里。`stats: local` 依赖服务器上的 `/stats.json`，本机预览时数字显示占位符 `–`，属正常。
@@ -289,10 +291,10 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
 
 | 页面 | 形态 |
 |---|---|
-| `/` | 首页宫格，**按 `added` 倒序（最新加入在前）**，最前 6 条带「最新」角标 |
+| `/` | 首页宫格，**按 `added` 倒序（最新加入在前）**，`added` 带到时分时精确到入库先后；最前 6 条带「最新」角标 |
 | `/category/<分类>/` | 同样的宫格，只含该分类 |
-| `/resource/<id>/` | 180×260 海报 + 120×120 二维码 + 网盘链接与复制按钮 |
-| 搜索 | 顶栏即时搜索，结果同样宫格呈现，命中词高亮 |
+| `/resource/<id>/` | 180×260 海报 + 120×120 二维码（最多 3 个网盘链接各一张）+ 网盘链接与复制按钮 |
+| 搜索 | 顶栏即时搜索（`Ctrl/⌘ + K` 聚焦），结果同样宫格呈现，命中词高亮 |
 
 ## 数据格式
 
@@ -308,11 +310,11 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
   baidu_code: sf2k          # 提取码
   description: 4K 国语中字   # 可选，详情页正文，上限 1000 字（超出构建时自动截断）
   date: 2013-01-30          # 可选，上映 / 发行日期
-  added: 2026-09-21         # 可选，加入时间，决定排序（不填则排最前）
+  added: "2026-10-07 17:40" # 可选，加入时间，决定排序（不填则排最前）；带时分能精确到入库时刻，必须加引号
   image: mv-010.jpg         # 可选，默认取 static/images/<id>.<ext>
 ```
 
-**排序**：`added` 倒序 → 同日按 id 编号倒序 → `date` 倒序 → 文件内原序。
+**排序**：`added` 倒序（写到时分按实际时刻，只写日期的按当天 00:00）→ 同刻按 id 编号倒序 → `date` 倒序 → 文件内原序。
 
 内置网盘字段：`quark_url`、`baidu_url`、`aliyun_url`、`tianyi_url`、`uc_url`、`xunlei_url`、`115_url`、`mobile_url`，提取码为对应 `xxx_code`。多个链接时详情页全部列出。其它网盘用通用写法：
 
@@ -323,7 +325,7 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
       code: ab12
 ```
 
-**id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件、`bk-` 电子书、其他，与 `static/images/` 里的配图同名。
+**id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件、`bk-` 电子书、`ot-` 其他，后接三位编号，与 `static/images/` 里的配图同名。
 
 **新增一个分类**：建 `data/<分类>.yaml`，把分类名加进 `site.yaml` 的 `categories`，`npm run build` 即可。
 
@@ -336,9 +338,10 @@ pageSize: 35                         # 首屏渲染条数，其余由「加载�
 | 电影 / 电视剧 / 纪录片 / 动漫 | TMDB 海报 `https://image.tmdb.org/t/p/w500/<path>.jpg`（500×750） |
 | 游戏 | Steam 竖版封面 `https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/library_600x900_2x.jpg` |
 | 软件 | 应用商店官方图标，用 `tools/icon-poster.mjs` 合成 480×720，做法见 [经验总结](#经验总结) |
-| 查不到图 | 不填 `image`，构建自动回退分类占位海报 |
+| 其他（音频 / 课程等） | 没有官方图标来源，同样用 `tools/icon-poster.mjs` 合成 480×720（拿品牌图标或自绘线条图标） |
 | 电子书 | 豆瓣图书封面，用 `tools/book-cover-douban.mjs` 抓取（约 500×750），做法见 [经验总结](#经验总结) |
 | 电子书（套装 / 合辑） | 豆瓣没有对应单册封面，用 `tools/set-poster.mjs` 自制 480×720 深色封面，见 [经验总结](#经验总结) |
+| 查不到图 | 不填 `image`，构建自动回退分类占位海报（见 [经验总结](#经验总结)） |
 
 ## 新增资源
 
@@ -368,13 +371,16 @@ npm run dev                                     # build + serve 一步到位
 
 - **站内搜索**：顶栏即时搜索；`taikong`、`tkbd` 都能搜到「太空部队」（支持拼音全拼与首字母），`Ctrl/⌘ + K` 聚焦，搜索时地址栏变 `/?q=关键词` 可直接分享
 - **SEO**：每页独立的 title / description、canonical、OG / Twitter Card、JSON-LD、`sitemap.xml`、`robots.txt` 全部构建时自动生成
+- **sitemap `lastmod` 用资源真实入库日期**，不是每次构建全站刷新，避免搜索引擎误判全站频繁变更
+- **首屏内联 + 异步补齐**：列表页只内联前 `pageSize × 2` 条（够首屏与第一次「加载更多」），其余从 `search-index.json` 按需取，586 条时首页 HTML 约 60K
 - **访问统计**：Nginx 日志 → `sitestats.py` 增量解析 → `/stats.json` → 页脚数字；PV 排除爬虫与非页面请求，UV 只统计带访客 cookie 的请求
 - **静态资源带版本号**（`/assets/style.css?v=<commit>`），Nginx 缓存 30 天也能在部署后立即生效
+- **拼音索引是构建期生成的**（`pinyin-pro` 在 `devDependencies`）：装依赖时别加 `--omit=dev`，否则搜索退化成只按字面匹配
 - `public/` 不入库，仓库只留源码与数据
 
 ## 经验总结
 
-日常维护里踩过、值得记住的几条配置图相关的经验。
+日常维护里踩过、值得记住的几条经验，都和配图与分类有关。
 
 ### 电子书封面：抓豆瓣正版封面
 
@@ -448,7 +454,7 @@ node tools/icon-poster.mjs --icon "<artworkUrl512>" --out static/images/app-005.
 
 1. **别拿搜索结果第一条就用**：同一个词常回来好几个不相干的应用（搜 `AdGuard` 会混进 AdBlocker Pro、uBlock Origin Lite）。`limit` 给 3~5 条，比对 `trackName` / `sellerName` / `bundleId` 确认是同一个东西，再取 `artworkUrl512`。
 2. 关键词宁短勿长：`Parallels Desktop 18` 带版本号经常搜不到，用 `Parallels Desktop` 再自己挑版本。`entity` 选错（Mac 应用去 `software` 里搜）会一无所获，两个都试一遍；`country=cn` 影响结果集与名称本地化。
-3. 圆角只加一次：先打开 `artworkUrl512` 原图看一眼，图标本身已带圆角就不要再给 `--radius`，直角方形图标才加 `--radius 22`——加两层会看到明显的双圆角。
+3. 圆角只加一次：先打开 `artworkUrl512` 原图看一眼，图标本身已带圆角就不要再给 `--radius`，只有直角方形图标才加 `--radius 22`，加两层会看到明显的双圆角。
 4. **出图必须打开看一眼再入库**：标题太长会顶到边、图标偏小、`--sub` 缺省时标题位置会下移，这些只有看图才发现。用 `sharp` 把结果转成 PNG 预览即可。批量补图（本站一次补过 49 / 51 条）时，合成完抽查几张卡片，别只看脚本打印的尺寸。
 
 ### 软件配图（二）：拿不到官方图标就自己画
@@ -456,3 +462,9 @@ node tools/icon-poster.mjs --icon "<artworkUrl512>" --out static/images/app-005.
 上一节的官方图标这条路走不通时的兜底做法。Windows 工具类资源（驱动、激活工具、Office 部署器）常常在 iTunes / GitHub / 官网上都找不到像样的图标。这时候画一个 512×512 的白色线性图标（WiFi 信号、钥匙、下载箭头这类通用符号就够），交给 `tools/icon-poster.mjs` 合成海报（参数同上，`--title` / `--sub` / `--c1` / `--c2` 控制文字与配色），出来的观感和正版图标的海报是一套的，比塌落到占位图强得多。
 
 中间还有一档可选：开源工具常能在 GitHub 上取到项目 / 组织头像当图标，`https://github.com/<org>.png?size=460` 直接取，别去猜组织的数字 ID，猜错会拿到完全不相干的头像。
+
+### 新增分类：占位海报记得一起补
+
+`scripts/lib/assets.js` 的 `CAT_STYLE` 目前收录 电影 / 电视剧 / 纪录片 / 动漫 / 游戏 / 软件 / 其他 七个分类，每个配了渐变底色、徽章图标、专属底纹和英文副标题。**没收录的分类不会报错，但观感会塌一档**：按分类名派生色相，图标退回文件夹、底纹退回波浪、英文副标题留空（后加的 `电子书` 目前就是这种）。要补齐，在 `CAT_STYLE` 加一行（`c1` / `c2` / `icon` / `en` / `tex`），图标从 `ICONS` 里挑（`film` `tv` `globe` `bubble` `pad` `window` `folder`），不够就再加图标与底纹函数（`TEX`）。
+
+缺图的回退顺序是：分类占位海报（`/img/placeholder-<分类>.svg`）→ 通用占位图（`/img/placeholder.svg`，只有分类未知时才走到）。目前 586 条里只有 2 条走占位图：`mv-240`、`app-080`，都是有意留空。
