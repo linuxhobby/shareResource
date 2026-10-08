@@ -215,9 +215,9 @@ ${body}
 </main>
 <footer class="foot wrap${wide ? ' wrap--wide' : ''}">
   ${footNav(footNavCurrent)}
+  ${site.stats === 'local' ? STATS_HTML : ''}
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
-  ${site.stats === 'local' ? STATS_HTML : ''}
   ${contactHtml(site.contact)}
 </footer>
 ${site.stats === 'local' ? STATS_SCRIPT : ''}
