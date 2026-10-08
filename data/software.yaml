@@ -1356,3 +1356,13 @@
   added: 2026-10-07
   image: app-124.jpg
 
+
+- id: app-125
+  title: "RevPDF"
+  category: 软件
+  tags: ["软件", "PDF", "编辑器", "办公工具", "Windows", "macOS", "RevPDF"]
+  quark_url: "https://pan.quark.cn/s/1d7b4e6435e6"
+  description: "免费离线 PDF 编辑器，由独立开发者打造，支持 Windows、macOS、Linux、Android 与 iOS 五个平台，本次收录 Windows 与 macOS（Intel 及 Apple Silicon 双版本）安装包。最大的特点是全程本地处理：编辑、OCR、转换、压缩全部在自己电脑上完成，文件不上传任何服务器，无需注册账号，桌面版完全免费，无订阅、无水印、无功能限制。功能覆盖日常 PDF 工作流的大部分需求：直接编辑 PDF 内的文字与图片（所见即所得，支持段落重排与查找替换），自动查找并永久删除敏感内容的智能涂黑，扫描件离线 OCR 识别成可搜索文本，表单创建、自动识别与填写，电子签名与手绘批注，PDF 与图片、Word 互转，压缩、拆分、合并、重排与旋转页面，另有水印、页眉页脚、元数据编辑与多标签阅读器。整套安装包仅约 30MB，启动快，界面克制没有弹窗推销，移动端为 9.99 美元一次性买断。（免费，主页 https://revpdf.com）｜Pawandeep Singh"
+  date: 2026-10-08
+  added: "2026-10-08 20:10"
+  image: app-125.jpg
