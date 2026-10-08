@@ -15,6 +15,17 @@ categories:
   - 软件
   - 电子书
   - 其他
+# 分类 → URL 别名（可选）：页面的分类路径用这里的英文名，没配的分类仍用分类名
+# 注意：改动已收录的路径要配 301 跳转，否则丢排名
+slugs:
+  电影: movie
+  电视剧: tv
+  纪录片: documentary
+  动漫: anime
+  游戏: game
+  软件: software
+  电子书: ebook
+  其他: misc
 # 页脚访问统计：local = 本地统计（VPS 解析 nginx 日志生成 /stats.json，不依赖第三方）；
 #              留空则不显示
 stats: local

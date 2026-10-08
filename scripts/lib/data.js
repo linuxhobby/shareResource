@@ -41,8 +41,20 @@ export function slugify(text) {
     .replace(/^-+|-+$/g, '');
 }
 
+/**
+ * 分类 → URL 段：优先用 site.yaml 的 slugs 里配的英文名，没配就用分类名原样。
+ * 别名表由 loadSite() 写入（构建入口第一个调用），全局有效，保证链接、sitemap、RSS 用同一套路径。
+ */
+let CATEGORY_SLUGS = new Map();
+export function setCategorySlugs(map) {
+  CATEGORY_SLUGS = new Map(
+    Object.entries(map || {}).map(([k, v]) => [String(k).trim(), String(v).trim()])
+  );
+}
+
 export function categorySlug(name) {
-  return String(name).trim().replace(/[\\/]+/g, '-');
+  const key = String(name).trim();
+  return CATEGORY_SLUGS.get(key) || key.replace(/[\\/]+/g, '-');
 }
 
 export function formatDate(value) {
@@ -135,6 +147,8 @@ export function syncHeaderCounts(dataDir) {
 export function loadSite(dataDir) {
   const file = path.join(dataDir, 'site.yaml');
   const cfg = fs.existsSync(file) ? yaml.load(fs.readFileSync(file, 'utf8')) || {} : {};
+  // 别名表要在生成任何链接之前装好，否则 categorySlug() 会退回用中文分类名
+  setCategorySlugs(cfg.slugs);
   return {
     title: cfg.title || '网盘资源站',
     description: cfg.description || '',
