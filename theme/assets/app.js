@@ -180,7 +180,7 @@
       }
     });
 
-    // 支持从 /?q=关键词 直接进来（也对应结构化数据里的 SearchAction）
+    // 支持从 /?q=关键词 直接进来（分享链接用；该形式已被 robots.txt 屏蔽，不给搜索引擎抓）
     var params = new URLSearchParams(location.search);
     var q0 = params.get('q');
     if (q0) {

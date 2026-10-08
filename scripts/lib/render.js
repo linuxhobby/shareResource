@@ -248,7 +248,10 @@ export function listPage(ctx) {
   const typeLabel = activeCat ? `${activeCat}资源` : '网盘资源';
   const firstImg = (images.get(items[0] && items[0].id) || {}).card || '';
 
-  // 结构化数据：站点（含搜索框）+ 当前列表
+  // 结构化数据：站点 + 当前列表
+  // 注意：不要再加 SearchAction（站点链接搜索框）——Google 已于 2024-11-21 下线该富媒体结果，
+  // 而且它的 urlTemplate `/?q=` 已被 robots.txt 屏蔽，留着是互相矛盾的死标记。
+  // WebSite 本身要保留：Google 的「网站名称」功能仍读它（要求 name + url）。
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -258,11 +261,6 @@ export function listPage(ctx) {
         url: `${baseUrl}/`,
         name: site.title,
         description: site.description,
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: { '@type': 'EntryPoint', urlTemplate: `${baseUrl}/?q={search_term_string}` },
-          'query-input': 'required name=search_term_string',
-        },
       },
       {
         '@type': 'CollectionPage',
