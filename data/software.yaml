@@ -3,7 +3,7 @@
   category: 软件
   tags: ["软件", "虚拟机", "macOS", "Parallels Desktop 18"]
   quark_url: "https://pan.quark.cn/s/e9d2e5ed8ccc"
-  description: "Parallels Desktop 18 for Mac（2022 版）：在 Mac 上无缝运行 Windows 与 Linux 虚拟机，支持 Apple M 系列芯片、共享文件夹与拖拽互传。｜Parallels"
+  description: "Parallels Desktop 18 是 2022 年那版的 macOS 虚拟机软件，作用是在 Mac 上同时跑起 Windows 与 Linux。它的看家本领是「融合模式」：Windows 应用可以像 Mac 应用一样出现在程序坞里，两个系统的窗口并排放在一起，互相拖文件、共享文件夹、共用剪贴板，不必在两套桌面之间来回切换。这一版针对 Apple M 系列芯片做了适配，Apple 芯片机型上跑的是 ARM 版 Windows。适合离不开某个 Windows 独占软件（网银、OA、专业工程工具），或者需要在 Mac 上验证 Windows 环境、做跨端测试的开发者。｜Parallels"
   date: 2022-08-09
   added: 2026-10-02
   image: app-001.jpg
@@ -13,7 +13,7 @@
   category: 软件
   tags: ["软件", "虚拟机", "macOS", "Parallels Desktop 19"]
   quark_url: "https://pan.quark.cn/s/2c1e8d006a03"
-  description: "Parallels Desktop 19 for Mac（2023 版）：在 Mac 上无缝运行 Windows 与 Linux 虚拟机，兼容 macOS Sonoma，优化 Apple 芯片性能与游戏图形表现。｜Parallels"
+  description: "Parallels Desktop 19 是 2023 年的那版 macOS 虚拟机软件，用途是在 Mac 上跑 Windows 与 Linux。这一版的重点是跟上当时的新系统：兼容 macOS Sonoma，同时对 Apple 芯片机型的性能与图形表现做了优化，一些 Windows 游戏和图形应用的流畅度比前代明显更好。它的标志性功能依然是「融合模式」——Windows 应用直接出现在 macOS 桌面和程序坞里，两边互相拖文件、共享剪贴板，不必在两个系统之间来回切换。适合离不开某个 Windows 独占软件，或者需要在 Mac 上验证 Windows 端表现的开发者。｜Parallels"
   date: 2023-08-21
   added: 2026-10-02
   image: app-002.jpg
@@ -23,7 +23,7 @@
   category: 软件
   tags: ["软件", "启动器", "效率工具", "macOS", "Raycast"]
   quark_url: "https://pan.quark.cn/s/75eb7fb3f303"
-  description: "Raycast for Mac（最新版）：替代 Spotlight 的命令面板，秒开应用、搜索文件与剪贴板历史、管理文本片段与窗口，内置扩展商店可安装海量插件，支持 AI 与自定义脚本。｜Raycast Technologies"
+  description: "Raycast 是很多人拿来替代 Spotlight 的命令面板：一个热键唤出输入框，之后基本不用再碰鼠标——启动应用、找文件、翻剪贴板历史、插入常用文本片段、管理窗口布局、做单位换算，都能在这里完成，主打的就是一个字快。它的扩展商店里有大量第三方插件，查 GitHub 议题、搜图标符号、改动工单状态、接 AI 提问都能一键装上；自己也支持用脚本写扩展，把每天重复的流程压成两下按键。适合希望把常用动作全部键盘化的人。macOS 为主，近两年也开始有 Windows 版本。｜Raycast Technologies"
   date: 2026-09-30
   added: 2026-10-02
   image: app-003.jpg
@@ -33,7 +33,7 @@
   category: 软件
   tags: ["软件", "启动器", "效率工具", "macOS", "Alfred"]
   quark_url: "https://pan.quark.cn/s/f206383617c1"
-  description: "Alfred 5 for Mac（5.8.1）：键盘驱动的启动器，快速打开应用、文件、文件夹与各类系统功能，支持剪贴板历史、文本片段与系统操作，并通过 Workflows 工作流实现高度定制与扩展。｜Running with Crayons"
+  description: "Alfred 是 macOS 上的老牌键盘启动器，这一版是 Alfred 5。它比 Spotlight 强的地方在于唤出输入框之后那一层：除了打开应用和文件，还能算算术、查词典、搜联系人、执行系统操作（锁屏、清废纸篓、休眠），也管理着剪贴板历史和常用文本片段。真正拉开差距的是 Workflows——把一串步骤串成自定义工作流，想做的事基本都能拼出来，社区现成的成品也很多。核心功能免费，进阶能力靠付费的 Powerpack 解锁。适合愿意花点时间配置、希望键盘解决大部分操作的人。｜Running with Crayons"
   date: 2026-09-24
   added: 2026-10-02
   image: app-004.jpg
@@ -43,7 +43,7 @@
   category: 软件
   tags: ["软件", "广告拦截", "隐私保护", "macOS", "Windows", "AdGuard"]
   quark_url: "https://pan.quark.cn/s/166c0e8f2f68"
-  description: "AdGuard for Mac / Windows：系统级广告拦截与隐私保护工具，拦截网页广告、跟踪器与恶意站点，过滤应用内广告与统计脚本，支持自定义过滤规则与 DNS 过滤，浏览更清爽、更省流量。｜AdGuard"
+  description: "AdGuard 是系统级的广告与跟踪拦截工具，Mac 与 Windows 都有版本。它不像浏览器插件那样只在网页层面动手，而是把广告过滤、跟踪器拦截、恶意站点防护做在网络层与浏览器两头：网页里的横幅和贴片消失，应用内部偷偷上报的统计脚本也一并被拦。可以自己订阅过滤列表、写自定义规则，也能通过 DNS 过滤把范围扩到整台设备的流量。看得见的好处是页面干净、加载更快、流量也省；看不见的好处是那些跟在身后收集行为的脚本少了一半。适合对隐私比较在意、或者单纯受不了满屏广告的人。｜AdGuard"
   date: 2026-10-04
   added: 2026-10-04
   image: app-005.jpg
@@ -53,7 +53,7 @@
   category: 软件
   tags: ["软件", "Adobe", "设计", "全家桶", "macOS", "Adobe 大师版"]
   quark_url: "https://pan.quark.cn/s/bb38eda73d00"
-  description: "Adobe 大师版：Adobe 桌面软件合集（Photoshop / Illustrator / Premiere Pro / After Effects / Acrobat 等），内置激活工具，覆盖 Windows 与 macOS 双平台，安装后即可长期使用。｜Adobe"
+  description: "这是 Adobe 桌面软件的合集版本，一套里包含 Photoshop、Illustrator、Premiere Pro、After Effects、Acrobat 等主力工具的对应版本。它的便利之处在于不必一个个单独下载安装，也不用逐个确认版本搭配是否一致，一次装完即可长期使用，Windows 与 macOS 双平台都有对应的包。适合需要修图、剪辑、做特效、画矢量这条完整链路的创作者，一次性把工作面铺好。安装前留意一下系统版本和磁盘空间——这类大合集的安装包体积相当可观。｜Adobe"
   date: 2026-10-04
   added: 2026-10-04
   image: app-006.jpg
@@ -75,7 +75,7 @@
   category: 软件
   tags: ["软件", "下载工具", "断点续传", "Windows", "IDM 下载器"]
   quark_url: "https://pan.quark.cn/s/a66cf4ef766d"
-  description: "IDM（Internet Download Manager）下载器终身会员版：Windows 端多线程下载工具，最高可提升数倍下载速度，支持断点续传、批量下载、浏览器集成与视频嗅探抓取，一次激活长期可用。｜Tonec"
+  description: "IDM（Internet Download Manager）是 Windows 上老牌的多线程下载工具，这一版标注为终身会员版。它的看家本领是把单个文件切成多份并发下载，尽可能把带宽吃满，再配合断点续传——掉线或临时关闭之后不必从头再来。浏览器集成是被称赞最多的一点：接管下载后基本不用手工复制链接；批量排队、按规则过滤，以及对网页视频的嗅探抓取也都常用。适合经常下载大文件、网络不太稳定、或者习惯一次性拉一堆素材的人。Windows 平台，按包内说明安装配置即可长期使用。｜Tonec"
   date: 2026-10-04
   added: 2026-10-04
   image: app-008.jpg
@@ -163,7 +163,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Transmission Hub"]
   quark_url: "https://pan.quark.cn/s/90171efe5108"
-  description: "支持 Transmission、qBittorrent 和 Aria2 的客户端，也是管理下载任务的得力工具：查看任务（进度、任务信息、文件、下载速度），管理任务（开始、停止、重命名、移动、校验、删除、设置文件优先级、跳过文件）等，Mac 上可直接管理下载任务。｜展威 李"
+  description: "Transmission Hub 是给 Mac 上常驻下载任务准备的管理客户端，后端支持 Transmission、qBittorrent 和 Aria2 三种。它把任务管理从网页界面搬到了菜单栏与原生窗口里：能看到每个任务的进度、速度、详细信息和文件列表，也能直接启停、重命名、移动存储位置、重新校验、删除，还能给单个文件设置优先级或者跳过不想下的部分（比如一堆视频里的样片）。如果 Mac 上长期挂着一个下载器，用它敲一眼比开浏览器省心得多。｜展威 李"
   date: 2023-05-07
   added: 2026-10-04
   image: app-016.jpg
@@ -207,7 +207,7 @@
   category: 软件
   tags: ["软件", "购物", "macOS", "Selectedvendors"]
   quark_url: "https://pan.quark.cn/s/fbf3316effc3"
-  description: "SelectedVendors 现已登陆 App Store：随时随地用移动设备浏览商品、下单并跟踪订单状态，并提供 macOS 版本，可在 Mac 上管理采购。｜LifeArt Cabinetry Corp"
+  description: "SelectedVendors 是 LifeArt Cabinetry 给自家经销渠道做的采购工具：打开就能浏览产品清单、查看款式规格与价格、直接下单，并随时跟踪订单进展到哪一步。它的价值在于把采购这件事从邮件和电话里搬出来——在客户家里现场量尺选材、在展厅挑面板、工地临时补货，都能立刻确认价格并下单，不必回头翻报价单。另有 macOS 版本，可以在 Mac 上处理采购与管理事宜。要注意它面向的是该品牌自己的渠道伙伴，不是通用购物平台，普通人装上多半没有可用账号，也对应不上德语以外的客服支持。｜LifeArt Cabinetry Corp"
   date: 2019-07-31
   added: 2026-10-04
   image: app-020.jpg
@@ -262,7 +262,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Only Switch"]
   quark_url: "https://pan.quark.cn/s/a3a42a3d2081"
-  description: "Only Switch：用一个仪表盘管理你所有的智能设备，随时随地控制灯光、电视、空调、窗帘、风扇和冰箱，无缝兼容各大主流品牌；并支持 Amazon Alexa 等语音助手，动口不动手掌控全屋；常驻 macOS 菜单栏，开关系统设置只在一击之间。｜Sivakumar Ramamurthy"
+  description: "Only Switch 有两副面孔。作为 macOS 菜单栏工具，它把藏在系统设置深处的开关搬到一点即开的位置：隐藏桌面图标、切换深色模式、开热点、静音、清废纸篓、启动屏保等等，还能把自己常用的那几样排列成一列。作为家居中控，它可以管理家里的智能设备——灯光、电视、空调、窗帘、风扇、冰箱都能控制，兼容主流品牌，也接得上语音助手。适合既想随手切换 Mac 设置、又不想为全屋设备装上好几个 App 的人。｜Sivakumar Ramamurthy"
   date: 2025-05-22
   added: 2026-10-04
   image: app-025.jpg
@@ -273,7 +273,7 @@
   category: 软件
   tags: ["软件", "新闻", "macOS", "NetNewsWire: RSS Reader"]
   quark_url: "https://pan.quark.cn/s/90ab9b758931"
-  description: "如果播客可以订阅收听，阅读为什么不能？NetNewsWire 是一款免费开源的 RSS 阅读器，汇聚你喜爱的博客和新闻站点的文章，并记录你的阅读进度。快速、稳定、无障碍友好，从此不必在浏览器里挨个站点找新文章；macOS 版与 iOS 版体验一致。｜Brent Simmons"
+  description: "如果播客能订阅收听，阅读为什么不能？NetNewsWire 就是一款免费开源的 RSS 阅读器，把你常看的博客与新闻站点的更新汇总到一个列表里，并记录哪些读过、哪些还没有。它做得最出色的是快——启动快、同步快、滚动不卡，中间也不会插广告和「猜你喜欢」。界面是地道的 macOS 移植风格，读长文时不会被一堆按钮打断。macOS 与 iOS 版体验一致，可以配合 iCloud 或主流 RSS 同步服务。适合仍然习惯「自己订阅、自己读」这种获取信息方式的人。｜Brent Simmons"
   date: 2020-03-08
   added: 2026-10-04
   image: app-026.jpg
@@ -284,7 +284,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "MonitorControl Lite"]
   quark_url: "https://pan.quark.cn/s/92831965704d"
-  description: "在 macOS 菜单栏直接调节显示器亮度！支持平滑的亮度过渡、自定义快捷键和多种个性化选项；外观时尚现代（致敬新版 macOS 控制中心的设计），简洁而不碍事。｜Kodeon Software Korlatolt Felelossegu Tarsasag"
+  description: "MonitorControl Lite 解决的是 macOS 一直欠着不给的小功能：用菜单栏滑块直接调外接显示器的亮度（部分机型连音量也能调）。苹果自家的显示器可以用键盘直接控制，但绝大多数第三方外接屏的系统亮度滑块根本不起作用，只能去摸显示器边框上那排难按的物理按键。它支持平滑过渡而不是一格一格跳，也能自定义快捷键，外观参考了新版 macOS 控制中心的样子，简洁又不碍事。适合外接显示器长期办公、早已烦透了手动按边框按键的人。"
   date: 2021-11-23
   added: 2026-10-04
   image: app-027.jpg
@@ -317,7 +317,7 @@
   category: 软件
   tags: ["软件", "开发工具", "macOS", "System Color Picker"]
   quark_url: "https://pan.quark.cn/s/10a30ed0fd8d"
-  description: "使用内置取色器从屏幕任意位置取色。功能包括：调色板、最近取色记录、快速复制/粘贴/转换颜色等。注意：macOS 26 上存在系统级 bug，取色器偶尔会取错颜色，应用依赖系统取色器，无法规避。｜Sindre Sorhus"
+  description: "System Color Picker 只做一件事：调用系统内置的取色器，从屏幕任意位置吸取颜色。取到的值可以复制成 HEX、RGB 等常用格式，边上还有调色板、最近取色记录和格式转换这些顺手的小功能。它的边界同样很清楚——依赖 macOS 自带的取色器，作者 Sindre Sorhus 在简介里坦承，macOS 26 上存在系统级 bug，偶尔会吸到错误的颜色，应用层面绕不过去。适合偶尔要抓个颜色、不想为此装专业设计工具的人；如果做的是精细的视觉工作，这个已知问题值得先确认在自己的系统上是否复现。｜Sindre Sorhus"
   date: 2021-04-29
   added: 2026-10-04
   image: app-030.jpg
@@ -328,7 +328,7 @@
   category: 软件
   tags: ["软件", "开发工具", "macOS", "VoiceOver Designer"]
   quark_url: "https://pan.quark.cn/s/3719d3a0081b"
-  description: "VoiceOver Preview 是 VoiceOver Designer 的配套应用，用于打开 .vodesign 扩展名的文件。要试听无障碍布局，需先启用 VoiceOver（可让 Siri 帮忙），配套工具支持 macOS。｜Mikhail Rubanov"
+  description: "VoiceOver Preview 是 VoiceOver Designer 的配套应用，专门打开 .vodesign 后缀的文件，也就是在 VoiceOver Designer 里排好的无障碍布局方案。使用流程很简单：先在 Designer 里把界面元素的朗读顺序与内容编排妥当，导出之后用这个 Preview 打开试听，确认视障用户实际听到的顺序是否符合预期。要想真的听到效果，得先在系统里启用 VoiceOver（可以让 Siri 帮你打开）。适合正在做无障碍适配、需要验证改造成果的开发者与设计师。配套工具支持 macOS。｜Mikhail Rubanov"
   date: 2023-02-26
   added: 2026-10-04
   image: app-031.jpg
@@ -350,7 +350,7 @@
   category: 软件
   tags: ["软件", "商务", "macOS", "SwiftShift Job Compare"]
   quark_url: "https://pan.quark.cn/s/d24fe4ee73d7"
-  description: "比较两份工作 offer，不能只看表面工资。SwiftShift 帮你并排估算两个机会的真实财务价值：输入时薪或年薪、预期工时、工作周数、带薪休假、通勤时间与距离、停车费和过路费，其余交给它计算；Mac 上也能直接使用。｜Ian Neuhaus"
+  description: "比较两份工作机会，只看表面工资几乎一定会看错。SwiftShift 让你把两个 offer 逐项填进去——时薪或年薪、预期每周工时、一年工作多少周、带薪休假天数、每天通勤的时间与距离、停车费和过路费——然后算出它们各自的真实价值：扣掉通勤时间之后每小时究竟挣多少，假期折算成钱值多少，每天开车的油钱过路费又吃掉多少。它不做职业规划，只是把那些容易被忽略的成本显性化，让两个数字放在一起比较。适合手上不止一个 offer、或者正在纠结要不要跳槽的人。Mac 上也能直接使用。｜Ian Neuhaus"
   date: 2026-08-12
   added: 2026-10-04
   image: app-033.jpg
@@ -471,7 +471,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Focus Sessions • Self control"]
   quark_url: "https://pan.quark.cn/s/564e4bf0ed6d"
-  description: "Focus Sessions 是一款可屏蔽指定应用和网站的简单实用工具，既能当家长控制系统，也能作自我约束工具，让孩子用电脑更安全、日常工作更专注；支持密码保护设置，防止孩子私自更改，并支持 macOS。｜Denk Alexandru"
+  description: "Focus Sessions 是一款把「屏蔽」做成定时轮换的工具：设定一段专注时长，在这段时间里把指定的应用和网站挡住，时间没到就用不了，用外部约束来对付分心和刷网页的习惯。它也可以反过来当家长控制用——给孩子划出允许使用的范围和时段，并用密码把设置本身保护起来，防止孩子自己把限制改掉。这类工具的取舍很直白：不指望你靠意志力，而是先把诱惑隔断开。适合需要一点外力才能进入状态的人，或者家里有孩子用电脑、需要管理屏幕时间的家长。｜Denk Alexandru"
   date: 2020-08-22
   added: 2026-10-04
   image: app-044.jpg
@@ -504,7 +504,7 @@
   category: 软件
   tags: ["软件", "macOS", "ScriptManager"]
   quark_url: "https://pan.quark.cn/s/10fe4b271739"
-  description: "Script Manager 源码版：一个简单的应用，用于创建、导入、编辑并轻松执行任何格式规范的 shell 脚本，支持 macOS（开源免费，主页 https://github.com/SmartPack/ScriptManager）"
+  description: "Script Manager 是一个给 shell 脚本准备的简单外壳，这里是源码版。它的定位介于「写完就丢的临时脚本」和「正式运维系统」之间：可以在应用里创建、导入、编辑脚本，然后一键执行，省掉每次开终端、找路径、加执行权限的步骤。适合手上攒了一堆日常维护脚本（清缓存、备份目录、拉镜像、重建索引）不想散在桌面各处的人。既然是源码版，也能按自己的习惯改一改再用。支持 macOS。开源免费，主页 https://github.com/SmartPack/ScriptManager。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-047.jpg
@@ -526,7 +526,7 @@
   category: 软件
   tags: ["软件", "游戏", "macOS", "Rectangles - Shikaku Puzzle"]
   quark_url: "https://pan.quark.cn/s/603d3bd28429"
-  description: "Rectangles 是一款安静治愈的 Shikaku（数矩形）益智游戏，清晰的逻辑配上可爱的像素画奖励。每道谜题给出数字线索，每个数字表示一个矩形的精确面积；你的目标是将棋盘划分成完美矩形，使每个矩形恰好包含一个数字并铺满整个棋盘，macOS 上随时来一局。｜MoreThanThat"
+  description: "Rectangles 是一款基于 Shikaku（数矩形）规则的益智游戏，气质安静：界面干净，通关后会给一幅可爱的像素小画作为奖励。规则并不复杂——棋盘上散布着数字，每个数字代表一个矩形的精确面积，你要把整个棋盘不重不漏地划分成若干矩形，让每个矩形恰好包含一个数字。听起来简单，网格一大就需要相当系统的推理。适合喜欢纯逻辑、愿意坐着慢慢推的人；单局时间不长，随手来一盘也不占神。支持 macOS。｜MoreThanThat"
   date: 2025-11-25
   added: 2026-10-04
   image: app-049.jpg
@@ -625,7 +625,7 @@
   category: 软件
   tags: ["软件", "游戏", "macOS", "MultiCraft — Build and Mine!"]
   quark_url: "https://pan.quark.cn/s/321dec5070bc"
-  description: "MultiCraft 为你带来一个充满无限可能的世界！开启真正的冒险：建造和破坏方块、获取资源、打造各种工具方块与武器，生存下去并建造独一无二的建筑；在这个世界选择你的阵营：做建造者（创造模式）还是迎接挑战的生存者，支持 macOS。｜MultiCraft Studio"
+  description: "MultiCraft 是一款方块沙盒建造游戏，玩法基本可以顾名思义：在一个由方块构成的世界里挖矿获取材料，打造工具与武器，建造自己的据点，天黑之后还要应付冒出来的怪物。它提供两种方向——创造模式资源不限，可以专心搭建筑；生存模式则要省着用材料、管理状态、对付怪物，先活下去再谈创作。画面是经典的方块像素风，操作直觉简单，上手门槛不高。适合喜欢自己规划、耐得下性子经营的玩家，也能几个人一起在同一个世界里折腾。支持 macOS。｜MultiCraft Studio"
   date: 2016-11-14
   added: 2026-10-04
   image: app-058.jpg
@@ -680,7 +680,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "iTerm2 Buddy"]
   quark_url: "https://pan.quark.cn/s/243cd6a063bd"
-  description: "iTerm2 Buddy 将你的 iPhone 或 iPad 与 macOS 热门终端 iTerm2 连接起来。与 Mac 配对后，无论窝在沙发上还是在外奔波，都能随时查看终端动态并执行操作。需要 Mac 配套应用：仅在完成与 iTerm2 的配对并安装免费配套组件后工作。｜GEORGE NACHMAN"
+  description: "iTerm2 Buddy 把你的 iPhone 或 iPad 与 Mac 上的终端 iTerm2 连起来。完成配对之后就不必坐回电脑前——窝在沙发上或在外面奔波，都能随时看看终端里正在发生什么：编译有没有跑完、某个长任务还在不在继续、日志是不是仍在刷，必要时也能直接执行操作。要注意它是配套性质的工具：必须在 Mac 上装好 iTerm2、完成配对并安装免费配套组件之后才能工作，单独装手机侧没有意义。作者是 iTerm2 的作者 GEORGE NACHMAN。｜GEORGE NACHMAN"
   date: 2026-09-08
   added: 2026-10-04
   image: app-063.jpg
@@ -691,7 +691,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Keka"]
   quark_url: "https://pan.quark.cn/s/41bea86fb87a"
-  description: "Keka 是一款功能全面的文件归档压缩器，简单到极致：想把多少文件压成多少种格式都行，分卷压缩和密码保护也易如反掌，只需把文件拖到 macOS 的 Dock 或主窗口的 Keka 图标上即可。｜Jorge Garcia Armero"
+  description: "Keka 是 macOS 上的压缩解压工具，作者 Jorge Garcia Armero。它处理的事情很集中：把文件压成 zip、7z、tar、rar 这类常见格式，反过来也都能解开，分卷压缩和密码保护这些稍微专业一点的需求同样支持。最顺手的用法体现出它的 macOS 血统——直接把文件拖到 Dock 上的图标，或者在访达里右键选择，不必先打开一个窗口再层层设置。适合日常要打包交付、或者时不时收到各种压缩格式的同事文件的人。官方站在 Mac App Store 之外提供免费下载，付费是自愿性质。｜Jorge Garcia Armero"
   date: 2011-10-27
   added: 2026-10-04
   image: app-064.jpg
@@ -724,7 +724,7 @@
   category: 软件
   tags: ["软件", "macOS", "KeePassXC"]
   quark_url: "https://pan.quark.cn/s/1d188dd46a9c"
-  description: "KeePassXC 是 Windows 应用「KeePass Password Safe」的跨平台社区移植版，支持 macOS，可在 Mac 上统一管理密码库（开源免费，主页 https://keepassxc.org/）"
+  description: "KeePassXC 是一款开源密码管理器，源自 Windows 上的 KeePass Password Safe，由社区移植到 Windows、macOS、Linux 三平台。它的特点是密码库就是本地的一个加密文件，不依赖任何厂商的云服务：文件放在哪、用什么方式同步，全由你自己决定。库内支持分组、标签、自定义字段与附件，内置的生成器能产出高强度随机密码，浏览器扩展负责自动填充，也兼容 TOTP 二次验证码。适合信不过把密码交给第三方云、又希望多个系统用同一套方案的人。开源免费，主页 https://keepassxc.org/。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-067.jpg
@@ -823,7 +823,7 @@
   category: 软件
   tags: ["软件", "macOS", "HostsX"]
   quark_url: "https://pan.quark.cn/s/6390303c2481"
-  description: "HostsX 是一款 hosts 文件管理工具，可在 macOS 上快速切换与编辑 hosts 配置，方便本地调试与开发环境切换（开源免费，主页 https://github.com/jiannaiwei/HostsX）"
+  description: "HostsX 是 macOS 上的 hosts 文件管理工具。改 hosts 最常见的场景是本地开发与调试：让某个域名临时指向测试机、把线上地址拦回本机做联调、或者验证 DNS 改动的效果。手工改 /etc/hosts 要开终端、敲 sudo，改完还得记得改回来，HostsX 把这些变成图形界面里的几套配置方案：事先存好几组，用的时候一键切换启用哪一套，不用每次手敲。适合需要频繁在本地、测试、线上环境之间来回切换的开发者，做前后端联调时也省事。开源免费，主页 https://github.com/jiannaiwei/HostsX。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-076.jpg
@@ -856,7 +856,7 @@
   category: 软件
   tags: ["软件", "macOS", "Hoppscotch"]
   quark_url: "https://pan.quark.cn/s/dca4ff659b8b"
-  description: "开源 API 开发生态 • 离线、本地部署与云端皆可 • Web、桌面与 CLI 全覆盖 • Postman、Insomnia 的开源替代品，支持 macOS（开源免费，主页 https://hoppscotch.io）"
+  description: "Hoppscotch 是 Postman、Insomnia 那一类 API 调试工具的开源替代品，主打轻快：网页版打开就能发请求，也提供桌面客户端和命令行工具。它支持 REST、WebSocket、GraphQL、Socket.IO 等多种协议，请求可以分组存成集合、配上环境变量（比如区分本地、测试、生产三套地址），还能把调通的请求一键生成多种语言的调用代码。团队模式下可以共享集合协作，自部署时数据留在自己的服务器。适合嫌重量级客户端启动慢、又不想把接口信息交到别人云上的开发者。开源免费，主页 https://hoppscotch.io。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-079.jpg
@@ -1032,7 +1032,7 @@
   category: 软件
   tags: ["软件", "游戏", "macOS", "Bruno Reels Casino"]
   quark_url: "https://pan.quark.cn/s/906631a0f47a"
-  description: "Bruno Reels Casino 为你带来刺激的赌场风格老虎机体验：丰富主题、流畅操作、炫酷画面、鲜艳符号与丰厚奖励时刻。探索多样的老虎机游戏、发现新玩法、参与精彩活动，随时随地畅享不间断的娱乐，支持 macOS。｜EverPrime Futures Inc."
+  description: "Bruno Reels Casino 是一款以赌场风格老虎机为主题的休闲娱乐游戏：收录了多种主题的老虎机盘面，转轮的手感与动画做得比较顺滑，符号配色鲜艳，完成任务和限时活动可以拿到奖励。玩法上没有技巧成分——押注、旋转、看有没有连成线，本质上是运气和手感。需要提醒的是这类游戏带明显的博彩性质，内部设有投入与奖励机制，建议只当作消遣，注意控制时间和投入金额，未成年人不宜体验。支持 macOS。｜EverPrime Futures Inc."
   date: 2026-05-16
   added: 2026-10-04
   image: app-095.jpg
@@ -1098,7 +1098,7 @@
   category: 软件
   tags: ["软件", "macOS", "Calendr"]
   quark_url: "https://pan.quark.cn/s/d288f8bedd86"
-  description: "Calendr 是 macOS 菜单栏日历，采用 MVVM 架构，结合 RxSwift、AppKit 与 SwiftUI 实现：在菜单栏一眼查看日程与提醒，不占桌面空间（开源免费，主页 https://github.com/pakerwreah/Calendr）"
+  description: "Calendr 是 macOS 菜单栏上小巧的日历，技术上采用 MVVM 架构，混合了 RxSwift、AppKit 与 SwiftUI。它的功能取向很克制：菜单栏里一眼能看到接下来的日程与提醒，点开则展开完整的月历视图，不必为了确认下一场会在哪开会专门打开日历应用占一个窗口。事件在天数上有标记，也能显示周数，整体观感与 macOS 原生贴合。适合不想让日历占着桌面空间、习惯把信息集中在菜单栏的人。开源免费，主页 https://github.com/pakerwreah/Calendr。macOS 原生包，下载后拖入「应用程序」文件夹即可使用。"
   date: 2026-10-04
   added: 2026-10-04
   image: app-101.jpg
@@ -1109,7 +1109,7 @@
   category: 软件
   tags: ["软件", "生活", "macOS", "Barton & Gray Clubhouse"]
   quark_url: "https://pan.quark.cn/s/9f2b6b82c58e"
-  description: "Barton & Gray Mariners Club 应用：会员可探索会员权益并联系俱乐部、管理日程与出游；船员可查看排期、提交船长报告；朋友也能借此了解俱乐部，支持 macOS。｜Barton & Gray Mariners Club"
+  description: "Barton & Gray Mariners Club 是一家会员制游艇俱乐部，这款 App 是给会员和船员准备的：会员可以在手机上浏览自己的权益、联系俱乐部、管理日程与安排出海；船员一侧用来查看排班、提交船长报告；未加入的朋友也能通过它了解这家俱乐部具体做什么。它属于典型的私域应用——不是会员的话，装上也基本没有可以操作的空间。另有 macOS 版本，支持在 Mac 上查看日程与俱乐部信息。｜Barton & Gray Mariners Club"
   date: 2021-05-16
   added: 2026-10-04
   image: app-102.jpg
@@ -1186,7 +1186,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Blurred"]
   quark_url: "https://pan.quark.cn/s/436c6cdbebc5"
-  description: "这是一款 macOS 实用工具，通过调暗非活动窗口来减少干扰、帮助你集中注意力。功能：变暗模式，单屏：只聚焦主屏最前方的窗口；并行：同时聚焦所有屏幕最前方的窗口；登录时自动启动；可用自定义全局快捷键启用或禁用。新版还支持在菜单栏图标上滚动快速调整模糊程度，并新增中文界面。如需更多信息或功能建议，欢迎联系 macos@d.foundation。｜Dwarves Foundation"
+  description: "Blurred 是一款帮你在 Mac 上集中注意力的小工具，做法很直接：把非活动窗口调暗，让眼睛自然落在正在工作的那一个上，减少余光里的干扰。它有两种模式——「单屏」只聚焦主屏幕最前方的窗口，「并行」则同时聚焦所有屏幕上最前方的窗口，外接多显示器时各有各的适用场景。支持登录时自动启动，也能自定义全局快捷键随时开关。新版还可以在菜单栏图标上滚动快速调整模糊程度，并新增了中文界面。适合屏幕大、习惯同时铺开好几个窗口的人。｜Dwarves Foundation"
   date: 2020-02-20
   added: 2026-10-04
   image: app-109.jpg
@@ -1208,7 +1208,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Auto Mute :Screen Lock & Sleep"]
   quark_url: "https://pan.quark.cn/s/541c25b43c64"
-  description: "受够了你离开时别人在 Mac 上偷按播放或暂停键，打探你在看什么、听什么？AutoMute 自动解决问题：锁屏或 Mac 休眠的瞬间静音，回来解锁后音频恢复到你离开前的状态，不用多余操作、不用提醒、不打断任何事。锁上 Mac，剩下的交给它。新版新增「断开耳机自动静音」：任何耳机、耳塞、蓝牙音频设备或外接音频设备断开时，自动静音内置扬声器，避免声音突然外放。｜khalid altariqi"
+  description: "Auto Mute 解决一个很具体的尴尬：你离开座位时，别人在 Mac 上随手按了播放，就知道你刚才在看什么、听什么。装上之后，锁屏或 Mac 进入休眠的瞬间音频自动静音，等你回来解锁，音量又恢复到离开前的样子——不用多余操作，也不用提醒任何人。新版还加了「耳机断开自动静音」：任何耳机、耳塞、蓝牙或外接音频设备断开时，内置扬声器立刻静音，避免声音突然外放。常驻后台几乎无感，适合在开放工位、公共场合用 Mac 的人。｜khalid altariqi"
   date: 2026-08-19
   added: 2026-10-04
   image: app-111.jpg
@@ -1241,7 +1241,7 @@
   category: 软件
   tags: ["软件", "医疗", "macOS", "ArMed eHealth"]
   quark_url: "https://pan.quark.cn/s/a610f3c3f8c3"
-  description: "ArMed eHealth 应用与亚美尼亚国家集中电子健康系统对接，旨在方便患者使用医疗服务。当前版本支持：查看你的注册家庭医生；一键为注册医生预约门诊；接收通知；身份认证后查看就诊记录；查看付费就诊、卡片绑定与支付；管理医疗数据访问权限；查看关联人员；查看个人资料。后续版本将支持公民查看护理计划、医疗文档、化验与影像结果，以及处方续药（电子处方）等服务，支持 macOS。｜SYLEX SA"
+  description: "ArMed eHealth 是对接亚美尼亚国家集中电子健康系统的患者端应用，目的是让就医流程少跑几趟窗口。当前版本可以做这些事：查看自己签约的家庭医生，一键为签约医生预约门诊，接收通知，身份认证后查看就诊记录，查询付费就诊、卡片绑定与支付情况，管理自己医疗数据的访问权限，查看关联家人与个人资料。官方表示后续会支持查阅护理计划、医疗文档、化验与影像结果，以及处方续药（电子处方）。适合使用该国公立医疗系统的居民。macOS 版可在 Mac 上使用。｜SYLEX SA"
   date: 2020-05-11
   added: 2026-10-04
   image: app-114.jpg
@@ -1263,7 +1263,7 @@
   category: 软件
   tags: ["软件", "实用工具", "macOS", "Actions"]
   quark_url: "https://pan.quark.cn/s/2fbbc35f13a6"
-  description: "用大量实用操作为「快捷指令」超级充电：为快捷指令应用提供额外的操作。重要提示：由于 iOS 的一个 bug，要让操作出现在「快捷指令」应用中，需先启动本应用再重启设备，支持 macOS。｜Sindre Sorhus"
+  description: "Actions 本身不做任何事，它的作用是给系统自带的「快捷指令」补一大批现成操作：原生动作覆盖不到的那些细活——处理图片、转换格式、访问某个 API、文件系统层面的操作——装好之后会出现在快捷指令的动作清单里，拖进自己的流程就能用。作者 Sindre Sorhus 做这类小而实的 Mac / iOS 工具多年。要注意这版上架时间较早（2021 年前后），系统大版本更新之后部分动作有可能失效；原简介还提到过一个 iOS 的小毛病：动作没出现时需要先启动本应用再重启设备。支持 macOS。｜Sindre Sorhus"
   date: 2021-10-28
   added: 2026-10-04
   image: app-116.jpg
