@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
@@ -43,6 +44,19 @@ if (baseUrl.includes('example.com')) {
 function write(file, content) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content);
+}
+
+/**
+ * 图标版本号：取 static/favicon.svg 的内容哈希。
+ * nginx 给图片设了 30 天缓存，换 logo 后浏览器不会主动回源；
+ * 内容一变 URL 就变，新 logo 立刻生效，内容不变则版本稳定、不影响缓存命中。
+ */
+function iconVersionOf(file) {
+  try {
+    return crypto.createHash('md5').update(fs.readFileSync(file)).digest('hex').slice(0, 8);
+  } catch {
+    return '';
+  }
 }
 
 const t0 = Date.now();
@@ -164,7 +178,21 @@ const assetVersion = (() => {
   }
 })();
 
-const ctxBase = { site, categories, counts, total, images, baseUrl, indexAll, assetVersion, shareImage };
+const iconVersion = iconVersionOf(path.join(staticDir, 'favicon.svg'));
+console.log(`  · 图标版本：${iconVersion || '未取到（回退到构建版本号）'}`);
+
+const ctxBase = {
+  site,
+  categories,
+  counts,
+  total,
+  images,
+  baseUrl,
+  indexAll,
+  assetVersion,
+  iconVersion,
+  shareImage,
+};
 
 console.log('生成列表页…');
 write(path.join(outDir, 'index.html'), listPage({ ...ctxBase, items, activeCat: '', pageSize: site.pageSize }));

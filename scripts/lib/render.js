@@ -163,9 +163,12 @@ function layout({
   assetVersion = '',
   footNavCurrent = '',
   rssHref = '/feed.xml',
+  iconVersion = '',
 }) {
-  // 静态资源带版本号：nginx 对 css/js 设了 30 天缓存，改样式后必须换 URL 才会被重新拉取
+  // 静态资源带版本号：nginx 对 css/js/图片设了 30 天缓存，改了必须换 URL 才会被重新拉取
   const v = assetVersion ? `?v=${assetVersion}` : '';
+  // 图标按文件内容取版本：只换 logo 时也能立刻破掉浏览器缓存，不必等 css 版本号变化
+  const iv = iconVersion ? `?v=${iconVersion}` : v;
   // 标题里已含站名（如首页 homeTitle）时不再重复拼接
   const fullTitle = title === site.title || title.includes(site.title) ? title : `${title} - ${site.title}`;
   const canonical = `${baseUrl}${canonicalPath}`;
@@ -175,9 +178,9 @@ function layout({
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="alternate icon" href="/favicon.ico" sizes="any">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.svg${iv}" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.ico${iv}" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png${iv}">
 ${
   rssHref
     ? `<link rel="alternate" type="application/rss+xml" title="${esc(site.title)} RSS" href="/${rssHref.replace(/^\//, '')}">\n`
@@ -203,7 +206,7 @@ ${jsonLd ? jsonLdBlock(jsonLd) : ''}
 <body>
 <header class="top">
   <div class="wrap${wide ? ' wrap--wide' : ''} top__inner">
-    <a class="top__brand" href="/"><img class="top__logo" src="/favicon.svg" width="24" height="24" alt="">${esc(site.title)}</a>
+    <a class="top__brand" href="/"><img class="top__logo" src="/favicon.svg${iv}" width="24" height="24" alt="">${esc(site.title)}</a>
     <form class="top__search" role="search" onsubmit="return false">
       <input id="q" type="search" placeholder="搜索资源…" autocomplete="off" aria-label="搜索资源">
     </form>
@@ -319,6 +322,7 @@ ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
   return layout({
     site,
     assetVersion: ctx.assetVersion,
+    iconVersion: ctx.iconVersion,
     title: activeCat || `${homeTitle}（${total} 项）`,
     description: activeCat
       ? `${activeCat}资源合集，共 ${items.length} 个，夸克网盘链接，扫码即存`
@@ -430,6 +434,7 @@ export function detailPage(ctx) {
   return layout({
     site,
     assetVersion: ctx.assetVersion,
+    iconVersion: ctx.iconVersion,
     title: item.title,
     description: `${item.category} · ${item.description.slice(0, 160) || item.title}`,
     activeCat: item.category,
@@ -455,6 +460,7 @@ export function notFoundPage(ctx) {
   return layout({
     site,
     assetVersion: ctx.assetVersion,
+    iconVersion: ctx.iconVersion,
     title: '页面不存在',
     description: site.description,
     activeCat: '',
@@ -606,6 +612,7 @@ ${newest
   return layout({
     site,
     assetVersion: ctx.assetVersion,
+    iconVersion: ctx.iconVersion,
     title: '关于本站',
     description: `关于${site.title}：收录 ${total} 个网盘资源，介绍站点定位、使用方式与版权声明`,
     activeCat: '',
@@ -616,6 +623,8 @@ ${newest
     baseUrl,
     canonicalPath: '/about/',
     footNavCurrent: '/about/',
+    // 与首页 / 分类页 / 资源页同宽容器，卡片左右边线严格对齐
+    wide: true,
     keywords: `关于${site.title},${site.title},网盘资源索引`,
   });
 }
@@ -667,6 +676,7 @@ ${catFeeds}
   return layout({
     site,
     assetVersion: ctx.assetVersion,
+    iconVersion: ctx.iconVersion,
     title: 'RSS 订阅',
     description: `${site.title} 的 RSS 订阅地址与使用方法，订阅后新资源实时推送`,
     activeCat: '',
@@ -677,6 +687,8 @@ ${catFeeds}
     baseUrl,
     canonicalPath: '/rss/',
     footNavCurrent: '/rss/',
+    // 与首页 / 分类页 / 资源页同宽容器，卡片左右边线严格对齐
+    wide: true,
     keywords: `${site.title},RSS订阅,RSS feed,网盘资源`,
   });
 }
