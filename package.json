@@ -12,7 +12,8 @@
     "serve": "node scripts/serve.js",
     "dev": "node scripts/build.js && node scripts/serve.js",
     "new": "node scripts/new-resource.js",
-    "audit:css": "node scripts/audit-css.js"
+    "audit:css": "node scripts/audit-css.js",
+    "list:short": "node tools/list-short-desc.mjs"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",

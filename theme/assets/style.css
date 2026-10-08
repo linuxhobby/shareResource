@@ -307,6 +307,11 @@ mark {
   line-height: var(--lh-body);
   white-space: pre-wrap;
 }
+/* 资源信息表：分类 / 年份 / 入库 / 标签 / 转存来源，一行一项，扫一眼就够 */
+.facts { width: 100%; margin: 0 0 16px; border-collapse: collapse; font-size: var(--fs-base); }
+.facts th, .facts td { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.facts th { width: 84px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.facts tr:last-child th, .facts tr:last-child td { border-bottom: 0; }
 
 .links { display: flex; flex-direction: column; gap: 8px; }
 .linkrow {

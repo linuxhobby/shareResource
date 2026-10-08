@@ -257,7 +257,9 @@ write(path.join(outDir, 'search-index.json'), JSON.stringify(indexAll));
 write(path.join(outDir, '404.html'), notFoundPage(ctxBase));
 write(
   path.join(outDir, 'robots.txt'),
-  `User-agent: *\nAllow: /\nSitemap: ${baseUrl}/sitemap.xml\n`
+  // Disallow /*q= ：搜索结果页 /?q=关键词 与首页内容高度重合，
+  // 会被当成重复内容白白吃掉抓取配额，主流搜索引擎都建议用 robots 挡掉
+  `User-agent: *\nAllow: /\nDisallow: /*q=\nSitemap: ${baseUrl}/sitemap.xml\n`
 );
 write(
   path.join(outDir, 'sitemap.xml'),

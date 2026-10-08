@@ -379,6 +379,26 @@ export function detailPage(ctx) {
 </div>`
     : '';
 
+  // 资源信息块：分类 / 年份 / 入库 / 标签 / 转存来源集中成一眼能扫完的一块，
+  // 数据全部来自 YAML 已有字段，不必为它额外维护数据
+  const year = item.date ? String(item.date).slice(0, 4) : '';
+  const panNames = [...new Set(item.links.map((l) => l.name))].join(' / ');
+  const source = item.links.length
+    ? `${panNames}（${item.links.length} 个链接${item.links.some((l) => l.code) ? ' · 部分需提取码' : ''}）`
+    : '暂无可用链接';
+  const facts = [
+    ['分类', `<a href="${catHref(item.category)}">${esc(item.category)}</a>`],
+    ...(year ? [['上映 / 发行', esc(year)]] : []),
+    ...(item.added ? [['入库日期', esc(item.added)]] : []),
+    ['标签', item.tags.length ? item.tags.map((t) => esc(t)).join(' · ') : '—'],
+    ['转存方式', esc(source)],
+  ];
+  const factsHtml = `<table class="facts">
+  <tbody>
+${facts.map(([k, v]) => `    <tr><th scope="row">${k}</th><td>${v}</td></tr>`).join('\n')}
+  </tbody>
+</table>`;
+
   const body = `<nav class="crumb"><a href="/">首页</a><span>/</span><a href="${catHref(item.category)}">${esc(item.category)}</a></nav>
 <article class="detail">
   <div class="detail__media">
@@ -393,6 +413,7 @@ export function detailPage(ctx) {
       ${item.date ? `<span class="tag tag--plain">${esc(item.date)}</span>` : ''}
     </div>
     <p class="detail__desc">${esc(item.description) || '<span class="muted">暂无介绍</span>'}</p>
+    ${factsHtml}
     <div class="links">
       ${item.links.length ? item.links.map(linkRow).join('\n') : '<p class="muted">暂无可用链接</p>'}
     </div>
