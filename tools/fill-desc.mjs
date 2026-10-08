@@ -63,12 +63,18 @@ for (const [id, body] of Object.entries(draft)) {
     const raw = m[2].trim();
     const inner = raw.startsWith('"') && raw.endsWith('"') ? raw.slice(1, -1) : raw;
     /**
-     * 结尾的 ｜后缀一律跟着走：既有「｜TMDB 7.5」这样的评分，
+     * 电视剧条目的开头带着「【第 1 季 · 共 12 集】」这样的标记，
+     * 而 YAML 里没有独立的季 / 集字段，这是唯一载体，重写时必须接回去。
+     */
+    const head = inner.match(/^【[^】]{1,30}】/);
+    const text = head && !body.trim().startsWith('【') ? head[0] + body : body;
+    /**
+     * 结尾的 ｜后缀同样跟着走：既有「｜TMDB 7.5」这样的评分，
      * 也有「｜Apple」「｜作者：[美] 斯蒂芬·金」这类厂商 / 作者署名，
-     * 都是数据来源的痕迹，重写正文时不该把它们丢掉。
+     * 都是数据来源的痕迹，不该重写一次就丢掉。
      */
     const score = inner.match(/｜[^｜]{1,40}$/);
-    const next = score && !body.includes(score[0]) ? `${body}${score[0]}` : body;
+    const next = score && !text.includes(score[0]) ? `${text}${score[0]}` : text;
     const after = `${m[1]}description: ${JSON.stringify(next)}`;
 
     if (after === lines[i]) {
