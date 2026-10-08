@@ -147,12 +147,12 @@ mark {
 
 .tag {
   display: inline-block;
-  padding: 1px 7px;
-  font-size: 12px;
-  line-height: 18px;
+  padding: 2px 9px;
+  font-size: 14px;
+  line-height: 22px;
   color: var(--muted);
   background: #f1f1f4;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 .tag--cat { color: var(--brand); background: rgba(75, 63, 227, .08); font-weight: 600; flex: 0 0 auto; }
 .tag--plain { background: transparent; color: var(--muted); }
@@ -254,7 +254,7 @@ mark {
 .detail__main { flex: 1; min-width: 0; }
 /* 资源页正文区约 878px 宽，字号可以比普通内容页大一号 */
 .detail__title { font-size: 23px; line-height: 1.4; margin: 0 0 10px; }
-.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .detail__desc {
   margin: 0 0 16px;
   color: var(--muted);
