@@ -5,6 +5,10 @@
   --muted: #52525b;
   --border: rgba(0, 0, 0, 0.12);
   --card: #fff;
+  /* 页面宽度：普通页与列表页（海报宫格）两档，顶栏 / 分类栏 / 正文 / 页脚共用，保证 logo、分类、内容左右严格对齐 */
+  --page-w: 760px;
+  --page-wide: 1180px;
+  --gutter: 16px;
 }
 
 * { box-sizing: border-box; }
@@ -21,9 +25,9 @@ body {
 a { color: var(--brand); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+.wrap { max-width: var(--page-w); margin: 0 auto; padding: 0 var(--gutter); }
 /* 列表页（海报宫格）用更宽的容器，保证每行 6 个卡片 */
-.wrap--wide { max-width: 1180px; }
+.wrap--wide { max-width: var(--page-wide); }
 
 /* ── 顶栏 ────────────────────────────── */
 .top {
@@ -51,10 +55,11 @@ a:hover { text-decoration: underline; }
 .top__search input:focus { border-color: var(--brand); background: #fff; }
 
 /* ── 分类标签栏 ───────────────────────── */
+/* 分类栏与正文同宽同内边距，左右边线才能和 logo、正文对齐 */
 .cats {
-  max-width: 880px;
+  max-width: var(--page-w);
   margin: 0 auto;
-  padding: 12px 16px 4px;
+  padding: 12px var(--gutter) 4px;
   display: flex;
   gap: 8px;
   overflow-x: auto;
@@ -72,7 +77,7 @@ a:hover { text-decoration: underline; }
 }
 .cat:hover { text-decoration: none; color: var(--brand); }
 .cat.is-on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600; }
-.cats--wide { max-width: 1180px; }
+.cats--wide { max-width: var(--page-wide); }
 .cat__n { margin-left: 5px; font-size: 13px; opacity: .65; }
 
 /* ── 列表页 ──────────────────────────── */
@@ -281,7 +286,8 @@ mark {
 .results__hint { font-size: 13px; color: var(--muted); padding: 4px 2px 10px; }
 
 /* ── 页脚 ────────────────────────────── */
-.foot { padding: 28px 16px 40px; text-align: center; }
+/* 页脚本身也带 .wrap，横向间距由 .wrap 提供，这里不再重复加 padding，否则会比其他区块窄一圈 */
+.foot { padding: 28px 0 40px; text-align: center; }
 .foot p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.8; }
 .foot__icp, .foot__stat { margin-top: 4px !important; }
 .foot__contact { margin-top: 8px !important; display: flex; justify-content: center; align-items: center; gap: 14px; }
