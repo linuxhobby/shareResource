@@ -36,6 +36,7 @@ for (const f of files) {
 }
 
 const missing = [];
+const tooShort = [];
 let changed = 0;
 const touched = new Map();
 
@@ -97,19 +98,24 @@ for (const [file, list] of touched) {
   for (const { id, before, after } of list) {
     console.log(`\n  ${id}`);
     console.log(`  - ${before.slice(0, 60)}`);
-    console.log(`  + ${after.slice(0, 60)}…（${[...after].length} 字）`);
+    console.log(`  + ${after.slice(0, 60)}…（正文 ${bodyLen(after)} 字）`);
   }
 }
 
 if (missing.length) console.log(`\n! 未处理：${missing.join('、')}`);
+if (tooShort.length) {
+  console.log(`\n! 正文不足 ${MIN} 字${strict ? '（已跳过，未写入）' : '（仍会写入，加 --strict 可拦住）'}：${tooShort.join('、')}`);
+} else if (changed) {
+  console.log(`\n正文全部达到 ${MIN} 字`);
+}
 console.log(`\n${apply ? `已写入 ${changed} 条` : `空跑：将修改 ${changed} 条（加 --apply 才写入）`}`);
 
 if (apply) {
   // 回读一遍：YAML 一旦被写坏，这里会直接抛出来
   try {
     const list = loadResources(path.join(root, 'data'));
-    const still = list.filter((it) => [...String(it.description || '').trim()].length < 60);
-    console.log(`回读校验：YAML 正常，载入 ${list.length} 条，其中仍不足 60 字的有 ${still.length} 条`);
+    const still = list.filter((it) => bodyLen(it.description) < MIN);
+    console.log(`回读校验：YAML 正常，载入 ${list.length} 条，其中正文仍不足 ${MIN} 字的有 ${still.length} 条`);
   } catch (e) {
     console.log(`! 回读失败，请检查 data/*.yaml：${e.message}`);
   }
