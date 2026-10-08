@@ -560,7 +560,7 @@ export function aboutPage(ctx) {
     .join('\n');
 
   const body = `<nav class="crumb"><a href="/">首页</a><span>/</span><span>关于本站</span></nav>
-<h1 class="page__title">关于本站</h1>
+<h1 class="page__title page__title--doc">关于本站</h1>
 <div class="card-page">
   <p><strong>${esc(site.title)}</strong> 是一个纯静态的网盘资源索引站：把散落在各处的夸克 / 百度 / 阿里云盘资源整理成条目，
   统一给出海报、简介、标签和转存链接，打开网页即可直接使用，无需注册登录。</p>
@@ -644,7 +644,7 @@ export function rssPage(ctx) {
     .join('\n');
 
   const body = `<nav class="crumb"><a href="/">首页</a><span>/</span><span>RSS 订阅</span></nav>
-<h1 class="page__title">RSS 订阅</h1>
+<h1 class="page__title page__title--doc">RSS 订阅</h1>
 <div class="card-page">
   <p>本站所有新资源都会实时写入 RSS 源，用任意 RSS 阅读器订阅后，更新会自动推送到你面前，不必再来站点手动刷首页。</p>
 

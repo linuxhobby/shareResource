@@ -169,13 +169,20 @@ mark {
   border-radius: 12px;
 }
 .card-page > :first-child { margin-top: 0; }
-.card-page h2 { font-size: 17px; margin: 24px 0 10px; }
-.card-page p, .card-page li, .card-page td, .card-page th { font-size: 14px; color: var(--muted); }
-.card-page ul, .card-page ol { margin: 0 0 12px; padding-left: 22px; }
-.card-page li + li { margin-top: 4px; }
+.card-page h2 { font-size: 20px; margin: 26px 0 12px; }
+/* 这两页已统一到 1180px 宽容器，正文字号与资源页保持同一档（16px） */
+.card-page p, .card-page li, .card-page td, .card-page th {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+.card-page ul, .card-page ol { margin: 0 0 12px; padding-left: 24px; }
+.card-page li + li { margin-top: 6px; }
 .card-page strong { color: var(--text); }
 .card-page table { width: 100%; border-collapse: collapse; }
-.card-page th, .card-page td { padding: 7px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+.card-page th, .card-page td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+/* 关于本站 / RSS 订阅的页面主标题（比列表页标题大一档） */
+.page__title--doc { font-size: 22px; }
 .card-page tbody tr:last-child th, .card-page tbody tr:last-child td { border-bottom: 0; }
 .card-page td:last-child, .card-page thead th:last-child { text-align: right; }
 .card-page code { word-break: break-all; }
@@ -191,12 +198,12 @@ mark {
   border: 1px dashed var(--border);
   border-radius: 8px;
 }
-.feed-url__label { font-size: 14px; font-weight: 700; color: var(--brand); flex: 0 0 auto; }
+.feed-url__label { font-size: 15px; font-weight: 700; color: var(--brand); flex: 0 0 auto; }
 .feed-url__code {
   flex: 1 1 260px;
   min-width: 0;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   word-break: break-all;
 }
@@ -335,6 +342,10 @@ mark {
   .detail__desc { font-size: 15px; line-height: 1.75; }
   .qrbox { flex: 1; width: auto; }
   .linkrow__url { flex-basis: 100%; }
+  /* 窄屏正文收回一档，避免每行字数过少 */
+  .card-page p, .card-page li, .card-page td, .card-page th { font-size: 15px; line-height: 1.75; }
+  .card-page h2 { font-size: 18px; }
+  .page__title--doc { font-size: 20px; }
   .top__brand { font-size: 16px; }
   .top__search { max-width: 180px; }
 }
