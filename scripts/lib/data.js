@@ -53,6 +53,23 @@ export function formatDate(value) {
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
 
+/**
+ * 入库日期 + 可选时间 → 排序键 'YYYY-MM-DDTHH:mm'（字典序即时间序）。
+ * added 写成 "2026-10-07 17:40" 就带时间，只写 "2026-10-07" 按当天 00:00，
+ * 这样同一天入库的多条也能按实际入库先后排，后加的排在最前。
+ */
+export function formatDateTime(value) {
+  if (!value) return '';
+  const p = (n) => String(n).padStart(2, '0');
+  const d = value instanceof Date ? value : new Date(String(value).trim().replace(' ', 'T'));
+  if (!Number.isNaN(d.getTime())) {
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+  }
+  const m = String(value).match(/(\d{4}-\d{2}-\d{2})(?:[ T](\d{1,2}):(\d{2}))?/);
+  if (!m) return '';
+  return `${m[1]}T${p(m[2] || 0)}:${m[3] || '00'}`;
+}
+
 function toTags(value) {
   if (!value) return [];
   const list = Array.isArray(value) ? value : String(value).split(/[,，、\s]+/);
@@ -175,7 +192,10 @@ export function normalizeResources(rawList) {
     }
 
     const date = formatDate(raw.date || raw.updated || '');
-    const added = formatDate(raw.added || raw.added_at || raw.created || '');
+    const addedRaw = raw.added || raw.added_at || raw.created || '';
+    const added = formatDate(addedRaw);
+    // 排序键带时间：只写日期的按当天 00:00，写了时分的可精确到入库时刻
+    const sortKey = formatDateTime(addedRaw) || '9999-12-31T00:00';
     items.push({
       id,
       title,
@@ -188,7 +208,7 @@ export function normalizeResources(rawList) {
       links,
       primary: links[0] || null,
       // 未填 added 视为最新，排在最前
-      sortKey: added || '9999-12-31',
+      sortKey,
       order: index,
     });
   });
@@ -199,7 +219,7 @@ export function normalizeResources(rawList) {
     return m ? Number(m[1]) : -1;
   }
 
-  // 新增时间倒序 → 同日按编号倒序 → 上映日期倒序 → 文件内原序
+  // 入库时刻倒序（同一天的按实际先后）→ 同刻按编号倒序 → 上映日期倒序 → 文件内原序
   items.sort((a, b) => {
     if (a.sortKey !== b.sortKey) return a.sortKey < b.sortKey ? 1 : -1;
     const na = idNum(a.id);
