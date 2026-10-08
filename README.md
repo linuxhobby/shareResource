@@ -11,7 +11,7 @@
 ## 特性
 
 - **数据即内容**：一个分类一个 YAML，改完 `npm run build` 就出整站
-- **构建期图片处理**：配图压成三档 WebP（详情 180×260、卡片 240×360、缩略图 60×90）
+- **构建期图片处理**：配图压成两档 WebP（海报 240×360，列表页与详情页共用同一张；缩略图 60×90）
 - **二维码预生成**：出 SVG 落盘，页面只引用静态图，不依赖 JS
 - **纯前端搜索**：支持拼音全拼与首字母、命中高亮、`?q=` 可分享
 - **SEO 全自带**：canonical、OG / Twitter Card、JSON-LD、sitemap、robots、404 兜底
@@ -188,7 +188,7 @@ npm run deploy
 
 ```bash
 S=https://你的域名
-for u in / /category/%E7%94%B5%E5%BD%B1/ /resource/mv-010/ /sitemap.xml \
+for u in / /category/movie/ /resource/mv-010/ /sitemap.xml \
          /robots.txt /search-index.json /img/mv-010-240.webp /qr/mv-010-quark.svg \
          /nope; do
   printf '%-38s %s\n' "$u" "$(curl -s -o /dev/null -w '%{http_code}' "$S$u")"
@@ -274,7 +274,7 @@ tools/
   book-poster.mjs        # 豆瓣查无此书时，生成书封海报兜底
   set-poster.mjs         # 套装 / 合辑专用深色封面（豆瓣没有对应单册封面时用，见「经验总结」）
 deploy/              # 部署用：Nginx 配置示例、自动更新脚本、统计日志格式、搜索引擎提交脚本
-public/              # 构建产物，部署这个目录（586 条时约 29MB，不入库）
+public/              # 构建产物，部署这个目录（586 条时约 17MB，不入库）
 ```
 
 ## 站点配置 `data/site.yaml`
@@ -304,7 +304,7 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
 |---|---|
 | `/` | 首页宫格，**按 `added` 倒序（最新加入在前）**，`added` 带到时分时精确到入库先后；最前 6 条带「最新」角标 |
 | `/category/<分类>/` | 同样的宫格，只含该分类 |
-| `/resource/<id>/` | 180×260 海报 + 120×120 二维码（最多 3 个网盘链接各一张）+ 网盘链接与复制按钮 |
+| `/resource/<id>/` | 240×360 海报（与列表宫格卡片同图同尺寸）+ 二维码（最多 3 个网盘链接各一张）+ 网盘链接与复制按钮 |
 | 搜索 | 顶栏即时搜索（`Ctrl/⌘ + K` 聚焦），结果同样宫格呈现，命中词高亮 |
 
 ## 数据格式
@@ -319,7 +319,7 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
   quark_url: https://pan.quark.cn/s/xxxx    # 各网盘链接，至少填一个
   baidu_url: https://pan.baidu.com/s/xxxx
   baidu_code: sf2k          # 提取码
-  description: 4K 国语中字   # 可选，详情页正文，上限 1000 字（超出构建时自动截断）
+  description: 4K 国语中字   # 可选，详情页正文，上限 1200 字（超出构建时自动截断）
   date: 2013-01-30          # 可选，上映 / 发行日期
   added: "2026-10-07 17:40" # 可选，加入时间，决定排序（不填则排最前）；带时分能精确到入库时刻，必须加引号
   image: mv-010.jpg         # 可选，默认取 static/images/<id>.<ext>
@@ -342,7 +342,7 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
 
 ### 配图规范
 
-统一 **2:3 竖版**，源图宽度不低于 480（构建时再统一输出卡片与详情页尺寸），卡片不会裁切变形：
+统一 **2:3 竖版**，源图宽度不低于 480（构建时统一裁成海报 240×360 与缩略图 60×90 两档），卡片不会裁切变形：
 
 | 类型 | 来源 |
 |---|---|
@@ -364,6 +364,7 @@ npm run build                                   # 构建到 public/
 npm run serve                                   # 本地预览 http://localhost:4321
 BASE_URL=https://你的域名 npm run build          # 正式构建必带域名
 npm run dev                                     # build + serve 一步到位
+npm run audit:css                               # 样式体检：漏样式 / 死样式 / 写死数值（改完 CSS 建议跑一次）
 ```
 
 三种方式加资源：
@@ -376,7 +377,7 @@ npm run dev                                     # build + serve 一步到位
 
 **改动后**：`npm run build` → 本地 `npm run serve` 看效果 → 推到 `main`（VPS 方案会自动更新）。
 
-改了卡片尺寸等图片参数后需 `rm -rf public && npm run build`。
+改了配图尺寸参数不必手动清产物：构建时会按当前宽度集合自动清理上一版留下的旧尺寸图片。
 
 ## 附：其它自带能力
 

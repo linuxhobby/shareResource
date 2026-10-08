@@ -191,8 +191,8 @@ function categorySvg(name) {
 `;
 }
 
-/** 通用占位图：分类未知时兜底（分类图标 + 暂无配图） */
-export function writePlaceholder(outDir) {
+/** 通用占位图：分类未知时兜底（分类图标 + 暂无配图）；仅供 prepareImages 内部调用 */
+function writePlaceholder(outDir) {
   const dir = path.join(outDir, 'img');
   ensureDir(dir);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${PW}" height="${PH}" viewBox="0 0 ${PW} ${PH}" role="img" aria-label="暂无配图">
@@ -212,8 +212,8 @@ export function writePlaceholder(outDir) {
   return '/img/placeholder.svg';
 }
 
-/** 按分类生成占位海报，返回 分类名 -> URL */
-export function writeCategoryPlaceholders(outDir, categories = []) {
+/** 按分类生成占位海报，返回 分类名 -> URL；仅供 prepareImages 内部调用 */
+function writeCategoryPlaceholders(outDir, categories = []) {
   const dir = path.join(outDir, 'img');
   ensureDir(dir);
   const map = new Map();

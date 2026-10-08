@@ -28,7 +28,8 @@ export function clipDesc(text, max = MAX_DESC) {
   return chars.length <= max ? s : chars.slice(0, max).join('') + '…';
 }
 
-export function hashId(input) {
+/** 内部工具：全部只在本文件使用，不对外导出 */
+function hashId(input) {
   let h = 2166136261;
   for (let i = 0; i < input.length; i++) {
     h ^= input.charCodeAt(i);
@@ -38,7 +39,7 @@ export function hashId(input) {
 }
 
 /** 英文/数字标题转 slug；中文标题返回空串，由调用方回退到 hashId */
-export function slugify(text) {
+function slugify(text) {
   return String(text)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
@@ -50,7 +51,8 @@ export function slugify(text) {
  * 别名表由 loadSite() 写入（构建入口第一个调用），全局有效，保证链接、sitemap、RSS 用同一套路径。
  */
 let CATEGORY_SLUGS = new Map();
-export function setCategorySlugs(map) {
+/** 由 loadSite() 调用注入别名表，无需对外暴露 */
+function setCategorySlugs(map) {
   CATEGORY_SLUGS = new Map(
     Object.entries(map || {}).map(([k, v]) => [String(k).trim(), String(v).trim()])
   );
@@ -61,7 +63,7 @@ export function categorySlug(name) {
   return CATEGORY_SLUGS.get(key) || key.replace(/[\\/]+/g, '-');
 }
 
-export function formatDate(value) {
+function formatDate(value) {
   if (!value) return '';
   const d = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(d.getTime())) return String(value);
@@ -74,7 +76,7 @@ export function formatDate(value) {
  * added 写成 "2026-10-07 17:40" 就带时间，只写 "2026-10-07" 按当天 00:00，
  * 这样同一天入库的多条也能按实际入库先后排，后加的排在最前。
  */
-export function formatDateTime(value) {
+function formatDateTime(value) {
   if (!value) return '';
   const p = (n) => String(n).padStart(2, '0');
   const d = value instanceof Date ? value : new Date(String(value).trim().replace(' ', 'T'));
