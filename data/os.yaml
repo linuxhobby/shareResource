@@ -48,3 +48,14 @@
   added: "2026-10-09 16:00"
   image: os-005.jpg
 
+
+- id: os-006
+  title: "openSUSE Tumbleweed"
+  category: 操作系统
+  tags: ["操作系统", "Linux", "openSUSE", "Tumbleweed", "x86_64", "openSUSE Tumbleweed openSUSE"]
+  quark_url: "https://pan.quark.cn/s/8002157040c5"
+  description: "资源是 openSUSE Tumbleweed 的 DVD 安装镜像，文件名 openSUSE-Tumbleweed-DVD-x86_64-Snapshot20261007-Media.iso，对应 2026 年 10 月 7 日构建的快照，x86_64 架构，约 4.4GB，写入 U 盘即可启动安装或直接体验。Tumbleweed 是 openSUSE 的滚动发行分支，采用经过 openQA 自动化测试的快照持续推送更新，装一次就能一直滚动到最新，不需要隔年重装，软件仓库里的包普遍比传统固定版本发行版新。桌面默认提供 KDE Plasma 与 GNOME 等多种选择，DVD 镜像在安装器里即可切换桌面环境；YaST 控制中心是它最有辨识度的部分，分区、引导、防火墙、软件源都有图形界面可管，对不熟悉命令行的用户相当友好。系统使用 zypper 做包管理，支持 Btrfs 快照配合 Snapper 做系统回滚，升级失手也能退回上一个可用状态。适合想要滚动更新、软件较新，又希望有成熟图形化管理工具的桌面与工作站用户，装好后建议定期滚动更新保持系统处于最新快照。｜openSUSE Project"
+  date: 2026-10-07
+  added: "2026-10-09 19:41"
+  image: os-006.jpg
+
