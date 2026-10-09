@@ -20,6 +20,8 @@
   --fill-soft: #f1f1f4;                   /* 中性填充（标签底） */
   --fill-placeholder: #efeff2;            /* 海报占位底色 */
   --fill-hover: rgba(127, 127, 127, 0.1); /* 悬浮浅底 */
+  --contact-icon: #1ebafc;        /* 页脚联系方式图标（QQ 蓝） */
+  --contact-icon-hover: #0d8ecf;  /* 同上，悬浮加深 */
 
   /* ── 字号阶梯：全站只用这 10 档 ── */
   --fs-xs: 12px;    /* 角标、迷你按钮、页脚分隔符 */
@@ -423,8 +425,8 @@ mark {
 .foot p { margin: 0; font-size: var(--fs-base); color: var(--muted); line-height: var(--lh-body); }
 .foot__icp, .foot__stat { margin-top: 4px !important; }
 .foot__contact { margin-top: 8px !important; display: flex; justify-content: center; align-items: center; gap: 14px; }
-.foot__contact a, .foot__contact span { display: inline-flex; align-items: center; padding: 3px; border-radius: var(--r-tag); color: var(--muted); text-decoration: none; }
-.foot__contact a:hover { color: var(--brand); background: var(--fill-hover); }
+.foot__contact a, .foot__contact span { display: inline-flex; align-items: center; padding: 3px; border-radius: var(--r-tag); color: var(--contact-icon); text-decoration: none; }
+.foot__contact a:hover { color: var(--contact-icon-hover); background: var(--fill-hover); }
 /* 页脚导航：网站首页 | 关于本站 | 网站地图 | RSS订阅 */
 .foot__nav { margin: 0 0 10px !important; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; font-size: var(--fs-base); }
 .foot__nav a { color: var(--muted); text-decoration: none; }
