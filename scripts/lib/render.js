@@ -37,6 +37,8 @@ const STATS_SCRIPT = `<script>
 const ICONS = {
   email:
     '<path d="M3 6.5h18v11H3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3.7 7.2 8.3 6 8.3-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  group:
+    '<path d="M4 10a6 6 0 0 1 12 0v3a6 6 0 0 1-12 0v-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 16 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
 };
 const iconSvg = (key) =>
   ICONS[key]
@@ -61,34 +63,56 @@ const footNav = (current = '') =>
   ).join('')}</nav>`;
 
 /** 页脚联系方式：site.yaml 的 contact 写成 { 平台: 账号或链接 }，留空整段则不渲染。
- *  页面上只显示图标，账号名写进 aria-label / title，不直接露出。 */
-const contactItems = (contact) =>
-  contact && typeof contact === 'object'
+ *  页面上只显示图标，账号名写进 aria-label / title，不直接露出。
+ *  larkName = site.yaml 的 larkGroup（飞书群名），有值时群名一并写进 title / aria-label。 */
+const contactItems = (contact, larkName = '') => {
+  const group = String(larkName || '').trim();
+  return contact && typeof contact === 'object'
     ? Object.entries(contact)
         .filter(([, v]) => v && String(v).trim())
         .map(([rawKey, rawVal]) => {
           const key = String(rawKey).trim().toLowerCase();
           const val = String(rawVal).trim();
           const isUrl = /^https?:/.test(val);
-          if (key === 'email')
+          const isPath = /^\//.test(val);
+          if (key === 'email' || key === '邮箱')
             return { label: '邮箱', icon: iconSvg('email'), href: `mailto:${val}`, text: val };
-          return { label: rawKey, href: isUrl ? val : '', text: val };
+          if (key === 'feishu' || key === 'lark' || key === '飞书群')
+            return {
+              label: group ? `飞书群「${group}」` : '飞书群',
+              icon: iconSvg('group'),
+              href: val,
+              text: `加入${group || '飞书群'}`,
+            };
+          return { label: rawKey, href: isUrl || isPath ? val : '', text: val };
         })
     : [];
-const contactHtml = (contact) => {
-  const items = contactItems(contact);
+};
+const contactHtml = (contact, larkName = '') => {
+  const items = contactItems(contact, larkName);
   if (!items.length) return '';
   const links = items
     .map((i) => {
       const inner = i.icon || esc(i.label);
       const aria = ` aria-label="${esc(i.label)} ${esc(i.text)}"`;
       const title = ` title="${esc(i.label)}"`;
-      return i.href
-        ? `<a href="${esc(i.href)}" target="_blank" rel="noopener noreferrer"${title}${aria}>${inner}</a>`
-        : `<span${title}>${inner}</span>`;
+      if (!i.href) return `<span${title}>${inner}</span>`;
+      const external = /^https?:/.test(i.href);
+      const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return `<a href="${esc(i.href)}"${attrs}${title}${aria}>${inner}</a>`;
     })
     .join('');
   return `<p class="foot__contact">${links}</p>`;
+};
+
+/** 从 site.contact 里取邮箱（key 写 email 或 邮箱 都认），没有则返回空串 */
+const emailOf = (contact) => {
+  if (!contact || typeof contact !== 'object') return '';
+  for (const [k, v] of Object.entries(contact)) {
+    const key = String(k).trim().toLowerCase();
+    if ((key === 'email' || key === '邮箱') && v && String(v).trim()) return String(v).trim();
+  }
+  return '';
 };
 
 export function esc(value) {
@@ -202,7 +226,7 @@ ${body}
   ${site.stats === 'local' ? STATS_HTML : ''}
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
-  ${contactHtml(site.contact)}
+  ${contactHtml(site.contact, site.larkGroup)}
 </footer>
 ${site.stats === 'local' ? STATS_SCRIPT : ''}
 <script src="/assets/app.js${v}" defer></script>
@@ -738,6 +762,10 @@ export function aboutPage(ctx) {
   const { site, categories, counts, total, items, baseUrl } = ctx;
   const updated = lastmodOfList(items);
   const newest = items.slice(0, 5);
+  /** 飞书群名（site.yaml 的 larkGroup），留空则回退为通用「飞书群」 */
+  const larkName = String(site.larkGroup || '').trim();
+  /** 备用邮箱（site.yaml 的 contact.邮箱），加不了飞书群时的兜底通道 */
+  const contactEmail = emailOf(site.contact);
   const catRows = (categories || [])
     .map(
       (c) =>
@@ -777,6 +805,14 @@ ${catRows}
   <h2>内容来源与版权</h2>
   <p>${esc(site.disclaimer)}。本站不存储任何影片、软件或电子书本体，所有文件均存放在第三方网盘上；
   若你是版权方或发现链接失效，欢迎通过下方方式联系，我们会在核实后第一时间处理。</p>
+
+  <h2 id="lark-group">加入${larkName ? `「${esc(larkName)}」` : ''}飞书群</h2>
+  <p>有问题、想交流资源，或者发现链接失效？欢迎扫码加入${larkName ? `飞书群<strong>${esc(larkName)}</strong>` : '本站飞书群'}交流反馈。请注意：该群为<strong>企业内部群</strong>，仅同组织飞书账号可加入。</p>
+  <div class="lark-qr">
+    <img src="/lark-group.png" alt="${larkName ? `${esc(larkName)} ` : ''}飞书群二维码" width="260" height="260" loading="lazy">
+    <p class="muted">扫码加入${larkName ? `飞书群「${esc(larkName)}」` : '飞书群'} · 若提示“仅限企业内部成员”，说明当前飞书账号不在同一组织</p>
+  </div>
+  ${contactEmail ? `<p>加不了群也可以发邮件到 <a href="mailto:${esc(contactEmail)}">${esc(contactEmail)}</a>，我们同样会处理。</p>` : ''}
 
   <h2>订阅与推荐</h2>
   <p>新资源入库后可以 RSS 订阅，不必每天来刷页面：<a href="/rss/">查看 RSS 订阅方式与地址</a>。

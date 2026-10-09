@@ -158,10 +158,12 @@ export function loadSite(dataDir) {
   return {
     title: cfg.title || '网盘资源站',
     description: cfg.description || '',
+    baseUrl: cfg.baseUrl || '',
     disclaimer: cfg.disclaimer || '',
     categories: Array.isArray(cfg.categories) ? cfg.categories.map(String) : [],
     icp: cfg.icp || '',
     contact: cfg.contact && typeof cfg.contact === 'object' ? cfg.contact : null,
+    larkGroup: cfg.larkGroup || '',
     stats: cfg.stats || '',
     homeTitle: cfg.homeTitle || '',
     homeDesc: cfg.homeDesc || '',

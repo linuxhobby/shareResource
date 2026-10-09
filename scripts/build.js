@@ -43,11 +43,6 @@ const themeDir = path.join(root, 'theme');
  */
 const outDirName = process.env.BUILD_DIR || 'public';
 const outDir = path.join(root, outDirName);
-const baseUrl = (process.env.BASE_URL || 'https://example.com').replace(/\/+$/, '');
-if (baseUrl.includes('example.com')) {
-  console.log('  ! 未设置 BASE_URL，canonical / OG / sitemap 会指向 example.com');
-  console.log('    正式构建请用：BASE_URL=https://你的域名 npm run build');
-}
 
 function write(file, content) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -70,6 +65,16 @@ function iconVersionOf(file) {
 const t0 = Date.now();
 console.log('读取数据源…');
 const site = loadSite(dataDir);
+/**
+ * 站点域名：环境变量 BASE_URL 优先（服务器由 /etc/site-autoupdate.conf 注入），
+ * 其次取 data/site.yaml 的 baseUrl，两者都没配则回退到站点默认域名。
+ */
+const DEFAULT_BASE_URL = 'https://www.wodewangpan.top';
+const baseUrl = (process.env.BASE_URL || site.baseUrl || DEFAULT_BASE_URL).replace(/\/+$/, '');
+if (baseUrl.includes('example.com')) {
+  console.log('  ! 站点域名是占位值 example.com，canonical / OG / sitemap 会指错');
+  console.log('    请用 BASE_URL=... npm run build，或在 data/site.yaml 写 baseUrl: https://你的域名');
+}
 const raw = loadResources(dataDir);
 const synced = syncHeaderCounts(dataDir);
 if (synced.length) console.log(`  · 条数注释已刷新：${synced.join('、')}`);
@@ -281,6 +286,15 @@ write(
   ])
 );
 copyThemeAssets(themeDir, outDir);
+
+// 拷贝飞书群二维码：关于本站页展示大图，页脚通过 /about/#lark-group 轻量入口跳转
+const larkGroupSrc = path.join(staticDir, 'lark-group.png');
+const larkGroupDest = path.join(outDir, 'lark-group.png');
+if (fs.existsSync(larkGroupSrc)) {
+  fs.copyFileSync(larkGroupSrc, larkGroupDest);
+} else {
+  console.log('  ! 未找到 static/lark-group.png，关于本站页将不显示飞书群二维码');
+}
 
 console.log(
   `\n完成：${total} 个资源 · ${categories.length} 个分类 · ${((Date.now() - t0) / 1000).toFixed(1)}s\n输出目录：${outDirName}/`
