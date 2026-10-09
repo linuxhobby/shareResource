@@ -483,8 +483,7 @@ node tools/icon-poster.mjs --icon "<artworkUrl512>" --out static/images/app-005.
 curl -s -o NUL -w '%{http_code}\n' https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/fedora.svg
 curl -sL https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/fedora.svg -o .tmp/fedora.svg
 
-# 2) simple-icons 是单色图标（用 currentColor），不改 fill 出来是一块黑：把 <path 统一加白色
-#    （批量：把文件内容里的 `<path` 替换成 `<path fill="#fff"`）
+# 2) 单色图标的 fill 由 icon-poster 自动补（2026-10-09 实装），不用再手工改 SVG
 
 # 3) 合成海报，渐变用发行版品牌色
 node tools/icon-poster.mjs --icon .tmp/fedora.svg --out static/images/os-003.jpg \
@@ -493,8 +492,8 @@ node tools/icon-poster.mjs --icon .tmp/fedora.svg --out static/images/os-003.jpg
 
 四条要点：
 
-1. **必须改 `fill`**：simple-icons 的 `<path>` 不带 `fill`，默认就是黑色，直接送进海报会得到一个黑块。统一加 `fill="#fff"` 才是站内这套「白标 + 渐变底」的观感。
-2. 图标名按官方 slug 猜（`windows` `windows11` `ubuntu` `debian` `fedora` `linux`），取之前用 `-o NUL -w '%{http_code}'` 先探一次，404 就是名字不对。
+1. **`fill` 交给脚本补，别手工改**：simple-icons 的 `<path>` 不带 `fill`，直接渲染是一块黑。`tools/icon-poster.mjs` 会在 `<svg>` 根元素补 `--svg-fill`（默认 `#fff`，SVG 的 `fill` 可继承），贴官方标志即可出图；要保留原色显式传 `--svg-fill black`，传空字符串则关掉补白。
+2. 图标名按官方 slug 猜（`windows` `windows11` `ubuntu` `debian` `fedora` `linux`），取之前用 `-o NUL -w '%{http_code}'` 先探一次，404 就是名字不对。CDN 不通时换 `unpkg.com/simple-icons@latest/icons/<slug>.svg` 或 `raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/<slug>.svg`。
 3. **配色跟着发行版品牌色走**：Debian 红、Fedora 蓝、Ubuntu 橙、Windows 深蓝。这样分类页里一排看下去，一眼能分辨是哪个发行版，比统一配色有用得多。
 4. 出图照样要逐张打开看一眼（本次 5 张全部确认过）：`--sub` 缺省时标题位置会下移，图标偏小、标题顶边这些只有看图才发现。
 
@@ -586,6 +585,15 @@ node …/check-desc.mjs --show                                            # 连�
 2026-10-09 把「经验总结」里配图与 `date` 两类经验沉淀进 skill 与脚本（skill 升到 `1.7`）：skill 第 5 步原来只写「软件 / 音频按四档降级找图标」，现在改成**按分类选图源的决策表**（TMDB / Steam / App Store / simple-icons / 豆瓣），并把操作系统的 simple-icons 档补成独立的 ② 档；`tools/icon-poster.mjs` 增加了**单色 SVG 自动补 `fill`**（`--svg-fill`，默认 `#fff`）：simple-icons 这类 `<path>` 不带 `fill` 的图标以前直接送进去会渲染成黑块，现在贴官方标志即可出图，不必再手工改 SVG。同批进 skill 的还有「新增分类两边都要改」的 7 项清单、非影视资源 `date` 的核实口径（构建号 ≠ 版本通道、点版本对齐点版本日期）、空目录也出链入库，见 `references/site-schema.md` 的图片一节。
 
 2026-10-09 修正一条 skill 侧的错误规则：原写「改名不改 fid，出链可直接用原 fid」，实测**fid 每次 browse 都会轮换**（同一目录连查两次全部不同，变的是 `|` 前那一段）。已改 skill 第 3 步 / 第 4 步的说明，并在 `process-batch.mjs`、`app-batch.mjs` 的 rename 与 share 之间加了 fid 刷新（重新 browse 分类目录，按新目录名取最新 fid）；仓库侧无对应实现，不受影响。
+
+2026-10-09 对 `1.7` 做了一次一致性复核，补齐四处没改干净的地方（skill 升到 `1.8`）：
+
+1. **简介上限统一到 1200 字**：`SKILL.md` 与仓库 `scripts/lib/data.js` 的 `MAX_DESC` 早已是 1200，但 skill 侧四个脚本仍按 1000 预截断（`process-batch.mjs` / `app-batch.mjs` / `backfill-desc.mjs` / `trending-sync.mjs`），`references/site-schema.md` 也写「300~1000 字」。口径分裂时 1000~1200 字的简介会在脚本里先被砍掉，等于上限形同虚设，现全部对齐 1200。
+2. **分类计数更新**：`SKILL.md` 与 `scan-new.mjs` 里「覆盖 SHARE 下全部 6 个分类」随电子书 / 操作系统入库改为 9 个。
+3. **TMDB 域名统一**：`backfill-desc.mjs` / `match-batch.mjs` 仍直连 `api.themoviedb.org`（可能被 DNS 劫持），改为 `api.tmdb.org`，与 `tmdb.mjs` 一致。
+4. **本节「操作系统海报」的写法纠正**：原写「必须手动把 `<path` 换成 `<path fill="#fff"`」，与已实装的 `icon-poster.mjs --svg-fill` 自动补白矛盾，改为「`fill` 交给脚本补，别手工改」。
+
+另清掉 skill 目录里夸克 CLI 的写权限探针残留（`.quarkclouddrive/`，会落在脚本执行时的 cwd 下），并加进 `.gitignore`。
 
 ## SEO建议优化
 
