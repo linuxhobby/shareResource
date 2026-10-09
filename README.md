@@ -511,6 +511,37 @@ node …/check-desc.mjs --show                                            # 连�
 
 需要SEO优化的建议写在这里。
 
+> 以下依据 VPS 保留访问日志（含轮转，覆盖近期）中各搜索引擎蜘蛛的**实际抓取记录**分析得出。统计口径：按 user-agent 归类，抓取次数 / 去重 URL / 页面类型 / 状态码。（截至 2026-10-09）
+
+### 收录现状
+
+| 蜘蛛 | 抓取次数 | 去重页面 | 抓到的页面构成 | 状态码 | 判断 |
+|---|---|---|---|---|---|
+| Googlebot | 831 | 162 | 首页 581 · 资源页 122 · 分类页 22 · 内部 JSON 63 · robots 33 · sitemap 5 | 200×761、**404×54**、301×16 | 已收录，面广但抓取偏科 |
+| YandexBot | 567 | 514 | 资源页 514 · 首页 25 · robots 18 · 分类页 10 | 200 全绿 | 接近全站遍历，覆盖最深 |
+| Baiduspider | 27 | 2 | 首页 23 · 验证文件 4 | 200×24、301×3 | 已验证但不进内容页 |
+| bingbot | 10 | 7 | 首页 3 · robots 2 · sitemap 1 · stats.json 1 · 资源页仅 1 · key.txt 1 | 200×9 | 象征性到访，收 URL 不抓正文 |
+| 360Spider | 4 | 1 | 仅首页（先 2×301 再 2×200） | 200×2、301×2 | 吃闭门羹，未入内容 |
+
+搜狗（Sogou web spider）、字节（Bytespider）、华为（PetalBot）目前**零到访**。日志中另有 ClaudeBot / SemrushBot / AhrefsBot / Applebot，属 AI 爬虫与 SEO 工具，不计入搜索引擎收录指标。
+
+### 关键发现
+
+1. **Google 的 54 个 404 全浪费在内部接口上**：几乎全是它跟着页面里的链接去抓 `/resource/*/search-index.json`、`/category/*/search-index.json`（外加 `/stats.json`）。这些是前端搜索用的 JSON 端点，不存在/不该被抓，白白消耗抓取预算并制造软 404。
+2. **Google 抓取严重偏科**：首页被反复抓 581 次（占其配额约 70%），资源页只追加到 122 个——相对 Yandex 已遍历的 514 个资源页，Google 的内容覆盖明显滞后。首页 `lastmod` 频繁变动会助长这种高频刷新。
+3. **百度卡死**：`baidu_verify_codeva-*.html` 被爬到说明站长平台已验证通过，但百度蜘蛛一个资源/分类页都没进，纯卡配额与信任度。
+4. **首页存在 301**：Google/Baidu/360 都命中过首页 301（http→https 或裸域→www），对 360 这类低频蜘蛛容易一次 Redirect 就劝退，需确认重定向目标规范、尽量直达 200。
+
+### 待办（按性价比排序）
+
+- [ ] **robots.txt 屏蔽内部 JSON**：加 `Disallow: /*search-index.json` 与 `Disallow: /stats.json`（或前端不把这类链接暴露给爬虫），消除 Google 的 54 个 404、回收抓取预算。
+- [ ] **稳住首页 lastmod**：避免资源无实质变更时改动首页 sitemap 的 `<lastmod>`，把 Google 的抓取从「反复刷首页」引导到资源详情页。
+- [ ] **百度主动推**：光靠 robots 里的 Sitemap 声明对百度基本无效，须在百度站长平台提交 sitemap 并走「普通收录 → API 推送」（`submit-baidu`），配额随抓取量提升。
+- [ ] **Bing/360 起步**：在 Bing Webmaster Tools 提交 sitemap；核对首页 301 目标，保证蜘蛛一次直达 200 不被 Redirect 劝退。
+- [ ] **争取新引擎**：搜狗/字节/华为零到访，可通过各自站长平台主动提交 sitemap 或在首页做轻量引导破零。
+
+（权威收录量以 Google Search Console、Bing Webmaster Tools、百度站长平台后台报表为准；脚本 `site:` 查询受数据中心 IP 反爬干扰，不作为计数依据。）
+
 ## 最新修改
 
 网站代码最新修改内容写在这里。
