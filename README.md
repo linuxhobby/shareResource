@@ -529,6 +529,8 @@ node …/check-desc.mjs --show                                            # 连�
 
 本 README 的规范同时被夸克同步 skill 复用（位置 `~/.workbuddy/skills/quark-resource-sync/`），改这里的任一条都要同步改 skill 与仓库脚本。
 
+2026-10-09 修正一条 skill 侧的错误规则：原写「改名不改 fid，出链可直接用原 fid」，实测**fid 每次 browse 都会轮换**（同一目录连查两次全部不同，变的是 `|` 前那一段）。已改 skill 第 3 步 / 第 4 步的说明，并在 `process-batch.mjs`、`app-batch.mjs` 的 rename 与 share 之间加了 fid 刷新（重新 browse 分类目录，按新目录名取最新 fid）；仓库侧无对应实现，不受影响。
+
 ## SEO建议优化
 
 SEO 相关的建议、复核结论与执行记录写在这里。本节按「蜘蛛日志 → 关键发现 → 建议复核 → 已执行 → 待观察」组织：新建议先记在**建议复核**里并注明是否采纳，落地后搬进**已执行**，改了 robots / sitemap / 站点结构记得同步更新。
@@ -640,7 +642,7 @@ curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://wodewangpan.top
 
 首轮入库 5 条：`os-001` Windows 10 企业版 LTSC 2019、`os-002` Windows 11 26H2 中文版、`os-003` Fedora 44 Workstation、`os-004` Debian 13.7、`os-005` Ubuntu。海报用各发行版官方标志合成并逐张打开确认；`date` 填各版本发布时间（Debian 13.7 是 trixie 的 2026-09-12 点版本，`26300.9457` 是 Win11 26H2 正式版 ISO 而非 Insider 构建）。`005-ubuntu` 当时目录为空，先占位置，资源转存进来后同一条分享链接即生效。
 
-一条实测纠正：夸克目录**重命名后 FID 会变**（此前记的是「改名不改 fid」），所以顺序必须是「先重命名 → 重新 `browse` 拿新 FID → 再出链」，用旧 FID 出链会报文件找不到。
+一条实测纠正：夸克目录的 **FID 每次 browse 都会轮换**（同一目录连查两次，5 个条目的 FID 全不一样，变的是 `|` 前面那一段，`|` 后面那个 ID 段始终不变；重命名前后对比也是同样结果，连没改名的目录都跟着变）。此前记的「改名不改 fid」不成立。所以顺序必须是「先重命名 → 重新 `browse` 拿最新 FID → 再出链」，用旧 FID 出链会报 `code 21001 文件找不到`。同步 skill 的 `process-batch.mjs` / `app-batch.mjs` 已在 rename 与 share 之间加了刷新这一步。
 
 ### 2026-10-09 · 占位海报补齐与配图目录结论
 
