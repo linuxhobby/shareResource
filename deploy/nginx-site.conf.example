@@ -1,10 +1,15 @@
 # 站点 Nginx 配置 —— 放到 /etc/nginx/conf.d/wodewangpan.conf
-# 改 3 处即可：server_name、ssl_certificate / ssl_certificate_key（certbot 会自动改）
+# 改 2 处即可：server_name（下面每段里的都要换）、ssl_certificate / ssl_certificate_key（certbot 会自动改）
 # 没有启用访问统计的话，把 access_log 那行改回默认、并删掉 location = /stats.json 与 /hit 两段
+#
+# 规范化目标（SEO）：全站只有 https://www.<域名>/ 返回 200，
+# http 与裸域一律「单跳」301 过去——跳一次是标准做法，蜘蛛不会被劝退；
+# 真正要避免的是 http / https、裸域 / www 各留一份 200 副本，那才叫重复内容。
 
+# ── 1）站点本体（证书签发前也只有这一段生效，certbot 靠它完成 HTTP-01 校验） ──
 server {
     listen 80;
-    server_name your-domain.com;          # ← 换成你的域名
+    server_name your-domain.com www.your-domain.com;          # ← 换成你的域名（裸域与 www 都写）
 
     root /opt/wodewangpan/public;       # ← 指向 public 目录本身
     index index.html;
@@ -55,4 +60,24 @@ server {
     location /.well-known/acme-challenge/ { root /var/www/html; }
 }
 
-# 执行 certbot --nginx 后会自动生成 443 段，无需手工维护
+# ── 2）证书签发后（README 步骤 6 之后）再做两件事 ──
+#
+# a) 让 http 只做跳转。certbot 加 --redirect 会自动改写上面的 80 段：
+#      sudo certbot --nginx --redirect -d 你的域名 -d www.你的域名
+#    它保留 acme 校验路径、把 location / 换成 301，不需要手工改。
+#    手工做的话把上面「目录式 URL」那段换成：
+#      location / { return 301 https://www.your-domain.com$request_uri; }
+#
+# b) 裸域 https → www。证书这时已存在，去掉下面整段的注释并 reload：
+# server {
+#     listen 443 ssl;
+#     server_name your-domain.com;
+#     ssl_certificate     /etc/letsencrypt/live/your-domain.com/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
+#     return 301 https://www.your-domain.com$request_uri;
+# }
+#
+# 改完自检（三个都应 200→301 直达 https://www.<域名>/，且只有最后一跳是 200）：
+#   curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://你的域名/
+#   curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://www.你的域名/
+#   curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://你的域名/

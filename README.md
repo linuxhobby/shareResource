@@ -15,6 +15,7 @@
 - **二维码预生成**：静态 SVG，扫码转存不依赖 JS
 - **纯前端搜索**：支持拼音与首字母，命中高亮，搜索结果可分享链接
 - **SEO 全自带**：canonical、OG / Twitter Card、JSON-LD、sitemap、robots、404 兜底
+- **内链自足**：全量索引页 `/all/` + 详情页「相关推荐」，不执行 JS 也能从任一页走到全部资源
 - **响应式宫格**：窄屏自动减列，手机到桌面都能看
 - **首屏即读**：列表页首屏内容内联进 HTML，禁用 JS 也能正常浏览
 - **访问统计自备**：解析 Nginx 日志得到访问数据，不依赖第三方统计
@@ -88,8 +89,10 @@ Nginx 关键三处（示例文件里都有，不用手改）：
 
 ```bash
 sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d 你的域名
+sudo certbot --nginx --redirect -d 你的域名 -d www.你的域名
 ```
+
+`-d` 写两个名字，证书同时覆盖裸域与 www；`--redirect` 让 certbot 自动把 80 端口改成 301 跳 https（并保留 acme 校验路径），省得手工改。签完再按 `deploy/nginx-site.conf.example` 里的第 2 段把裸域 https 也 301 到 www——全站只留 `https://www.<域名>/` 一个 200，搜索引擎才不会把 http / https、裸域 / www 各收一份。
 
 **7）验证**
 
@@ -187,7 +190,7 @@ jobs:
 
 ```bash
 S=https://你的域名
-for u in / /category/movie/ /resource/mv-010/ /sitemap.xml \
+for u in / /category/movie/ /all/ /resource/mv-010/ /sitemap.xml \
          /robots.txt /search-index.json /img/mv-010-240.webp /qr/mv-010-quark.svg \
          /nope; do
   printf '%-38s %s\n' "$u" "$(curl -s -o /dev/null -w '%{http_code}' "$S$u")"
@@ -203,7 +206,7 @@ curl -s $S/ | grep canonical       # 应是你的真实域名
 |---|---|
 | **1 · Google Search Console** | 添加站点 → 左侧「站点地图」提交 `https://你的域名/sitemap.xml`（首次验证一次即可） |
 | **2 · 百度站长平台** | 同上提交 sitemap；更快的是「普通收录 → API 推送」：token 存为 `/opt/seo/baidu_token`，用 `submit-baidu` 推送 |
-| **3 · IndexNow（实时推送，技术方式）** | 向 **Bing** 等参与引擎实时递交：站点放一个密钥文件，脚本按 sitemap 分批 POST 给 IndexNow，新页面几分钟内被 Bing 发现 |
+| **3 · IndexNow（实时推送，技术方式）** | 向 **Bing** 等参与引擎实时递交：站点放一个密钥文件，脚本取 sitemap 里**有变化的 URL** 分批 POST 给 IndexNow，新页面几分钟内被 Bing 发现 |
 
 方式 3 配置（脚本见 `deploy/submit-indexnow.sh`）：
 
@@ -216,15 +219,17 @@ sudo mkdir -p /opt/indexnow && openssl rand -hex 16 | sudo tee /opt/indexnow/key
 sudo nginx -t && sudo systemctl reload nginx
 curl -s https://你的域名/key.txt     # 应返回那串密钥
 
-# 3) 安装脚本并立即递交一次
+# 3) 安装脚本并立即递交一次（首次全量，之后每天增量）
 sudo install -m755 deploy/submit-indexnow.sh /usr/local/bin/submit-indexnow
 sudo sed -i 's/www.your-domain.com/你的域名/' /usr/local/bin/submit-indexnow
-sudo /usr/local/bin/submit-indexnow
-tail -3 /var/log/submit-indexnow.log    # 本站当前 595 条 URL：成功 595，失败 0
+sudo ALL=1 /usr/local/bin/submit-indexnow
+tail -3 /var/log/submit-indexnow.log    # 首次全量：本站 595 条 URL：成功 595，失败 0
 
-# 4) 每天自动推（root crontab）
+# 4) 每天自动推（root crontab）：默认只推 sitemap 里 lastmod >= 昨天的 URL
 0 3 * * * /usr/local/bin/submit-indexnow >> /var/log/submit-indexnow.log 2>&1
 ```
+
+只推变化的 URL 是刻意的：IndexNow 官方建议仅在内容新增 / 变更时提交，天天全量推没有额外收益。要补推就 `ALL=1` 或 `SINCE=2026-10-01 submit-indexnow`；当天没有变更时脚本会写一条「无新增或变更」并直接退出，不会空推。
 
 方式 2 的 API 推送同样可以脚本化（脚本见 `deploy/submit-baidu.sh`）：
 
@@ -304,7 +309,8 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
 |---|---|
 | `/` | 首页宫格，**按 `added` 倒序（最新加入在前）**，`added` 带到时分时精确到入库先后；最前 6 条带「最新」角标 |
 | `/category/<分类>/` | 同样的宫格，只含该分类 |
-| `/resource/<id>/` | 240×360 海报（与列表宫格卡片同图同尺寸）+ 二维码（最多 3 个网盘链接各一张）+ 网盘链接与复制按钮 |
+| `/resource/<id>/` | 240×360 海报（与列表宫格卡片同图同尺寸）+ 二维码（最多 3 个网盘链接各一张）+ 网盘链接与复制按钮 + 6 条「相关推荐」 |
+| `/all/` | 全部资源索引：593 条链接按分类平铺成纯 HTML，不依赖 JS，蜘蛛一次抓取即可走完全站 |
 | 搜索 | 顶栏即时搜索（`Ctrl/⌘ + K` 聚焦），结果同样宫格呈现，命中词高亮 |
 
 ## 数据格式
@@ -509,9 +515,9 @@ node …/check-desc.mjs --show                                            # 连�
 
 ## SEO建议优化
 
-需要SEO优化的建议写在这里。
+SEO 相关的建议、复核结论与执行记录写在这里。本节按「蜘蛛日志 → 关键发现 → 建议复核 → 已执行 → 待观察」组织：新建议先记在**建议复核**里并注明是否采纳，落地后搬进**已执行**，改了 robots / sitemap / 站点结构记得同步更新。
 
-> 以下依据 VPS 保留访问日志（含轮转，覆盖近期）中各搜索引擎蜘蛛的**实际抓取记录**分析得出。统计口径：按 user-agent 归类，抓取次数 / 去重 URL / 页面类型 / 状态码。（截至 2026-10-09）
+> 数据依据 VPS 保留访问日志（含轮转，覆盖近期）中各搜索引擎蜘蛛的**实际抓取记录**。统计口径：按 user-agent 归类，抓取次数 / 去重 URL / 页面类型 / 状态码。（截至 2026-10-09）
 
 ### 收录现状
 
@@ -527,22 +533,80 @@ node …/check-desc.mjs --show                                            # 连�
 
 ### 关键发现
 
-1. **Google 的 54 个 404 全浪费在内部接口上**：几乎全是它跟着页面里的链接去抓 `/resource/*/search-index.json`、`/category/*/search-index.json`（外加 `/stats.json`）。这些是前端搜索用的 JSON 端点，不存在/不该被抓，白白消耗抓取预算并制造软 404。
-2. **Google 抓取严重偏科**：首页被反复抓 581 次（占其配额约 70%），资源页只追加到 122 个——相对 Yandex 已遍历的 514 个资源页，Google 的内容覆盖明显滞后。首页 `lastmod` 频繁变动会助长这种高频刷新。
-3. **百度卡死**：`baidu_verify_codeva-*.html` 被爬到说明站长平台已验证通过，但百度蜘蛛一个资源/分类页都没进，纯卡配额与信任度。
-4. **首页存在 301**：Google/Baidu/360 都命中过首页 301（http→https 或裸域→www），对 360 这类低频蜘蛛容易一次 Redirect 就劝退，需确认重定向目标规范、尽量直达 200。
+1. **Google 的 54 个 404 全浪费在内部接口上**：几乎全是它渲染页面后跟着去抓 `/resource/*/search-index.json`、`/category/*/search-index.json`。这些是前端搜索用的 JSON 端点，本来不存在，纯消耗抓取预算（实测是**硬 404**：nginx `error_page 404 /404.html` 不带 `=`，保留原状态码，不是软 404）。
+2. **Google 抓取偏科**：首页被反复抓 581 次（占其配额约 70%），资源页只到 122 个——相对 Yandex 已遍历的 514 个，内容覆盖明显滞后。**主因不是首页 `lastmod`**（它每天变是因为每日热门真的入库了），而是下面第 5、6 条：首页能走的路只有 35 条。
+3. **百度卡死**：`baidu_verify_codeva-*.html` 被爬到说明站长平台已验证通过，但百度蜘蛛一个资源 / 分类页都没进。结合站点现状看，这不是配置问题——站点 IP 在香港（腾讯云 `43.128.54.22`）且 `icp` 为空，境外 + 无备案在国内引擎这里基本拿不到配额与信任度。
+4. **首页的 301 是合规的**：Google / Baidu / 360 都命中过首页 301。实测 `http://www.` → `https://www.`、`http://` 裸域 → `https://www.`、`https://` 裸域 → `https://www.` 全部**单跳 301**，目标规范、无跳链，不存在「一次跳转就劝退」。真正要防的是 http 与 https、裸域与 www 各留一份 200 副本（重复内容）。
+5. **详情页是内链孤岛**：详情页正文里的标签是 `<span>`（不可点），页面之间零互链，593 个详情页各自是孤岛，蜘蛛走进来就出不去。
+6. **单页静态资源链接只有 35 条**：列表页 HTML 里只渲染前 `pageSize`（35）张卡片，其余靠 JS 拉 `search-index.json` 补齐——而这条请求在子页面下正好是 404（见发现 1）。不执行 JS、或拉不到 JSON 的蜘蛛，从首页只能看到 35 个资源，与 Google 只覆盖 122 个资源页对得上。
 
-### 待办（按性价比排序）
+### 建议复核（2026-10-09，逐条对着代码与线上实测）
 
-- [ ] **robots.txt 屏蔽内部 JSON**：加 `Disallow: /*search-index.json` 与 `Disallow: /stats.json`（或前端不把这类链接暴露给爬虫），消除 Google 的 54 个 404、回收抓取预算。
-- [ ] **稳住首页 lastmod**：避免资源无实质变更时改动首页 sitemap 的 `<lastmod>`，把 Google 的抓取从「反复刷首页」引导到资源详情页。
-- [ ] **百度主动推**：光靠 robots 里的 Sitemap 声明对百度基本无效，须在百度站长平台提交 sitemap 并走「普通收录 → API 推送」（`submit-baidu`），配额随抓取量提升。
-- [ ] **Bing/360 起步**：在 Bing Webmaster Tools 提交 sitemap；核对首页 301 目标，保证蜘蛛一次直达 200 不被 Redirect 劝退。
-- [ ] **争取新引擎**：搜狗/字节/华为零到访，可通过各自站长平台主动提交 sitemap 或在首页做轻量引导破零。
+| 原建议 | 结论 | 依据 |
+|---|---|---|
+| robots.txt 屏蔽内部 JSON | **修正后采纳** | 方向对、对象错。根因是 `theme/assets/app.js` 里 `fetch('search-index.json')` 用了相对路径，在 `/resource/<id>/`、`/category/<slug>/` 下解析成 `/resource/<id>/search-index.json`（实测 404）。只加 robots 挡得住守规矩的 Google/Bing/Baidu，挡不住其余蜘蛛；而且挡掉后 Googlebot 更渲染不出「加载更多」。正解是**先改绝对路径**，再决定挡什么 |
+| 稳住首页 lastmod | **不采纳** | 首页 lastmod = 全站最新 `added`（`render.js` 的 `lastmodOfList`），每日热门入库后确实每天变，是真实信号；人为冻结等于给假日期，反而损耗 Google 对 lastmod 的信任。另外 Google 官方文档明确忽略 sitemap 的 `priority` / `changefreq`，调 priority 也不会改变抓取分配。真正卡住覆盖的是发现 5、6——可走的路只有 35 条 |
+| 百度主动推 | **降级到 P3** | 实测站点 IP `43.128.54.22` 在**香港**（腾讯云），`site.yaml` 的 `icp` 为空——境外机房 + 无备案，百度 / 360 / 搜狗的配额与信任度基本起不来。有备案与国内机之前，投入产出比远低于 Google / Bing / Yandex |
+| Bing/360 起步 + 核对 301 | **Bing 采纳，301 不采纳** | Bing 一侧成立（去 Bing Webmaster Tools 提交 sitemap，IndexNow 已在推）。301 一侧不成立：实测三种入口全部**单跳 301** 到 `https://www.<域名>/`，目标规范、无跳链，蜘蛛不会被劝退。真正要防的是 http / https、裸域 / www 各留一份 200 副本，`deploy/nginx-site.conf.example` 已补上收口做法 |
+| 争取新引擎 | **顺手做，不单列投入** | 同「百度」一条：境外站对国内引擎收益有限，各站长平台提交一次 sitemap 即可，不值得为其改站点结构 |
+| 404 是「软 404」 | **措辞修正** | 实测返回**硬 404**（nginx `error_page 404 /404.html` 不带 `=`，保留原状态码）。浪费抓取预算成立，软 404 不成立 |
 
-（权威收录量以 Google Search Console、Bing Webmaster Tools、百度站长平台后台报表为准；脚本 `site:` 查询受数据中心 IP 反爬干扰，不作为计数依据。）
+### 已执行的改造（2026-10-09）
+
+| 改动 | 针对 | 产物验证 |
+|---|---|---|
+| `theme/assets/app.js`：`fetch('search-index.json')` → 绝对路径 `/search-index.json`；预取只在列表页做（有 `#list-data` 的页面），详情页不预取 | 发现 1、6 | 根路径 200；子路径不再被请求，54 个 404 的根因消除 |
+| `scripts/build.js`：robots 加 `Disallow: /stats.json`、`Disallow: /hit`；**`/search-index.json` 不挡**（它是 Googlebot 渲染「加载更多」的通道） | 原建议 1 | `robots.txt` 已含两行 |
+| 新增全量索引页 `/all/`（`render.js` 的 `allPage` + `build.js` 生成） | 发现 6 | 593 条静态 `<a>` 链接、112 KB、HTTP 200；进 sitemap（priority 0.4），页脚导航每页都有入口 |
+| 详情页「相关推荐」6 条（同分类优先、标签重合多的靠前，不够时用跨分类同标签补齐），构建期静态输出 | 发现 5 | 详情页内链出度 0 → 6 |
+| `deploy/submit-indexnow.sh` 改增量推送 | 原建议 4（Bing） | 默认只推 `lastmod` ≥ 昨天的 URL；`ALL=1` 全量、`SINCE=<日期>` 自定义起点，无变更时直接退出不空推 |
+| `deploy/nginx-site.conf.example` 规范化收口：只有 `https://www.<域名>/` 返回 200 | 发现 4 | 线上已是单跳 301，配置无需改动；示例文件给出证书签发后 http 与裸域的 301 做法（certbot `--redirect` + 两个 `-d`） |
+
+### 待办与观察
+
+- [ ] **两周后回看蜘蛛日志**（唯一能判定成败的口径）：`/resource/*/search-index.json` 的 404 归零；Googlebot 去重资源页数从 122 往上涨；bingbot 是否开始进资源页抓正文。
+- [ ] **Bing Webmaster Tools 提交一次 sitemap**：IndexNow 已经在实时递 URL，但站点级 sitemap 提交还没做，bingbot 目前只来过 10 次、资源页只抓了 1 个。
+- [ ] **服务器重装一次推送脚本**：`sudo install -m755 deploy/submit-indexnow.sh /usr/local/bin/submit-indexnow`，增量逻辑才生效（cron 不用改）。
+- [ ] 百度站长平台提交 sitemap + `submit-baidu` API 推送 —— **P3**，等备案 / 国内机。
+- [ ] 搜狗 / 字节 / 华为站长平台提交 sitemap —— **P3**，同上。
+- [ ] 分类分页 `/category/<slug>/page/2/…` —— 先看 `/all/` 的效果再决定；分页会引入重复内容，没有明确收益就不做。
+
+### 验收口径
+
+```bash
+# 1) 索引只有根路径这一份；robots 已挡统计端点
+curl -s -o /dev/null -w '%{http_code}\n' https://www.wodewangpan.top/search-index.json      # 200
+curl -s -o /dev/null -w '%{http_code}\n' https://www.wodewangpan.top/all/                   # 200
+curl -s https://www.wodewangpan.top/robots.txt                                              # 含 /stats.json、/hit
+
+# 2) 静态可抓链接数：首页 35 条属正常，/all/ 应等于资源总数，每个详情页 6 条「相关推荐」
+grep -o 'href="/resource/' public/index.html          | wc -l     # 35
+grep -o 'href="/resource/' public/all/index.html       | wc -l     # = 资源总数
+grep -o 'href="/resource/' public/resource/mv-010/index.html | wc -l # 6
+
+# 3) 重定向只有一跳，且终点是 200
+curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' http://wodewangpan.top/
+curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://wodewangpan.top/
+```
+
+（权威收录量以 Google Search Console、Bing Webmaster Tools、百度站长平台后台报表为准；脚本 `site:` 查询受数据中心 IP 反爬干扰，不作为计数依据。蜘蛛抓取数据取自 VPS 访问日志，不是线上后台，仅作趋势判断。）
 
 ## 最新修改
 
 网站代码最新修改内容写在这里。
+
+### 2026-10-09 · SEO 抓取通道改造
+
+依据 VPS 蜘蛛日志的抓取分析（见 [SEO建议优化](#seo建议优化)）做的一轮改动，目标是让搜索引擎走得进、走得深：
+
+| 改动 | 文件 | 说明 |
+|---|---|---|
+| 索引请求改根绝对路径 | `theme/assets/app.js` | `fetch('search-index.json')` 在 `/resource/<id>/`、`/category/<slug>/` 下会解析成不存在的子路径，是 Google 那 54 个 404 的根因；同时预取只在列表页做，详情页省掉一次请求 |
+| robots 只挡统计端点 | `scripts/build.js` | 新增 `Disallow: /stats.json`、`Disallow: /hit`；`/search-index.json` 不挡，它是 Googlebot 渲染「加载更多」的通道 |
+| 新增全量索引页 `/all/` | `scripts/lib/render.js`、`scripts/build.js` | 593 条详情页链接按分类平铺成纯 HTML（112 KB），进 sitemap（priority 0.4），页脚导航每页都有入口 |
+| 详情页「相关推荐」 | `scripts/lib/render.js` | 底部 6 条同分类（标签重合多的优先）卡片，构建期静态输出；详情页原本是内链孤岛，出度 0 → 6 |
+| IndexNow 改增量推送 | `deploy/submit-indexnow.sh` | 默认只推 `lastmod` ≥ 昨天的 URL；`ALL=1` 全量、`SINCE=<日期>` 自定义起点，无变更时不空推 |
+| Nginx 规范化收口 | `deploy/nginx-site.conf.example` | 明确「只有 `https://www.<域名>/` 返回 200」，补上证书签发后 http 与裸域的 301 做法；线上实测已是单跳 301，配置无需改动 |
+
+未做（等条件成熟）：百度 / 360 / 搜狗的主动提交——站点在香港且无备案，国内引擎这一档收益有限，见 P3。
 

@@ -23,10 +23,12 @@ import {
   listPage,
   detailPage,
   aboutPage,
+  allPage,
   rssPage,
   feedXml,
   notFoundPage,
   sitemapXml,
+  lastmodOfList,
   esc,
 } from './lib/render.js';
 
@@ -192,6 +194,7 @@ const ctxBase = {
   categories,
   counts,
   total,
+  items,
   images,
   baseUrl,
   indexAll,
@@ -217,6 +220,8 @@ for (const item of items) {
 }
 
 console.log('生成关于本站 / RSS 页面…');
+// 全量索引页：蜘蛛不用执行 JS 就能走完全部详情页的通道（列表页首屏之外的内容靠 JS 补齐）
+write(path.join(outDir, 'all', 'index.html'), allPage(ctxBase));
 write(path.join(outDir, 'about', 'index.html'), aboutPage({ ...ctxBase, items }));
 write(path.join(outDir, 'rss', 'index.html'), rssPage({ ...ctxBase, items }));
 
@@ -260,13 +265,19 @@ write(
   // Disallow /*?q= ：搜索结果页 /?q=关键词 与首页/分类页内容高度重合，
   // 会被当成重复内容白白吃掉抓取配额，主流搜索引擎都建议用 robots 挡掉。
   // 必须写 ?q= 而不是 q=，否则任何路径里含 "q=" 的正常页面会被误伤
-  `User-agent: *\nAllow: /\nDisallow: /*?q=\nSitemap: ${baseUrl}/sitemap.xml\n`
+  //
+  // /stats.json 与 /hit 是访问统计端点，对收录毫无价值，挡掉省下抓取预算。
+  // /search-index.json 不挡：它是根路径下的单一文件（app.js 用绝对路径取），
+  // 挡了反而让 Googlebot 渲染不出「加载更多」，少一条发现资源页的通道。
+  `User-agent: *\nAllow: /\nDisallow: /*?q=\nDisallow: /stats.json\nDisallow: /hit\nSitemap: ${baseUrl}/sitemap.xml\n`
 );
 write(
   path.join(outDir, 'sitemap.xml'),
   sitemapXml(baseUrl, items, categories, [
     { path: '/about/', priority: '0.5' },
     { path: '/rss/', priority: '0.4' },
+    // 全量索引页：给蜘蛛一条不依赖 JS 就能走完全部详情页的通道
+    { path: '/all/', priority: '0.4', lastmod: lastmodOfList(items) },
   ])
 );
 copyThemeAssets(themeDir, outDir);

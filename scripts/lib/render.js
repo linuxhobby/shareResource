@@ -46,6 +46,8 @@ const iconSvg = (key) =>
 /** 页脚导航：全站每页底部的固定入口 */
 const FOOT_NAV = [
   { href: '/', label: '网站首页' },
+  // 全量索引页：每页底部都有一条入口，蜘蛛从任何一页都能走到全部详情页
+  { href: '/all/', label: '全部资源' },
   { href: '/about/', label: '关于本站' },
   { href: '/sitemap.xml', label: '网站地图' },
   { href: '/rss/', label: 'RSS订阅' },
@@ -333,8 +335,35 @@ function linkRow(link) {
 </div>`;
 }
 
+/**
+ * 详情页「相关推荐」：同分类优先，标签重合多的排前面；同分类凑不够时用跨分类同标签的补齐。
+ *
+ * 存在理由（SEO）：详情页之间原本零互链，蜘蛛爬进来就出不去，593 个详情页各自是孤岛。
+ * 这段是构建期静态输出的，不依赖 JS，蜘蛛能顺着它继续往深处走。
+ */
+function relatedOf(item, all, n = 6) {
+  const tags = new Set(item.tags || []);
+  const score = (it) => (it.tags || []).filter((t) => tags.has(t)).length;
+  const newer = (a, b) =>
+    String(b.added || '').localeCompare(String(a.added || '')) || String(b.id).localeCompare(String(a.id));
+  const picked = all
+    .filter((it) => it.id !== item.id && it.category === item.category)
+    .sort((a, b) => score(b) - score(a) || newer(a, b))
+    .slice(0, n);
+  if (picked.length < n) {
+    const seen = new Set([item.id, ...picked.map((it) => it.id)]);
+    picked.push(
+      ...all
+        .filter((it) => !seen.has(it.id) && score(it) > 0)
+        .sort((a, b) => score(b) - score(a) || newer(a, b))
+        .slice(0, n - picked.length)
+    );
+  }
+  return picked;
+}
+
 export function detailPage(ctx) {
-  const { site, item, categories, counts, total, images, qrLinks, baseUrl } = ctx;
+  const { site, item, categories, counts, total, images, qrLinks, baseUrl, items } = ctx;
   const img = images.get(item.id) || {};
   const primary = qrLinks[0];
 
@@ -376,6 +405,8 @@ ${facts.map(([k, v]) => `    <tr><th scope="row">${k}</th><td>${v}</td></tr>`).j
   </tbody>
 </table>`;
 
+  const related = relatedOf(item, items || []);
+
   const body = `<nav class="crumb"><a href="/">首页</a><span>/</span><a href="${catHref(item.category)}">${esc(item.category)}</a></nav>
 <article class="detail">
   <div class="detail__media">
@@ -395,7 +426,12 @@ ${facts.map(([k, v]) => `    <tr><th scope="row">${k}</th><td>${v}</td></tr>`).j
       ${item.links.length ? item.links.map(linkRow).join('\n') : '<p class="muted">暂无可用链接</p>'}
     </div>
   </div>
-</article>`;
+</article>${
+    related.length
+      ? `<h2>相关推荐</h2>
+<ul class="grid">${related.map((it) => cardHtml(it, images, false, false)).join('')}</ul>`
+      : ''
+  }`;
 
   const canonicalPath = `/resource/${encodeURIComponent(item.id)}/`;
   const schemaType = SCHEMA_TYPE[item.category] || 'CreativeWork';
@@ -475,17 +511,18 @@ export function notFoundPage(ctx) {
   const picks = (indexAll || []).slice(0, 5);
   const grid = picks.length
     ? `<h2>最新入库</h2>
-<ul class="grid">${picks.map((it, i) => cardHtml(it, images, false, i < 5)).join('')}</ul>`
+<ul class="grid">${picks.map((it) => cardHtml(it, images, false, true)).join('')}</ul>`
     : '';
 
   // 全站出现频次最高的标签作为快捷搜索入口；同一分类最多占 2 个位置，
   // 否则热词会清一色来自收录最多的那个分类（电影），覆盖不到软件 / 电子书等
+  // 跨分类的标签按首次出现的分类归属，限流粒度因此是「主要分类」而非严格去重
   const tagStat = new Map();
   for (const it of indexAll || []) {
     for (const t of it.tags || []) {
-      const s = tagStat.get(t) || { n: 0, cat: it.category };
-      s.n++;
-      tagStat.set(t, s);
+      const s = tagStat.get(t);
+      if (s) s.n++;
+      else tagStat.set(t, { n: 1, cat: it.category });
     }
   }
   const perCat = new Map();
@@ -506,7 +543,6 @@ export function notFoundPage(ctx) {
     assetVersion: ctx.assetVersion,
     iconVersion: ctx.iconVersion,
     title: '页面不存在',
-    description: site.description,
     activeCat: '',
     categories,
     counts,
@@ -530,6 +566,90 @@ export function notFoundPage(ctx) {
   ${grid}
 </div>`,
     noindex: true,
+  });
+}
+
+/* ── 全量索引页 /all/ ─────────── */
+
+/**
+ * 全量索引页：把所有详情页的链接平铺成纯 HTML，按分类分组。
+ *
+ * 存在的理由（SEO）：列表页 HTML 里只渲染前 pageSize 张卡片，其余靠 JS 拉
+ * search-index.json 补齐——不执行 JS 的蜘蛛走到列表页就没有下一条路了
+ * （实测 Googlebot 只覆盖了 122 个资源页，而 Yandex 靠 sitemap 走了 514 个）。
+ * 这一页给蜘蛛一条「一次抓取即可走完全站」的通道，也不需要任何 JS。
+ */
+export function allPage(ctx) {
+  const { site, items, categories, counts, total, baseUrl } = ctx;
+
+  // 分类顺序沿用导航栏；site.yaml 里没列出的分类排在后面，保证这一页真的是「全量」
+  const order = [...(categories || [])];
+  const byCat = new Map(order.map((c) => [c, []]));
+  for (const it of items) {
+    if (!byCat.has(it.category)) {
+      order.push(it.category);
+      byCat.set(it.category, []);
+    }
+    byCat.get(it.category).push(it);
+  }
+  const groups = order.map((c) => ({ cat: c, list: byCat.get(c) })).filter((g) => g.list.length);
+
+  const row = (it) => {
+    const tags = (it.tags || []).filter((t) => t && t !== it.category);
+    return `<li><a href="/resource/${encodeURIComponent(it.id)}/">${esc(it.title)}</a>${
+      it.date ? `<span class="muted"> · ${esc(it.date)}</span>` : ''
+    }${tags.length ? `<span class="muted"> · ${tags.map(esc).join(' · ')}</span>` : ''}</li>`;
+  };
+
+  const body = `<nav class="crumb"><a href="/">首页</a><span>/</span><span>全部资源</span></nav>
+<h1 class="page__title page__title--doc">全部资源索引<span class="page__n">${total} 个资源</span></h1>
+<div class="card-page">
+  <p>这一页列出本站全部 <strong>${total}</strong> 个资源，按分类排列，点标题直接进入详情页。</p>
+${groups
+  .map(
+    (g) => `<h2>${esc(g.cat)}<span class="muted"> · ${g.list.length} 个</span></h2>
+<ul>
+${g.list.map(row).join('\n')}
+</ul>`
+  )
+  .join('\n')}
+</div>`;
+
+  return layout({
+    site,
+    assetVersion: ctx.assetVersion,
+    iconVersion: ctx.iconVersion,
+    title: '全部资源索引',
+    description: `${site.title}全部 ${total} 个资源的完整索引，按${(categories || []).join('、')}分类排列，一页直达所有资源详情页`,
+    activeCat: '',
+    categories,
+    counts,
+    total,
+    body,
+    baseUrl,
+    canonicalPath: '/all/',
+    footNavCurrent: '/all/',
+    wide: true,
+    keywords: `全部资源,资源索引,${(categories || []).join(',')},网盘资源`,
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      '@id': `${baseUrl}/all/#page`,
+      url: `${baseUrl}/all/`,
+      name: `全部资源索引 - ${site.title}`,
+      isPartOf: { '@id': `${baseUrl}/#website` },
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: total,
+        // 与列表页保持一致：结构化数据里只列前 30 条，全量链接靠正文的 <a> 给蜘蛛
+        itemListElement: items.slice(0, 30).map((it, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `${baseUrl}/resource/${encodeURIComponent(it.id)}/`,
+          name: it.title,
+        })),
+      },
+    },
   });
 }
 
@@ -764,7 +884,7 @@ function lastmodOf(item) {
 }
 
 /** 一组资源里最新的更新日期，用作首页 / 分类页的 lastmod */
-function lastmodOfList(list) {
+export function lastmodOfList(list) {
   return list.map(lastmodOf).filter(Boolean).sort().pop() || '';
 }
 

@@ -148,7 +148,10 @@
   function loadGlobalIndex(cb) {
     if (globalIndex || globalLoading) return cb && cb();
     globalLoading = true;
-    fetch('search-index.json')
+    // 必须写根绝对路径：写成 'search-index.json' 会相对当前页面解析，
+    // 在 /resource/<id>/、/category/<slug>/ 下变成 /resource/<id>/search-index.json → 404，
+    // 蜘蛛跟着渲染结果去抓就是一批纯浪费抓取预算的硬 404
+    fetch('/search-index.json')
       .then(function (r) { return r.json(); })
       .then(function (data) { globalIndex = data; globalLoading = false; cb && cb(); })
       .catch(function () { globalLoading = false; cb && cb(); });
@@ -156,8 +159,11 @@
 
   if (moreEl) moreEl.addEventListener('click', renderMore);
 
-  // 空闲时预取全站索引，让「加载更多」和搜索无需等待网络
-  window.addEventListener('load', function () { setTimeout(loadGlobalIndex, 1000); });
+  // 空闲时预取全站索引，让「加载更多」和搜索无需等待网络。
+  // 只在列表页（有 #list-data）预取：详情页用不上，省掉几百个页面的无谓请求
+  if (dataEl) {
+    window.addEventListener('load', function () { setTimeout(loadGlobalIndex, 1000); });
+  }
 
   if (input) {
     input.addEventListener('input', function () {
