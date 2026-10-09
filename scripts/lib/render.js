@@ -64,9 +64,9 @@ const footNav = (current = '') =>
 
 /** 页脚联系方式：site.yaml 的 contact 写成 { 平台: 账号或链接 }，留空整段则不渲染。
  *  页面上只显示图标，账号名写进 aria-label / title，不直接露出。
- *  larkName = site.yaml 的 larkGroup（飞书群名），有值时群名一并写进 title / aria-label。 */
-const contactItems = (contact, larkName = '') => {
-  const group = String(larkName || '').trim();
+ *  groupName = site.yaml 的 qqGroup（QQ 群名），有值时群名一并写进 title / aria-label。 */
+const contactItems = (contact, groupName = '') => {
+  const group = String(groupName || '').trim();
   return contact && typeof contact === 'object'
     ? Object.entries(contact)
         .filter(([, v]) => v && String(v).trim())
@@ -77,19 +77,19 @@ const contactItems = (contact, larkName = '') => {
           const isPath = /^\//.test(val);
           if (key === 'email' || key === '邮箱')
             return { label: '邮箱', icon: iconSvg('email'), href: `mailto:${val}`, text: val };
-          if (key === 'feishu' || key === 'lark' || key === '飞书群')
+          if (key === 'qq' || key === 'qq群' || key === 'qq group')
             return {
-              label: group ? `飞书群「${group}」` : '飞书群',
+              label: group ? `QQ群「${group}」` : 'QQ群',
               icon: iconSvg('group'),
               href: val,
-              text: `加入${group || '飞书群'}`,
+              text: `加入${group || 'QQ群'}`,
             };
           return { label: rawKey, href: isUrl || isPath ? val : '', text: val };
         })
     : [];
 };
-const contactHtml = (contact, larkName = '') => {
-  const items = contactItems(contact, larkName);
+const contactHtml = (contact, groupName = '') => {
+  const items = contactItems(contact, groupName);
   if (!items.length) return '';
   const links = items
     .map((i) => {
@@ -111,6 +111,17 @@ const emailOf = (contact) => {
   for (const [k, v] of Object.entries(contact)) {
     const key = String(k).trim().toLowerCase();
     if ((key === 'email' || key === '邮箱') && v && String(v).trim()) return String(v).trim();
+  }
+  return '';
+};
+
+/** 从 site.contact 里取 QQ 群链接（key 写 qq / qq群 / qq group），没有则返回空串 */
+const qqLinkOf = (contact) => {
+  if (!contact || typeof contact !== 'object') return '';
+  for (const [k, v] of Object.entries(contact)) {
+    const key = String(k).trim().toLowerCase();
+    if ((key === 'qq' || key === 'qq群' || key === 'qq group') && v && /^https?:/.test(String(v).trim()))
+      return String(v).trim();
   }
   return '';
 };
@@ -226,7 +237,7 @@ ${body}
   ${site.stats === 'local' ? STATS_HTML : ''}
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
-  ${contactHtml(site.contact, site.larkGroup)}
+  ${contactHtml(site.contact, site.qqGroup)}
 </footer>
 ${site.stats === 'local' ? STATS_SCRIPT : ''}
 <script src="/assets/app.js${v}" defer></script>
@@ -762,9 +773,11 @@ export function aboutPage(ctx) {
   const { site, categories, counts, total, items, baseUrl } = ctx;
   const updated = lastmodOfList(items);
   const newest = items.slice(0, 5);
-  /** 飞书群名（site.yaml 的 larkGroup），留空则回退为通用「飞书群」 */
-  const larkName = String(site.larkGroup || '').trim();
-  /** 备用邮箱（site.yaml 的 contact.邮箱），加不了飞书群时的兜底通道 */
+  /** QQ 群名（site.yaml 的 qqGroup），留空则回退为通用「QQ群」 */
+  const qqName = String(site.qqGroup || '').trim();
+  /** QQ 群链接（site.yaml 的 contact.qq / contact.qq群） */
+  const qqLink = qqLinkOf(site.contact);
+  /** 备用邮箱（site.yaml 的 contact.邮箱），加不了群时的兜底通道 */
   const contactEmail = emailOf(site.contact);
   const catRows = (categories || [])
     .map(
@@ -806,13 +819,16 @@ ${catRows}
   <p>${esc(site.disclaimer)}。本站不存储任何影片、软件或电子书本体，所有文件均存放在第三方网盘上；
   若你是版权方或发现链接失效，欢迎通过下方方式联系，我们会在核实后第一时间处理。</p>
 
-  <h2 id="lark-group">加入${larkName ? `「${esc(larkName)}」` : ''}飞书群</h2>
-  <p>有问题、想交流资源，或者发现链接失效？欢迎扫码加入${larkName ? `飞书群<strong>${esc(larkName)}</strong>` : '本站飞书群'}交流反馈。请注意：该群为<strong>企业内部群</strong>，仅同组织飞书账号可加入。</p>
-  <div class="lark-qr">
-    <img src="/lark-group.png" alt="${larkName ? `${esc(larkName)} ` : ''}飞书群二维码" width="260" height="260" loading="lazy">
-    <p class="muted">扫码加入${larkName ? `飞书群「${esc(larkName)}」` : '飞书群'} · 若提示“仅限企业内部成员”，说明当前飞书账号不在同一组织</p>
+  <h2 id="qq-group">加入${qqName ? `「${esc(qqName)}」` : ''}QQ群</h2>
+  <p>有问题、想交流资源，或者发现链接失效？欢迎扫码加入${qqName ? `QQ群<strong>${esc(qqName)}</strong>` : '本站QQ群'}交流反馈。</p>
+  <div class="qq-qr">
+    ${qqLink ? `<a href="${esc(qqLink)}" target="_blank" rel="noopener noreferrer">` : ''}
+    <img src="/qq-group.png" alt="${qqName ? `${esc(qqName)} ` : ''}QQ群二维码" width="260" height="260" loading="lazy">
+    ${qqLink ? '</a>' : ''}
+    <p class="muted">扫码加入${qqName ? `QQ群「${esc(qqName)}」` : 'QQ群'}</p>
   </div>
-  ${contactEmail ? `<p>加不了群也可以发邮件到 <a href="mailto:${esc(contactEmail)}">${esc(contactEmail)}</a>，我们同样会处理。</p>` : ''}
+  ${qqLink ? `<p>也可直接 <a href="${esc(qqLink)}" target="_blank" rel="noopener noreferrer">点击加入 QQ 群</a>。</p>` : ''}
+  ${contactEmail ? `<p>不方便加群也可以发邮件到 <a href="mailto:${esc(contactEmail)}">${esc(contactEmail)}</a>，我们同样会处理。</p>` : ''}
 
   <h2>订阅与推荐</h2>
   <p>新资源入库后可以 RSS 订阅，不必每天来刷页面：<a href="/rss/">查看 RSS 订阅方式与地址</a>。

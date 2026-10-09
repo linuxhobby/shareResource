@@ -287,13 +287,13 @@ write(
 );
 copyThemeAssets(themeDir, outDir);
 
-// 拷贝飞书群二维码：关于本站页展示大图，页脚通过 /about/#lark-group 轻量入口跳转
-const larkGroupSrc = path.join(staticDir, 'lark-group.png');
-const larkGroupDest = path.join(outDir, 'lark-group.png');
-if (fs.existsSync(larkGroupSrc)) {
-  fs.copyFileSync(larkGroupSrc, larkGroupDest);
+// 拷贝 QQ 群二维码：关于本站页展示大图，页脚通过 QQ 群链接轻量入口跳转
+const qqGroupSrc = path.join(staticDir, 'qq-group.png');
+const qqGroupDest = path.join(outDir, 'qq-group.png');
+if (fs.existsSync(qqGroupSrc)) {
+  fs.copyFileSync(qqGroupSrc, qqGroupDest);
 } else {
-  console.log('  ! 未找到 static/lark-group.png，关于本站页将不显示飞书群二维码');
+  console.log('  ! 未找到 static/qq-group.png，关于本站页将不显示 QQ 群二维码');
 }
 
 console.log(

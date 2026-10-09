@@ -163,7 +163,7 @@ export function loadSite(dataDir) {
     categories: Array.isArray(cfg.categories) ? cfg.categories.map(String) : [],
     icp: cfg.icp || '',
     contact: cfg.contact && typeof cfg.contact === 'object' ? cfg.contact : null,
-    larkGroup: cfg.larkGroup || '',
+    qqGroup: cfg.qqGroup || '',
     stats: cfg.stats || '',
     homeTitle: cfg.homeTitle || '',
     homeDesc: cfg.homeDesc || '',

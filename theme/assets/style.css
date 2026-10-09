@@ -258,8 +258,8 @@ mark {
 /* 内容页主标题与资源页标题共用同一档 */
 .page__title--doc { font-size: var(--fs-h1); }
 
-/* 飞书群二维码：关于本站页展示 */
-.lark-qr {
+/* QQ 群二维码：关于本站页展示 */
+.qq-qr {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -270,14 +270,14 @@ mark {
   border: 1px dashed var(--border);
   border-radius: var(--r-box);
 }
-.lark-qr img {
+.qq-qr img {
   display: block;
   max-width: 260px;
   width: 100%;
   height: auto;
   border-radius: var(--r-box);
 }
-.lark-qr .muted { margin: 0; font-size: var(--fs-sm); text-align: center; max-width: 260px; }
+.qq-qr .muted { margin: 0; font-size: var(--fs-sm); text-align: center; max-width: 260px; }
 
 /* RSS 订阅地址行：地址 + 复制按钮 */
 .feed-url {
