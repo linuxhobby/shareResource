@@ -58,8 +58,8 @@ const iconSvg = (key) =>
  * abs: true 的条目输出时拼上站点域名，写成完整网址。
  */
 const FOOT_NAV = [
-  { href: '/about/', label: '关于本站' },
   { href: '/', label: '网站首页', abs: true },
+  { href: '/about/', label: '关于本站' },
   // 全量索引页：每页底部都有一条入口，蜘蛛从任何一页都能走到全部详情页
   { href: '/all/', label: '全部资源' },
   { href: '/sitemap.xml', label: '网站地图', abs: true },
