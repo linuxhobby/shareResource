@@ -9,6 +9,10 @@ public.old/
 out/
 dist/
 
+# 搜索引擎站点验证文件：确认无误后下载到本地根目录，由 nginx 托管 + 不入库
+# （VPS 上放 /opt/seo/，nginx 映射成 /baidu_verify_*.html，避免被 atomic 发布清掉）
+baidu_verify_*.html
+
 # IndexNow 密钥：协议要求可公开访问，但值不入库（VPS 上放 /opt/indexnow/key.txt，由 nginx 映射成 /key.txt）
 static/key.txt
 
