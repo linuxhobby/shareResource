@@ -74,6 +74,7 @@ const CAT_STYLE = {
   动漫: { c1: '#b81a56', c2: '#ff9a4d', icon: 'bubble', en: 'ANIME', tex: 'burst' },
   游戏: { c1: '#511ec2', c2: '#f0569c', icon: 'pad', en: 'GAME', tex: 'pixels' },
   软件: { c1: '#22344c', c2: '#5b7ba6', icon: 'window', en: 'SOFTWARE', tex: 'grid' },
+  电子书: { c1: '#8a5a33', c2: '#e3b98f', icon: 'book', en: 'E-BOOK', tex: 'pages' },
   操作系统: { c1: '#123b5e', c2: '#57c7e8', icon: 'disc', en: 'OPERATING SYSTEM', tex: 'disc' },
   其他: { c1: '#6a5a4d', c2: '#b09881', icon: 'folder', en: 'MISC', tex: 'waves' },
 };
@@ -92,6 +93,9 @@ const ICONS = {
     '<rect x="14" y="20" width="68" height="56" rx="6"/><path fill="none" d="M14 38h68"/><circle cx="24" cy="29" r="3" fill="#fff" stroke="none"/><circle cx="36" cy="29" r="3" fill="#fff" stroke="none"/><path fill="none" d="M24 50h32M24 62h20" stroke-width="4"/>',
   folder:
     '<path d="M10 28a6 6 0 0 1 6-6h20l8 10h40a6 6 0 0 1 6 6v32a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6z"/><path fill="none" d="M10 46h76" stroke-width="3"/>',
+  // 电子书：摊开的书（两页 + 书脊）
+  book:
+    '<path d="M10 26c14-8 24-8 38 0v46c-14-8-24-8-38 0z"/><path d="M86 26c-14-8-24-8-38 0v46c14-8 24-8 38 0z"/><path fill="none" d="M48 26v46" stroke-width="4"/>',
   // 操作系统：光盘（镜像文件），中心孔 + 一道高光弧
   disc:
     '<circle cx="48" cy="48" r="34"/><circle cx="48" cy="48" r="12" fill="#fff" stroke="none"/><path fill="none" d="M24 24A34 34 0 0 1 77 31" stroke-width="4"/>',
@@ -146,6 +150,17 @@ const TEX = {
     for (let x = 30; x < PW; x += 40) s += `<path fill="none" d="M${x} 0V${PH}" stroke-width="2"/>`;
     for (let y = 30; y < PH; y += 40) s += `<path fill="none" d="M0 ${y}H${PW}" stroke-width="2"/>`;
     s += '<path fill="none" d="M80 112l-18 36 18 36" stroke-width="6"/><path fill="none" d="M160 112l18 36-18 36" stroke-width="6"/>';
+    return s;
+  },
+  // 电子书：书页上的文字行（长短交错，段落首行缩进）
+  pages() {
+    let s = '';
+    let k = 0;
+    for (let y = 10; y < PH; y += 18, k++) {
+      const indent = k % 5 === 0 ? 30 : 0;
+      const len = Math.max(46, PW - 40 - indent - (k % 3) * 16);
+      s += `<rect x="${20 + indent}" y="${y}" width="${len}" height="6" rx="3" stroke="none"/>`;
+    }
     return s;
   },
   // 其他：波浪

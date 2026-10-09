@@ -476,7 +476,7 @@ node tools/icon-poster.mjs --icon "<artworkUrl512>" --out static/images/app-005.
 
 ### 新增分类：占位海报记得一起补
 
-`scripts/lib/assets.js` 的 `CAT_STYLE` 目前收录 电影 / 电视剧 / 纪录片 / 动漫 / 游戏 / 软件 / 操作系统 / 其他 八个分类，每个配了渐变底色、徽章图标、专属底纹和英文副标题。**没收录的分类不会报错，但观感会塌一档**：按分类名派生色相，图标退回文件夹、底纹退回波浪、英文副标题留空（后加的 `电子书` 目前就是这种）。要补齐，在 `CAT_STYLE` 加一行（`c1` / `c2` / `icon` / `en` / `tex`），图标从 `ICONS` 里挑（`film` `tv` `globe` `bubble` `pad` `window` `disc` `folder`），不够就再加图标与底纹函数（`TEX`）。新增分类（如 2026-10-09 的 `操作系统`）记得顺手补上，否则新分类的占位海报一律是派生出来的文件夹样式。
+`scripts/lib/assets.js` 的 `CAT_STYLE` 目前收录 电影 / 电视剧 / 纪录片 / 动漫 / 游戏 / 软件 / 电子书 / 操作系统 / 其他 九个分类，每个配了渐变底色、徽章图标、专属底纹和英文副标题（`电子书` 于 2026-10-09 补齐，书棕渐变 + 摊开的书本图标 + 书页文字行底纹）。**没收录的分类不会报错，但观感会塌一档**：按分类名派生色相，图标退回文件夹、底纹退回波浪、英文副标题留空。要补齐，在 `CAT_STYLE` 加一行（`c1` / `c2` / `icon` / `en` / `tex`），图标从 `ICONS` 里挑（`film` `tv` `globe` `bubble` `pad` `window` `book` `disc` `folder`），底纹从 `TEX` 里挑（`perforation` `scanlines` `rings` `burst` `pixels` `grid` `pages` `disc` `waves`），不够就再加图标与底纹函数。新增分类（如 2026-10-09 的 `操作系统`）记得顺手补上，否则新分类的占位海报一律是派生出来的文件夹样式。
 
 缺图的回退顺序是：分类占位海报（`/img/placeholder-<分类>.svg`）→ 通用占位图（`/img/placeholder.svg`，只有分类未知时才走到）。曾有两条走占位图（`mv-240`、`app-080`），2026-10-08 已补齐，当前 0 条。
 
