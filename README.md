@@ -229,8 +229,6 @@ tail -3 /var/log/submit-indexnow.log    # 首次全量：本站 595 条 URL：�
 0 3 * * * /usr/local/bin/submit-indexnow >> /var/log/submit-indexnow.log 2>&1
 ```
 
-只推变化的 URL 是刻意的：IndexNow 官方建议仅在内容新增 / 变更时提交，天天全量推没有额外收益。要补推就 `ALL=1` 或 `SINCE=2026-10-01 submit-indexnow`；当天没有变更时脚本会写一条「无新增或变更」并直接退出，不会空推。
-
 方式 2 的 API 推送同样可以脚本化（脚本见 `deploy/submit-baidu.sh`）：
 
 ```bash
