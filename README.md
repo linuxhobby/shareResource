@@ -347,7 +347,7 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
 
 **id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件、`os-` 操作系统、`bk-` 电子书、`ot-` 其他，后接三位编号，与 `static/images/` 里的配图同名。
 
-**新增一个分类**：建 `data/<英文名>.yaml`（建议缩写，中文文件名在 Git 与命令行里会变成转义串），把分类名加进 `site.yaml` 的 `categories`，`npm run build` 即可。
+**新增一个分类**：只建 YAML 不够，站点侧 5 处 + skill 侧 2 处都要改，完整清单见 [经验总结](#新增分类一次要改的地方操作系统实例)。
 
 ### 配图规范
 
@@ -474,6 +474,46 @@ node tools/icon-poster.mjs --icon "<artworkUrl512>" --out static/images/app-005.
 
 中间还有一档可选：开源工具常能在 GitHub 上取到项目 / 组织头像当图标，`https://github.com/<org>.png?size=460` 直接取，别去猜组织的数字 ID，猜错会拿到完全不相干的头像。
 
+### 操作系统 / 发行版海报：官方标志从 simple-icons 取
+
+操作系统这一类（Windows、Ubuntu、Debian、Fedora…）的官方标志在应用商店里是找不到的，但 **simple-icons 有全套**，CDN 直取即可，取到后同样交给 `tools/icon-poster.mjs`：
+
+```bash
+# 1) 探活 + 取图（图标名 = 官方 slug，全小写、无空格）
+curl -s -o NUL -w '%{http_code}\n' https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/fedora.svg
+curl -sL https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/fedora.svg -o .tmp/fedora.svg
+
+# 2) simple-icons 是单色图标（用 currentColor），不改 fill 出来是一块黑：把 <path 统一加白色
+#    （批量：把文件内容里的 `<path` 替换成 `<path fill="#fff"`）
+
+# 3) 合成海报，渐变用发行版品牌色
+node tools/icon-poster.mjs --icon .tmp/fedora.svg --out static/images/os-003.jpg \
+  --title "Fedora 44" --sub "Workstation Live · x86_64" --c1 "#1b3a6b" --c2 "#5f9bd8"
+```
+
+四条要点：
+
+1. **必须改 `fill`**：simple-icons 的 `<path>` 不带 `fill`，默认就是黑色，直接送进海报会得到一个黑块。统一加 `fill="#fff"` 才是站内这套「白标 + 渐变底」的观感。
+2. 图标名按官方 slug 猜（`windows` `windows11` `ubuntu` `debian` `fedora` `linux`），取之前用 `-o NUL -w '%{http_code}'` 先探一次，404 就是名字不对。
+3. **配色跟着发行版品牌色走**：Debian 红、Fedora 蓝、Ubuntu 橙、Windows 深蓝。这样分类页里一排看下去，一眼能分辨是哪个发行版，比统一配色有用得多。
+4. 出图照样要逐张打开看一眼（本次 5 张全部确认过）：`--sub` 缺省时标题位置会下移，图标偏小、标题顶边这些只有看图才发现。
+
+### 新增分类：一次要改的地方（操作系统实例）
+
+2026-10-09 加「操作系统」时踩出来的清单，只建 YAML 会漏一半——漏项是静默的，构建不报错，但页面观感与后续入库会一路塌：
+
+| # | 位置 | 改什么 | 漏了会怎样 |
+|---|---|---|---|
+| 1 | `data/site.yaml` | `categories` 加分类名（顺序即分类栏顺序）；`slugs` 配英文别名 | 分类栏里排在末尾（未列出的按资源数倒序追加）；不配 `slugs` 时分类页 URL 用中文名，`/category/os/` 变成 `/category/操作系统/` |
+| 2 | `data/<英文>.yaml` | 建数据文件，英文 / 缩写命名 | 中文文件名在 Git 与命令行里会变成转义串 |
+| 3 | `scripts/new-resource.js` | `DATA_FILE` 加一行（分类名 → 英文基名） | `npm run new` 会按中文分类名建 `data/操作系统.yaml`，数据分散 |
+| 4 | `scripts/lib/assets.js` | `CAT_STYLE` 加占位海报样式（见下一节） | 新分类的缺图海报全是「派生色相 + 文件夹图标 + 波浪底纹」 |
+| 5 | 本文件 | 「配图规范」表格补一行图源与做法；「目录结构」的 `data/` 列表补一行 | 下次补图时不知道这一类该去哪儿找图 |
+| 6 | skill `scripts/scan-new.mjs` | `CATS` 加一行（`dir` / `key` / `prefix` / `file`） | SHARE 下该目录扫描时提示「站点无对应分类」，只列出不入库 |
+| 7 | skill `SKILL.md` | 分类 / 英文 / 数据文件对照表与同步步骤 | 自动化同步走老路径，新分类的资源扫不出来 |
+
+顺序建议：网盘目录先建好（skill 侧 6、7）→ 站点侧 1~5 → 再跑同步入库。
+
 ### 新增分类：占位海报记得一起补
 
 `scripts/lib/assets.js` 的 `CAT_STYLE` 目前收录 电影 / 电视剧 / 纪录片 / 动漫 / 游戏 / 软件 / 电子书 / 操作系统 / 其他 九个分类，每个配了渐变底色、徽章图标、专属底纹和英文副标题（`电子书` 于 2026-10-09 补齐，书棕渐变 + 摊开的书本图标 + 书页文字行底纹）。**没收录的分类不会报错，但观感会塌一档**：按分类名派生色相，图标退回文件夹、底纹退回波浪、英文副标题留空。要补齐，在 `CAT_STYLE` 加一行（`c1` / `c2` / `icon` / `en` / `tex`），图标从 `ICONS` 里挑（`film` `tv` `globe` `bubble` `pad` `window` `book` `disc` `folder`），底纹从 `TEX` 里挑（`perforation` `scanlines` `rings` `burst` `pixels` `grid` `pages` `disc` `waves`），不够就再加图标与底纹函数。新增分类（如 2026-10-09 的 `操作系统`）记得顺手补上，否则新分类的占位海报一律是派生出来的文件夹样式。
@@ -493,6 +533,20 @@ node tools/icon-poster.mjs --icon "<artworkUrl512>" --out static/images/app-005.
 真正会先到的是**仓库体积**（`.git` 68 MB，图片占大头，每入库一条再加约 84 KB）：到 2000 条左右就是 170 MB 起步，届时该做的是图片独立仓库 / git-lfs / 对象存储，拆目录解决不了这个。
 
 触发条件（满足其一再回头动源目录）：① 需要批量重做某一分类的海报（补软件图标、换书封），顺手分桶；② 仓库体积明显影响 clone。做的时候目录名沿用 `DATA_FILE` 的英文基名（`movie` `tv` `documentary` `anime` `game` `software` `os` `ebook` `misc`），并补一条「构建前校验 `image` 文件必须存在」的硬检查。
+
+### 非影视资源的 `date`：填版本发布时间，别拍脑袋
+
+`date` 是资源自身的发布 / 发行日期，`added` 是入库时间，两者别混。影视类能从 TMDB 直接拿到；非影视类（软件 / 操作系统 / 电子书）**必须核实过再填**：
+
+| 坑 | 本次实例 |
+|---|---|
+| 构建号不等于版本通道 | Windows `26300.9457` 属于 **26H2 正式版**（年度功能更新的正式通道），不是 Insider 预览构建。写成「Insider 预览」等于把正式版说成测试版 |
+| 点版本号要对齐点版本的日期 | Debian 13.7 是 trixie 的第 7 个点版本（2026-09-12），不能拿 13.0 的发布时间顶上 |
+| 目录内容与简介要一致 | `004-debian` 目录里只有 `.torrent` 种子、没有 ISO 本体，简介就写清「当前是种子」，别写成「官方 DVD 镜像」 |
+
+查不到确切日期时联网核一次（本次 5 条里 4 条都核过）；宁可 `date` 留空，也别填一个「差不多」的日期——详情页显示的就是这个字段，填错比不填更糟。
+
+配套做法一条：网盘目录**为空也照样出链入库**（`005-ubuntu` 当时就是空目录，资源可能还在上传）。分享链接是长期有效的，资源转存进去后同一条链接直接生效，不用回头改 YAML。
 
 ### 剧情简介：别照抄 TMDB，正文不低于 300 字
 
@@ -641,6 +695,8 @@ curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://wodewangpan.top
 | 配图规范 | 本文件 | 「配图规范」表格补一行：操作系统用各发行版 / 系统官方标志 + `tools/icon-poster.mjs` 合成 480×720 |
 
 首轮入库 5 条：`os-001` Windows 10 企业版 LTSC 2019、`os-002` Windows 11 26H2 中文版、`os-003` Fedora 44 Workstation、`os-004` Debian 13.7、`os-005` Ubuntu。海报用各发行版官方标志合成并逐张打开确认；`date` 填各版本发布时间（Debian 13.7 是 trixie 的 2026-09-12 点版本，`26300.9457` 是 Win11 26H2 正式版 ISO 而非 Insider 构建）。`005-ubuntu` 当时目录为空，先占位置，资源转存进来后同一条分享链接即生效。
+
+本次同步沉淀的操作经验也一并进了「经验总结」：[新增分类一次要改的地方](#新增分类一次要改的地方操作系统实例)、[操作系统 / 发行版海报取图](#操作系统--发行版海报官方标志从-simple-icons-取)、[非影视资源 `date` 的核实口径](#非影视资源的-date填版本发布时间别拍脑袋)。
 
 一条实测纠正：夸克目录的 **FID 每次 browse 都会轮换**（同一目录连查两次，5 个条目的 FID 全不一样，变的是 `|` 前面那一段，`|` 后面那个 ID 段始终不变；重命名前后对比也是同样结果，连没改名的目录都跟着变）。此前记的「改名不改 fid」不成立。所以顺序必须是「先重命名 → 重新 `browse` 拿最新 FID → 再出链」，用旧 FID 出链会报 `code 21001 文件找不到`。同步 skill 的 `process-batch.mjs` / `app-batch.mjs` 已在 rename 与 share 之间加了刷新这一步。
 
