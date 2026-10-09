@@ -595,6 +595,8 @@ node …/check-desc.mjs --show                                            # 连�
 
 另清掉 skill 目录里夸克 CLI 的写权限探针残留（`.quarkclouddrive/`，会落在脚本执行时的 cwd 下），并加进 `.gitignore`。
 
+2026-10-09 把 skill 的配置读取收敛成单一入口（skill 升到 `1.9`）：新增 `scripts/lib/config.mjs`，12 个脚本原先各写一遍「读 `config.env` → 拆 key=value」，现在统一 `import { cfg, requireCfg, SKILL, CACHE, TMP } from './lib/config.mjs'`。取值优先级 **环境变量 > `config.env` > 自动探测**：`REPO` / `QUARK_CLI` 留空也能自动找到（仓库按 `data/site.yaml` 命中，CLI 认 `~/.workbuddy` 与 `~/.codebuddy` 两处），凭据可以不落盘（改走 `TMDB_TOKEN` / `QUARK_REPO` / `QUARK_SHARE_FID` / `QUARK_CLI` / `QUARK_PROXY`），路径支持 `~` 展开。缺关键配置时脚本直接退出给补齐提示，不再带着空值跑一半才炸。排障入口：`node scripts/lib/config.mjs`（只打印来源与长度，不打印值）。顺带把各脚本里手写的 `os.homedir()` / `os.tmpdir()` 拼路径换成 `CACHE` / `TMP`，`install.mjs` 安装完会提示这几项可留空自动探测。
+
 ## SEO建议优化
 
 SEO 相关的建议、复核结论与执行记录写在这里。本节按「蜘蛛日志 → 关键发现 → 建议复核 → 已执行 → 待观察」组织：新建议先记在**建议复核**里并注明是否采纳，落地后搬进**已执行**，改了 robots / sitemap / 站点结构记得同步更新。
