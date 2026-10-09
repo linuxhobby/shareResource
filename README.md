@@ -358,7 +358,7 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
 | 电影 / 电视剧 / 纪录片 / 动漫 | TMDB 海报 `https://image.tmdb.org/t/p/w500/<path>.jpg`（500×750） |
 | 游戏 | Steam 竖版封面 `https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/library_600x900_2x.jpg` |
 | 软件 | 应用商店官方图标，用 `tools/icon-poster.mjs` 合成 480×720，做法见 [经验总结](#经验总结) |
-| 操作系统 | 各发行版 / 系统官方标志（Windows、Ubuntu、Debian、Fedora 等都有公开 logo），同样用 `tools/icon-poster.mjs` 合成 480×720 |
+| 操作系统 | simple-icons 官方标志（CDN 直取，`cdn.jsdelivr.net/npm/simple-icons@latest/icons/<slug>.svg`，Windows / Ubuntu / Debian / Fedora 等都有），同样用 `tools/icon-poster.mjs` 合成 480×720（脚本会自动给单色 SVG 补白色 `fill`） |
 | 其他（音频 / 课程等） | 没有官方图标来源，同样用 `tools/icon-poster.mjs` 合成 480×720（拿品牌图标或自绘线条图标） |
 | 电子书 | 豆瓣图书封面，用 `tools/book-cover-douban.mjs` 抓取（约 500×750），做法见 [经验总结](#经验总结) |
 | 电子书（套装 / 合辑） | 豆瓣没有对应单册封面，用 `tools/set-poster.mjs` 自制 480×720 深色封面，见 [经验总结](#经验总结) |
@@ -582,6 +582,8 @@ node …/check-desc.mjs --show                                            # 连�
 ## SKILL 变更
 
 本 README 的规范同时被夸克同步 skill 复用（位置 `~/.workbuddy/skills/quark-resource-sync/`），改这里的任一条都要同步改 skill 与仓库脚本。
+
+2026-10-09 把「经验总结」里配图与 `date` 两类经验沉淀进 skill 与脚本（skill 升到 `1.7`）：skill 第 5 步原来只写「软件 / 音频按四档降级找图标」，现在改成**按分类选图源的决策表**（TMDB / Steam / App Store / simple-icons / 豆瓣），并把操作系统的 simple-icons 档补成独立的 ② 档；`tools/icon-poster.mjs` 增加了**单色 SVG 自动补 `fill`**（`--svg-fill`，默认 `#fff`）：simple-icons 这类 `<path>` 不带 `fill` 的图标以前直接送进去会渲染成黑块，现在贴官方标志即可出图，不必再手工改 SVG。同批进 skill 的还有「新增分类两边都要改」的 7 项清单、非影视资源 `date` 的核实口径（构建号 ≠ 版本通道、点版本对齐点版本日期）、空目录也出链入库，见 `references/site-schema.md` 的图片一节。
 
 2026-10-09 修正一条 skill 侧的错误规则：原写「改名不改 fid，出链可直接用原 fid」，实测**fid 每次 browse 都会轮换**（同一目录连查两次全部不同，变的是 `|` 前那一段）。已改 skill 第 3 步 / 第 4 步的说明，并在 `process-batch.mjs`、`app-batch.mjs` 的 rename 与 share 之间加了 fid 刷新（重新 browse 分类目录，按新目录名取最新 fid）；仓库侧无对应实现，不受影响。
 

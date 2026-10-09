@@ -1,14 +1,23 @@
 #!/usr/bin/env node
-// 把方形应用图标合成为 2:3 竖版资源海报，供软件 / 音频等没有 TMDB 海报的资源使用。
+// 把方形图标合成为 2:3 竖版资源海报，供软件 / 操作系统 / 音频等没有 TMDB 海报的资源使用。
 // 输出图直接放进 static/images/，写法与普通海报一致（如 image: app-005.jpg）。
 //
 // 用法：
 //   node tools/icon-poster.mjs --icon <本地文件|图片URL> --out static/images/app-005.jpg \
 //     [--title "AdGuard"] [--sub "广告拦截 · 隐私保护"] [--c1 "#2f8f5b"] [--c2 "#7ccb95"]
 //
-// 图标来源建议：Mac App Store / App Store 的 iTunes Search API（官方图标，无需鉴权）：
-//   curl -s "https://itunes.apple.com/search?term=AdGuard&entity=macSoftware&country=cn&limit=5"
-//   取结果的 artworkUrl512
+// 图标来源（按分类选，详见站点 README「配图规范」与「经验总结」）：
+//   软件：Mac App Store / App Store 的 iTunes Search API（官方图标，无需鉴权）
+//     curl -s "https://itunes.apple.com/search?term=AdGuard&entity=macSoftware&country=cn&limit=5"
+//     取结果的 artworkUrl512（limit 给 3~5 条，比对 trackName / sellerName / bundleId 再取，别用第一条）
+//   操作系统 / 发行版 / 技术品牌：simple-icons（单色官方标志，CDN 直取）
+//     curl -sL https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/fedora.svg -o .tmp/fedora.svg
+//     这类 SVG 的 <path> 不带 fill，本脚本会在 <svg> 根元素补 --svg-fill（默认 #fff），
+//     否则渲染出来是一块黑。配色跟发行版品牌色走（Debian 红 / Fedora 蓝 / Ubuntu 橙 / Windows 深蓝）。
+//   其它：GitHub 组织头像 https://github.com/<org>.png?size=460，或自绘 512×512 白色线性图标。
+//
+// 出图后务必打开看一眼再入库：标题过长会顶边、--sub 缺省时标题位置下移、图标偏小，
+// 这些都只有看图才发现（脚本只打印尺寸）。
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
@@ -39,9 +48,21 @@ const c2 = arg('c2', '#7ccb95');
 // 图标圆角半径，取图标边长的百分比（0 = 不裁；App Store 的 iOS 图标是直角方形，一般给 22）
 const radiusPct = Math.max(0, Math.min(50, Number(arg('radius', '0')) || 0));
 
-const src = /^https?:/.test(icon)
+let src = /^https?:/.test(icon)
   ? Buffer.from(await (await fetch(icon)).arrayBuffer())
   : fs.readFileSync(icon);
+
+// 单色 SVG（simple-icons 这类，<path> 不带 fill）默认渲染成黑块。SVG 的 fill 可继承，
+// 所以在根元素上补一个 --svg-fill 即可；图标自带 fill 的子元素会覆盖它，不受影响。
+// 想保留原色就显式传 --svg-fill（如 --svg-fill black）。
+const svgFill = String(arg('svg-fill', '#fff')).replace(/"/g, '');
+if (svgFill && /<svg[\s>]/i.test(src.toString('utf8').slice(0, 4096))) {
+  const text = src.toString('utf8');
+  const tag = text.match(/<svg(?:\s[^>]*)?>/i);
+  if (tag && !/\sfill\s*=/i.test(tag[0])) {
+    src = Buffer.from(text.replace(tag[0], tag[0].replace(/<svg/i, `<svg fill="${svgFill}"`)));
+  }
+}
 
 const bg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <defs>
