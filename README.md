@@ -262,6 +262,7 @@ data/                # 一个分类一个 YAML（英文文件名），构建时�
   anime.yaml         # 动漫
   game.yaml          # 游戏
   software.yaml      # 软件
+  os.yaml            # 操作系统
   ebook.yaml         # 电子书
   misc.yaml          # 其他
 static/
@@ -344,7 +345,7 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
       code: ab12
 ```
 
-**id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件、`bk-` 电子书、`ot-` 其他，后接三位编号，与 `static/images/` 里的配图同名。
+**id 规则**：`mv-` 电影、`tv-` 电视剧、`dc-` 纪录片、`an-` 动漫、`game-` 游戏、`app-` 软件、`os-` 操作系统、`bk-` 电子书、`ot-` 其他，后接三位编号，与 `static/images/` 里的配图同名。
 
 **新增一个分类**：建 `data/<英文名>.yaml`（建议缩写，中文文件名在 Git 与命令行里会变成转义串），把分类名加进 `site.yaml` 的 `categories`，`npm run build` 即可。
 
@@ -357,6 +358,7 @@ pageSize: 35                         # 首屏渲染条数；构建时内联前 p
 | 电影 / 电视剧 / 纪录片 / 动漫 | TMDB 海报 `https://image.tmdb.org/t/p/w500/<path>.jpg`（500×750） |
 | 游戏 | Steam 竖版封面 `https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/library_600x900_2x.jpg` |
 | 软件 | 应用商店官方图标，用 `tools/icon-poster.mjs` 合成 480×720，做法见 [经验总结](#经验总结) |
+| 操作系统 | 各发行版 / 系统官方标志（Windows、Ubuntu、Debian、Fedora 等都有公开 logo），同样用 `tools/icon-poster.mjs` 合成 480×720 |
 | 其他（音频 / 课程等） | 没有官方图标来源，同样用 `tools/icon-poster.mjs` 合成 480×720（拿品牌图标或自绘线条图标） |
 | 电子书 | 豆瓣图书封面，用 `tools/book-cover-douban.mjs` 抓取（约 500×750），做法见 [经验总结](#经验总结) |
 | 电子书（套装 / 合辑） | 豆瓣没有对应单册封面，用 `tools/set-poster.mjs` 自制 480×720 深色封面，见 [经验总结](#经验总结) |
@@ -474,7 +476,7 @@ node tools/icon-poster.mjs --icon "<artworkUrl512>" --out static/images/app-005.
 
 ### 新增分类：占位海报记得一起补
 
-`scripts/lib/assets.js` 的 `CAT_STYLE` 目前收录 电影 / 电视剧 / 纪录片 / 动漫 / 游戏 / 软件 / 其他 七个分类，每个配了渐变底色、徽章图标、专属底纹和英文副标题。**没收录的分类不会报错，但观感会塌一档**：按分类名派生色相，图标退回文件夹、底纹退回波浪、英文副标题留空（后加的 `电子书` 目前就是这种）。要补齐，在 `CAT_STYLE` 加一行（`c1` / `c2` / `icon` / `en` / `tex`），图标从 `ICONS` 里挑（`film` `tv` `globe` `bubble` `pad` `window` `folder`），不够就再加图标与底纹函数（`TEX`）。
+`scripts/lib/assets.js` 的 `CAT_STYLE` 目前收录 电影 / 电视剧 / 纪录片 / 动漫 / 游戏 / 软件 / 操作系统 / 其他 八个分类，每个配了渐变底色、徽章图标、专属底纹和英文副标题。**没收录的分类不会报错，但观感会塌一档**：按分类名派生色相，图标退回文件夹、底纹退回波浪、英文副标题留空（后加的 `电子书` 目前就是这种）。要补齐，在 `CAT_STYLE` 加一行（`c1` / `c2` / `icon` / `en` / `tex`），图标从 `ICONS` 里挑（`film` `tv` `globe` `bubble` `pad` `window` `disc` `folder`），不够就再加图标与底纹函数（`TEX`）。新增分类（如 2026-10-09 的 `操作系统`）记得顺手补上，否则新分类的占位海报一律是派生出来的文件夹样式。
 
 缺图的回退顺序是：分类占位海报（`/img/placeholder-<分类>.svg`）→ 通用占位图（`/img/placeholder.svg`，只有分类未知时才走到）。曾有两条走占位图（`mv-240`、`app-080`），2026-10-08 已补齐，当前 0 条。
 

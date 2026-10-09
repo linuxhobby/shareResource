@@ -74,6 +74,7 @@ const CAT_STYLE = {
   动漫: { c1: '#b81a56', c2: '#ff9a4d', icon: 'bubble', en: 'ANIME', tex: 'burst' },
   游戏: { c1: '#511ec2', c2: '#f0569c', icon: 'pad', en: 'GAME', tex: 'pixels' },
   软件: { c1: '#22344c', c2: '#5b7ba6', icon: 'window', en: 'SOFTWARE', tex: 'grid' },
+  操作系统: { c1: '#123b5e', c2: '#57c7e8', icon: 'disc', en: 'OPERATING SYSTEM', tex: 'disc' },
   其他: { c1: '#6a5a4d', c2: '#b09881', icon: 'folder', en: 'MISC', tex: 'waves' },
 };
 
@@ -91,6 +92,9 @@ const ICONS = {
     '<rect x="14" y="20" width="68" height="56" rx="6"/><path fill="none" d="M14 38h68"/><circle cx="24" cy="29" r="3" fill="#fff" stroke="none"/><circle cx="36" cy="29" r="3" fill="#fff" stroke="none"/><path fill="none" d="M24 50h32M24 62h20" stroke-width="4"/>',
   folder:
     '<path d="M10 28a6 6 0 0 1 6-6h20l8 10h40a6 6 0 0 1 6 6v32a6 6 0 0 1-6 6H16a6 6 0 0 1-6-6z"/><path fill="none" d="M10 46h76" stroke-width="3"/>',
+  // 操作系统：光盘（镜像文件），中心孔 + 一道高光弧
+  disc:
+    '<circle cx="48" cy="48" r="34"/><circle cx="48" cy="48" r="12" fill="#fff" stroke="none"/><path fill="none" d="M24 24A34 34 0 0 1 77 31" stroke-width="4"/>',
 };
 
 /** 分类专属底纹（240×360 坐标系，画在渐变底之上） */
@@ -149,6 +153,17 @@ const TEX = {
     let s = '';
     for (let k = 0; k < 5; k++)
       s += `<path fill="none" d="M-20 ${46 + k * 64}q30 -22 60 0t60 0t60 0t60 0t60 0" stroke-width="3"/>`;
+    return s;
+  },
+  // 操作系统：光盘同心纹 + 一圈点位
+  disc() {
+    let s = '';
+    for (const r of [70, 120, 170])
+      s += `<circle cx="${PW / 2}" cy="148" r="${r}" fill="none" stroke-width="2"/>`;
+    for (let i = 0; i < 8; i++) {
+      const a = (i * 45 * Math.PI) / 180;
+      s += `<circle cx="${(PW / 2 + Math.cos(a) * 145).toFixed(1)}" cy="${(148 + Math.sin(a) * 145).toFixed(1)}" r="4" stroke="none"/>`;
+    }
     return s;
   },
 };

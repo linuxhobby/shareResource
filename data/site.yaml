@@ -13,6 +13,7 @@ categories:
   - 动漫
   - 游戏
   - 软件
+  - 操作系统
   - 电子书
   - 其他
 # 分类 → URL 别名（可选）：页面的分类路径用这里的英文名，没配的分类仍用分类名
@@ -24,6 +25,7 @@ slugs:
   动漫: anime
   游戏: game
   软件: software
+  操作系统: os
   电子书: ebook
   其他: misc
 # 页脚访问统计：local = 本地统计（VPS 解析 nginx 日志生成 /stats.json，不依赖第三方）；
