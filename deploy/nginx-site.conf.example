@@ -55,6 +55,11 @@ server {
     # IndexNow 密钥（钥匙串方式向 Bing 等实时递交 URL，可删）
     location = /key.txt { alias /opt/indexnow/key.txt; default_type text/plain; }
 
+    # 搜索引擎的站点验证文件（百度 / 必应等），同样放构建目录外、由 nginx 直接托管。
+    # 别放进 static/ 或 public/：站点是构建到 public.new 再整目录换过去的，
+    # 任何不在构建产物里的文件都会在下一次发布时被 rm -rf public.old 清掉。
+    # location = /baidu_verify_xxxxxxxx.html { alias /opt/seo/baidu_verify_xxxxxxxx.html; default_type text/html; }
+
     error_page 404 /404.html;
 
     location /.well-known/acme-challenge/ { root /var/www/html; }
