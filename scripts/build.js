@@ -29,7 +29,7 @@ import {
   notFoundPage,
   sitemapXml,
   lastmodOfList,
-  esc,
+  catFeedHref,
 } from './lib/render.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -47,6 +47,26 @@ const outDir = path.join(root, outDirName);
 function write(file, content) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content);
+}
+
+/**
+ * 清理目录里的遗留文件：keep(name) 返回 true 的保留，其余删除。
+ * 删除失败只计数不抛出——目录残留影响不了访问，不能让构建中断。
+ */
+function prune(dir, keep) {
+  let removed = 0;
+  let failed = 0;
+  if (!fs.existsSync(dir)) return { removed, failed };
+  for (const name of fs.readdirSync(dir)) {
+    if (keep(name)) continue;
+    try {
+      fs.rmSync(path.join(dir, name), { recursive: true, force: true });
+      removed++;
+    } catch {
+      failed++;
+    }
+  }
+  return { removed, failed };
 }
 
 /**
@@ -94,16 +114,7 @@ const keepIds = new Set(items.map((i) => i.id));
 const keepCats = new Set(categories.map(categorySlug));
 let staleFailed = 0;
 for (const [sub, keep] of [['resource', keepIds], ['category', keepCats]]) {
-  const dir = path.join(outDir, sub);
-  if (!fs.existsSync(dir)) continue;
-  for (const name of fs.readdirSync(dir)) {
-    if (keep.has(name)) continue;
-    try {
-      fs.rmSync(path.join(dir, name), { recursive: true, force: true });
-    } catch {
-      staleFailed++;
-    }
-  }
+  staleFailed += prune(path.join(outDir, sub), (name) => keep.has(name)).failed;
 }
 if (staleFailed) {
   console.log(`  ! ${staleFailed} 个旧目录未能清理（不影响访问）；可手动执行 rm -rf ${outDirName} 后重新构建`);
@@ -128,19 +139,11 @@ if (missing) console.log(`  · ${missing} 条缺少配图，使用占位图`);
 // 配图尺寸调整后（例如详情页不再单独出 180 宽），旧宽度的文件会一直躺在 public/img
 // 里越积越多，这里按当前宽度集合清理掉遗留版本
 {
-  const imgDir = path.join(outDir, 'img');
   const keepW = new Set(POSTER_WIDTHS.map(String));
-  let staleImg = 0;
-  for (const name of fs.existsSync(imgDir) ? fs.readdirSync(imgDir) : []) {
+  const { removed: staleImg } = prune(path.join(outDir, 'img'), (name) => {
     const m = /^(.*)-(\d+)\.(?:webp|jpe?g|png|avif|gif|svg)$/i.exec(name);
-    if (!m || keepW.has(m[2])) continue;
-    try {
-      fs.rmSync(path.join(imgDir, name));
-      staleImg++;
-    } catch {
-      /* 清理失败不影响访问 */
-    }
-  }
+    return !m || keepW.has(m[2]);
+  });
   if (staleImg) console.log(`  · 已清理 ${staleImg} 个旧尺寸配图（当前生成宽度：${POSTER_WIDTHS.join('/')}）`);
 }
 
@@ -208,12 +211,18 @@ const ctxBase = {
   shareImage,
 };
 
+// 列表页与分类 RSS 各自都要按分类取子集，分组一次省掉两遍 filter
+const byCat = new Map(categories.map((c) => [c, []]));
+for (const it of items) {
+  if (!byCat.has(it.category)) byCat.set(it.category, []);
+  byCat.get(it.category).push(it);
+}
+
 console.log('生成列表页…');
-write(path.join(outDir, 'index.html'), listPage({ ...ctxBase, items, activeCat: '', pageSize: site.pageSize }));
+write(path.join(outDir, 'index.html'), listPage({ ...ctxBase, activeCat: '', pageSize: site.pageSize }));
 for (const cat of categories) {
-  const list = items.filter((i) => i.category === cat);
   const file = path.join(outDir, 'category', categorySlug(cat), 'index.html');
-  write(file, listPage({ ...ctxBase, items: list, activeCat: cat, pageSize: site.pageSize }));
+  write(file, listPage({ ...ctxBase, items: byCat.get(cat), activeCat: cat, pageSize: site.pageSize }));
 }
 
 console.log('生成详情页…');
@@ -227,8 +236,8 @@ for (const item of items) {
 console.log('生成关于本站 / RSS 页面…');
 // 全量索引页：蜘蛛不用执行 JS 就能走完全部详情页的通道（列表页首屏之外的内容靠 JS 补齐）
 write(path.join(outDir, 'all', 'index.html'), allPage(ctxBase));
-write(path.join(outDir, 'about', 'index.html'), aboutPage({ ...ctxBase, items }));
-write(path.join(outDir, 'rss', 'index.html'), rssPage({ ...ctxBase, items }));
+write(path.join(outDir, 'about', 'index.html'), aboutPage(ctxBase));
+write(path.join(outDir, 'rss', 'index.html'), rssPage(ctxBase));
 
 // RSS 源：全站一份 + 每个分类一份，条目里带上配图与转存链接
 /** 给 feed 用的资源视图（补上绝对配图路径） */
@@ -247,15 +256,14 @@ write(
 );
 for (const cat of categories) {
   const list = feedItems.filter((i) => i.category === cat);
-  const catPath = `/category/${encodeURIComponent(categorySlug(cat))}/feed.xml`;
   write(
-    path.join(path.join(outDir, 'category', categorySlug(cat)), 'feed.xml'),
+    path.join(outDir, 'category', categorySlug(cat), 'feed.xml'),
     feedXml({
       site,
       items: list,
       baseUrl,
       categories: [cat],
-      feedPath: catPath,
+      feedPath: catFeedHref(cat),
       title: `${site.title} · ${cat}`,
       description: `${site.title}的${cat}分类，共 ${list.length} 个资源`,
     })
@@ -299,4 +307,4 @@ if (fs.existsSync(qqGroupSrc)) {
 console.log(
   `\n完成：${total} 个资源 · ${categories.length} 个分类 · ${((Date.now() - t0) / 1000).toFixed(1)}s\n输出目录：${outDirName}/`
 );
-console.log(`本地预览：npm run serve  → http://localhost:4321  （站点：${esc(site.title)}）`);
+console.log(`本地预览：npm run serve  → http://localhost:4321  （站点：${site.title}）`);

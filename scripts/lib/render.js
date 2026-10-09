@@ -35,32 +35,61 @@ const STATS_SCRIPT = `<script>
 
 /** 平台图标：24×24 视口，fill currentColor（页脚只出图标，不出账号文字）。 */
 const ICONS = {
+  // 邮箱：Lucide 图标库的 mail（ISC 协议），24×24 描边信封
   email:
-    '<path d="M3 6.5h18v11H3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3.7 7.2 8.3 6 8.3-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
-  group:
-    '<path d="M4 10a6 6 0 0 1 12 0v3a6 6 0 0 1-12 0v-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 16 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+    '<g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+    '<rect x="2" y="4" width="20" height="16" rx="2"/>' +
+    '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>' +
+    '</g>',
+  // QQ：官方品牌图标（企鹅剪影），取自 Simple Icons（CC0 协议），24×24 视口实心路径
+  qq:
+    '<path d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"/>',
 };
 const iconSvg = (key) =>
   ICONS[key]
     ? `<svg class="foot__icon" viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">${ICONS[key]}</svg>`
     : '';
 
-/** 页脚导航：全站每页底部的固定入口 */
+/**
+ * 页脚导航：全站每页底部的固定入口。
+ * href 写站内路径（同时用于 aria-current 比对）；
+ * abs: true 的条目输出时拼上站点域名，写成完整网址。
+ */
 const FOOT_NAV = [
-  { href: '/', label: '网站首页' },
+  { href: '/about/', label: '关于本站' },
+  { href: '/', label: '网站首页', abs: true },
   // 全量索引页：每页底部都有一条入口，蜘蛛从任何一页都能走到全部详情页
   { href: '/all/', label: '全部资源' },
-  { href: '/about/', label: '关于本站' },
-  { href: '/sitemap.xml', label: '网站地图' },
+  { href: '/sitemap.xml', label: '网站地图', abs: true },
   { href: '/rss/', label: 'RSS订阅' },
 ];
-const footNav = (current = '') =>
+const footNav = (current = '', baseUrl = '') =>
   `<nav class="foot__nav" aria-label="站点导航">${FOOT_NAV.map(
     (i, n) =>
-      `${n ? '<span class="foot__sep" aria-hidden="true">|</span>' : ''}<a href="${esc(i.href)}"${
-        i.href === current ? ' aria-current="page"' : ''
-      }>${esc(i.label)}</a>`
+      `${n ? '<span class="foot__sep" aria-hidden="true">|</span>' : ''}<a href="${esc(
+        i.abs && baseUrl ? `${baseUrl}${i.href}` : i.href
+      )}"${i.href === current ? ' aria-current="page"' : ''}>${esc(i.label)}</a>`
   ).join('')}</nav>`;
+
+/** contact 的 key 允许中英多写法（email / 邮箱、qq / qq群），统一转小写后比对 */
+const EMAIL_KEY = /^(email|邮箱)$/;
+const QQ_KEY = /^(qq|qq群|qq group)$/;
+const HTTP_RE = /^https?:/;
+const PATH_RE = /^\//;
+
+/** 在 site.contact 里按 key 取第一个非空值；accept 可再加一道值校验（如必须是链接） */
+function contactValue(contact, keyRe, accept = () => true) {
+  if (!contact || typeof contact !== 'object') return '';
+  for (const [k, v] of Object.entries(contact)) {
+    const val = String(v ?? '').trim();
+    if (val && keyRe.test(String(k).trim().toLowerCase()) && accept(val)) return val;
+  }
+  return '';
+}
+/** 备用邮箱（key 写 email 或 邮箱 都认），没有则返回空串 */
+const emailOf = (contact) => contactValue(contact, EMAIL_KEY);
+/** QQ 群加入链接（key 写 qq / qq群 / qq group，且必须是个网址），没有则返回空串 */
+const qqLinkOf = (contact) => contactValue(contact, QQ_KEY, (v) => HTTP_RE.test(v));
 
 /** 页脚联系方式：site.yaml 的 contact 写成 { 平台: 账号或链接 }，留空整段则不渲染。
  *  页面上只显示图标，账号名写进 aria-label / title，不直接露出。
@@ -73,18 +102,20 @@ const contactItems = (contact, groupName = '') => {
         .map(([rawKey, rawVal]) => {
           const key = String(rawKey).trim().toLowerCase();
           const val = String(rawVal).trim();
-          const isUrl = /^https?:/.test(val);
-          const isPath = /^\//.test(val);
-          if (key === 'email' || key === '邮箱')
+          if (EMAIL_KEY.test(key))
             return { label: '邮箱', icon: iconSvg('email'), href: `mailto:${val}`, text: val };
-          if (key === 'qq' || key === 'qq群' || key === 'qq group')
+          if (QQ_KEY.test(key))
             return {
               label: group ? `QQ群「${group}」` : 'QQ群',
-              icon: iconSvg('group'),
+              icon: iconSvg('qq'),
               href: val,
               text: `加入${group || 'QQ群'}`,
             };
-          return { label: rawKey, href: isUrl || isPath ? val : '', text: val };
+          return {
+            label: rawKey,
+            href: HTTP_RE.test(val) || PATH_RE.test(val) ? val : '',
+            text: val,
+          };
         })
     : [];
 };
@@ -97,33 +128,11 @@ const contactHtml = (contact, groupName = '') => {
       const aria = ` aria-label="${esc(i.label)} ${esc(i.text)}"`;
       const title = ` title="${esc(i.label)}"`;
       if (!i.href) return `<span${title}>${inner}</span>`;
-      const external = /^https?:/.test(i.href);
-      const attrs = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+      const attrs = HTTP_RE.test(i.href) ? ' target="_blank" rel="noopener noreferrer"' : '';
       return `<a href="${esc(i.href)}"${attrs}${title}${aria}>${inner}</a>`;
     })
     .join('');
   return `<p class="foot__contact">${links}</p>`;
-};
-
-/** 从 site.contact 里取邮箱（key 写 email 或 邮箱 都认），没有则返回空串 */
-const emailOf = (contact) => {
-  if (!contact || typeof contact !== 'object') return '';
-  for (const [k, v] of Object.entries(contact)) {
-    const key = String(k).trim().toLowerCase();
-    if ((key === 'email' || key === '邮箱') && v && String(v).trim()) return String(v).trim();
-  }
-  return '';
-};
-
-/** 从 site.contact 里取 QQ 群链接（key 写 qq / qq群 / qq group），没有则返回空串 */
-const qqLinkOf = (contact) => {
-  if (!contact || typeof contact !== 'object') return '';
-  for (const [k, v] of Object.entries(contact)) {
-    const key = String(k).trim().toLowerCase();
-    if ((key === 'qq' || key === 'qq群' || key === 'qq group') && v && /^https?:/.test(String(v).trim()))
-      return String(v).trim();
-  }
-  return '';
 };
 
 export function esc(value) {
@@ -135,11 +144,20 @@ export function esc(value) {
     .replace(/'/g, '&#39;');
 }
 
-function catHref(category) {
+/** 详情页链接：id 一律 encodeURIComponent，中文 / 特殊字符 id 才不会破坏 URL */
+export function itemHref(id) {
+  return `/resource/${encodeURIComponent(id)}/`;
+}
+/** 分类页链接 */
+export function catHref(category) {
   return `/category/${encodeURIComponent(categorySlug(category))}/`;
 }
+/** 分类 RSS 地址：分类页路径后面直接接 feed.xml */
+export function catFeedHref(category) {
+  return `${catHref(category)}feed.xml`;
+}
 
-function catNav(site, categories, counts, activeCat, total, wide) {
+function catNav(categories, counts, activeCat, total, wide) {
   const items = [
     `<a class="cat${activeCat ? '' : ' is-on'}" href="/">全部<span class="cat__n">${total}</span></a>`,
     ...categories.map(
@@ -152,6 +170,44 @@ function catNav(site, categories, counts, activeCat, total, wide) {
 
 /** 分类 → schema.org 类型，帮助搜索引擎理解资源类型 */
 const SCHEMA_TYPE = { 电影: 'Movie', 电视剧: 'TVSeries', 纪录片: 'TVSeries' };
+
+/** 结构化数据里最多列多少条：全量链接由正文的 <a> 给蜘蛛，这里只给个概览 */
+const JSONLD_ITEMS = 30;
+
+/** ItemList 节点：列表页与全量索引页共用 */
+function itemListJsonLd(items, baseUrl) {
+  return {
+    '@type': 'ItemList',
+    numberOfItems: items.length,
+    itemListElement: items.slice(0, JSONLD_ITEMS).map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${baseUrl}${itemHref(it.id)}`,
+      name: it.title,
+    })),
+  };
+}
+/** WebSite 节点：Google「网站名称」功能读它（要求 name + url） */
+function websiteJsonLd(baseUrl, site) {
+  return {
+    '@type': 'WebSite',
+    '@id': `${baseUrl}/#website`,
+    url: `${baseUrl}/`,
+    name: site.title,
+    description: site.description,
+  };
+}
+/** CollectionPage 节点：列表页与全量索引页共用 */
+function collectionPageJsonLd({ baseUrl, path, name, items }) {
+  return {
+    '@type': 'CollectionPage',
+    '@id': `${baseUrl}${path}#page`,
+    url: `${baseUrl}${path}`,
+    name,
+    isPartOf: { '@id': `${baseUrl}/#website` },
+    mainEntity: itemListJsonLd(items, baseUrl),
+  };
+}
 
 function jsonLdBlock(data) {
   return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
@@ -189,6 +245,8 @@ function layout({
   const fullTitle = title === site.title || title.includes(site.title) ? title : `${title} - ${site.title}`;
   const canonical = `${baseUrl}${canonicalPath}`;
   const ogImg = ogImage && ogImage.startsWith('/') ? `${baseUrl}${ogImage}` : ogImage;
+  // 访问统计：页脚占位数字 + 取数脚本成对出现，判断一次就够
+  const localStats = site.stats === 'local';
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -228,18 +286,18 @@ ${jsonLd ? jsonLdBlock(jsonLd) : ''}
     </form>
   </div>
 </header>
-${catNav(site, categories, counts, activeCat, total, wide)}
+${catNav(categories, counts, activeCat, total, wide)}
 <main class="wrap${wide ? ' wrap--wide' : ''}">
 ${body}
 </main>
 <footer class="foot wrap${wide ? ' wrap--wide' : ''}">
-  ${footNav(footNavCurrent)}
-  ${site.stats === 'local' ? STATS_HTML : ''}
+  ${footNav(footNavCurrent, baseUrl)}
+  ${localStats ? STATS_HTML : ''}
   <p>共 ${total} 个资源 · ${esc(site.disclaimer)}</p>
   ${site.icp ? `<p class="foot__icp">${esc(site.icp)}</p>` : ''}
   ${contactHtml(site.contact, site.qqGroup)}
 </footer>
-${site.stats === 'local' ? STATS_SCRIPT : ''}
+${localStats ? STATS_SCRIPT : ''}
 <script src="/assets/app.js${v}" defer></script>
 </body>
 </html>
@@ -247,11 +305,11 @@ ${site.stats === 'local' ? STATS_SCRIPT : ''}
 }
 
 /** 宫格卡片（海报墙）：最新资源排在最前，前 newest 条打「最新」角标 */
-export function cardHtml(item, images, isNew = false, eager = false) {
+function cardHtml(item, images, isNew = false, eager = false) {
   const img = images.get(item.id) || {};
   const loading = eager ? 'eager" fetchpriority="high' : 'lazy';
   return `<li class="tile-item">
-  <a class="tile" href="/resource/${encodeURIComponent(item.id)}/">
+  <a class="tile" href="${itemHref(item.id)}">
     <span class="tile__poster">
       <img class="tile__img" src="${esc(img.card || img.thumb)}" width="240" height="360" alt="${esc(item.title)}" loading="${loading}" decoding="async">
       ${isNew ? '<span class="tile__new">最新</span>' : ''}
@@ -263,7 +321,7 @@ export function cardHtml(item, images, isNew = false, eager = false) {
 }
 
 export function listPage(ctx) {
-  const { site, items, categories, counts, activeCat, total, pageSize, images, baseUrl, indexAll, shareImage } = ctx;
+  const { site, items, categories, activeCat, total, pageSize, images, baseUrl, indexAll, shareImage } = ctx;
   const first = items.slice(0, pageSize);
   // 首页 SEO 文案取自 site.yaml 的 homeTitle / homeDesc / homeH1，占位符 {total}、{categories}
   const catList = (categories || []).join('、');
@@ -281,9 +339,8 @@ export function listPage(ctx) {
     ? `<h1 class="page__title">${esc(activeCat)}<span class="page__n">${items.length} 个资源</span></h1>`
     : `<h1 class="page__title">${esc(homeH1)}<span class="page__n">${total} 个资源</span></h1>`;
 
-  const canonicalPath = activeCat ? `/category/${encodeURIComponent(categorySlug(activeCat))}/` : '/';
-  const typeLabel = activeCat ? `${activeCat}资源` : '网盘资源';
-  const firstImg = (images.get(items[0] && items[0].id) || {}).card || '';
+  const canonicalPath = activeCat ? catHref(activeCat) : '/';
+  const firstImg = (images.get(items[0]?.id) || {}).card || '';
 
   // 结构化数据：站点 + 当前列表
   // 注意：不要再加 SearchAction（站点链接搜索框）——Google 已于 2024-11-21 下线该富媒体结果，
@@ -292,30 +349,13 @@ export function listPage(ctx) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
-      {
-        '@type': 'WebSite',
-        '@id': `${baseUrl}/#website`,
-        url: `${baseUrl}/`,
-        name: site.title,
-        description: site.description,
-      },
-      {
-        '@type': 'CollectionPage',
-        '@id': `${baseUrl}${canonicalPath}#page`,
-        url: `${baseUrl}${canonicalPath}`,
+      websiteJsonLd(baseUrl, site),
+      collectionPageJsonLd({
+        baseUrl,
+        path: canonicalPath,
         name: activeCat ? `${activeCat} - ${site.title}` : homeTitle,
-        isPartOf: { '@id': `${baseUrl}/#website` },
-        mainEntity: {
-          '@type': 'ItemList',
-          numberOfItems: items.length,
-          itemListElement: items.slice(0, 30).map((it, i) => ({
-            '@type': 'ListItem',
-            position: i + 1,
-            url: `${baseUrl}/resource/${encodeURIComponent(it.id)}/`,
-            name: it.title,
-          })),
-        },
-      },
+        items,
+      }),
     ],
   };
 
@@ -334,26 +374,19 @@ ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
 <script type="application/json" id="list-data" data-total="${indexData.length}" data-category="${esc(activeCat)}">${JSON.stringify(indexData.slice(0, pageSize * 2)).replace(/</g, '\\u003c')}</script>`;
 
   return layout({
-    site,
-    assetVersion: ctx.assetVersion,
-    iconVersion: ctx.iconVersion,
+    ...ctx,
     title: activeCat || `${homeTitle}（${total} 项）`,
     description: activeCat
       ? `${activeCat}资源合集，共 ${items.length} 个，夸克网盘链接，扫码即存`
       : homeDesc,
-    activeCat,
-    categories,
-    counts,
-    total,
     body,
     wide: true,
-    baseUrl,
     canonicalPath,
     ogImage: activeCat ? firstImg : shareImage || firstImg,
     ogImageSize: activeCat || !shareImage ? null : { w: 1200, h: 630 },
     jsonLd,
-    keywords: activeCat ? `${activeCat},${typeLabel}` : categories.join(','),
-    rssHref: activeCat ? `/category/${encodeURIComponent(categorySlug(activeCat))}/feed.xml` : '/feed.xml',
+    keywords: activeCat ? `${activeCat},${activeCat}资源` : categories.join(','),
+    rssHref: activeCat ? catFeedHref(activeCat) : '/feed.xml',
   });
 }
 
@@ -408,7 +441,7 @@ function relatedBlock(related, images) {
 }
 
 export function detailPage(ctx) {
-  const { site, item, categories, counts, total, images, qrLinks, baseUrl, items } = ctx;
+  const { site, item, images, qrLinks, baseUrl, items } = ctx;
   const img = images.get(item.id) || {};
   const primary = qrLinks[0];
 
@@ -473,8 +506,10 @@ ${facts.map(([k, v]) => `    <tr><th scope="row">${k}</th><td>${v}</td></tr>`).j
   </div>
 </article>${related.length ? relatedBlock(related, images) : ''}`;
 
-  const canonicalPath = `/resource/${encodeURIComponent(item.id)}/`;
+  const canonicalPath = itemHref(item.id);
   const schemaType = SCHEMA_TYPE[item.category] || 'CreativeWork';
+  // 简介截取一次：meta 用前 160 字，结构化数据用前 200 字
+  const descLong = item.description.slice(0, 200) || item.title;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -483,7 +518,7 @@ ${facts.map(([k, v]) => `    <tr><th scope="row">${k}</th><td>${v}</td></tr>`).j
         '@id': `${baseUrl}${canonicalPath}#resource`,
         name: item.title,
         url: `${baseUrl}${canonicalPath}`,
-        description: item.description.slice(0, 200) || item.title,
+        description: descLong,
         genre: item.tags.filter((t) => t !== item.category),
         ...(img.detail ? { image: `${baseUrl}${img.detail}` } : {}),
         ...(item.date ? { datePublished: item.date } : {}),
@@ -506,26 +541,20 @@ ${facts.map(([k, v]) => `    <tr><th scope="row">${k}</th><td>${v}</td></tr>`).j
   };
 
   return layout({
-    site,
-    assetVersion: ctx.assetVersion,
-    iconVersion: ctx.iconVersion,
+    ...ctx,
     title: item.title,
-    description: `${item.category} · ${item.description.slice(0, 160) || item.title}`,
+    description: `${item.category} · ${descLong.slice(0, 160)}`,
     activeCat: item.category,
-    categories,
-    counts,
-    total,
     body,
-    baseUrl,
     canonicalPath,
     ogType: 'article',
     ogImage: img.detail,
     jsonLd,
     keywords: [item.title, item.category, ...item.tags].slice(0, 8).join(','),
-    rssHref: `/category/${encodeURIComponent(categorySlug(item.category))}/feed.xml`,
+    rssHref: catFeedHref(item.category),
     // 详情页与首页/分类页同宽容器，海报卡片左右边线才能严格对齐
     wide: true,
-    footNavCurrent: `/resource/${encodeURIComponent(item.id)}/`,
+    footNavCurrent: canonicalPath,
   });
 }
 
@@ -547,7 +576,7 @@ const NF_ART = `<svg class="nf__art" viewBox="0 0 240 116" role="presentation" a
  * 让人不必退回搜索引擎，从这一页就能继续走下去。
  */
 export function notFoundPage(ctx) {
-  const { site, categories, counts, total, images, indexAll } = ctx;
+  const { images, indexAll } = ctx;
   const picks = (indexAll || []).slice(0, 5);
   const grid = picks.length
     ? `<h2>最新入库</h2>
@@ -579,14 +608,9 @@ export function notFoundPage(ctx) {
     .join('');
 
   return layout({
-    site,
-    assetVersion: ctx.assetVersion,
-    iconVersion: ctx.iconVersion,
+    ...ctx,
     title: '页面不存在',
     activeCat: '',
-    categories,
-    counts,
-    total,
     canonicalPath: '/404.html',
     // 与首页 / 分类页 / 内容页同宽容器，顶栏到页脚的左右边线一致
     wide: true,
@@ -620,7 +644,7 @@ export function notFoundPage(ctx) {
  * 这一页给蜘蛛一条「一次抓取即可走完全站」的通道，也不需要任何 JS。
  */
 export function allPage(ctx) {
-  const { site, items, categories, counts, total, baseUrl } = ctx;
+  const { site, items, categories, total, baseUrl } = ctx;
 
   // 分类顺序沿用导航栏；site.yaml 里没列出的分类排在后面，保证这一页真的是「全量」
   const order = [...(categories || [])];
@@ -636,7 +660,7 @@ export function allPage(ctx) {
 
   const row = (it) => {
     const tags = (it.tags || []).filter((t) => t && t !== it.category);
-    return `<li><a href="/resource/${encodeURIComponent(it.id)}/">${esc(it.title)}</a>${
+    return `<li><a href="${itemHref(it.id)}">${esc(it.title)}</a>${
       it.date ? `<span class="muted"> · ${esc(it.date)}</span>` : ''
     }${tags.length ? `<span class="muted"> · ${tags.map(esc).join(' · ')}</span>` : ''}</li>`;
   };
@@ -656,39 +680,24 @@ ${g.list.map(row).join('\n')}
 </div>`;
 
   return layout({
-    site,
-    assetVersion: ctx.assetVersion,
-    iconVersion: ctx.iconVersion,
+    ...ctx,
     title: '全部资源索引',
     description: `${site.title}全部 ${total} 个资源的完整索引，按${(categories || []).join('、')}分类排列，一页直达所有资源详情页`,
     activeCat: '',
-    categories,
-    counts,
-    total,
     body,
-    baseUrl,
     canonicalPath: '/all/',
     footNavCurrent: '/all/',
     wide: true,
     keywords: `全部资源,资源索引,${(categories || []).join(',')},网盘资源`,
+    // 与列表页共用 CollectionPage：结构化数据里只列前 30 条，全量链接靠正文的 <a> 给蜘蛛
     jsonLd: {
       '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      '@id': `${baseUrl}/all/#page`,
-      url: `${baseUrl}/all/`,
-      name: `全部资源索引 - ${site.title}`,
-      isPartOf: { '@id': `${baseUrl}/#website` },
-      mainEntity: {
-        '@type': 'ItemList',
-        numberOfItems: total,
-        // 与列表页保持一致：结构化数据里只列前 30 条，全量链接靠正文的 <a> 给蜘蛛
-        itemListElement: items.slice(0, 30).map((it, i) => ({
-          '@type': 'ListItem',
-          position: i + 1,
-          url: `${baseUrl}/resource/${encodeURIComponent(it.id)}/`,
-          name: it.title,
-        })),
-      },
+      ...collectionPageJsonLd({
+        baseUrl,
+        path: '/all/',
+        name: `全部资源索引 - ${site.title}`,
+        items,
+      }),
     },
   });
 }
@@ -714,7 +723,7 @@ export function feedXml({ site, items, baseUrl, categories, feedPath = '/feed.xm
   const itemsXml = items
     .slice(0, RSS_MAX)
     .map((it) => {
-      const url = `${baseUrl}/resource/${encodeURIComponent(it.id)}/`;
+      const url = `${baseUrl}${itemHref(it.id)}`;
       const poster = it.poster ? `${baseUrl}${it.poster}` : '';
       const links = (it.links || [])
         .map(
@@ -782,7 +791,7 @@ export function aboutPage(ctx) {
   const catRows = (categories || [])
     .map(
       (c) =>
-        `<tr><th scope="row">${esc(c)}</th><td>${counts.get(c) || 0} 个</td><td><a href="${catHref(c)}">查看</a> · <a href="/category/${encodeURIComponent(categorySlug(c))}/feed.xml">RSS</a></td></tr>`
+        `<tr><th scope="row">${esc(c)}</th><td>${counts.get(c) || 0} 个</td><td><a href="${catHref(c)}">查看</a> · <a href="${catFeedHref(c)}">RSS</a></td></tr>`
     )
     .join('\n');
 
@@ -839,7 +848,7 @@ ${catRows}
 ${newest
   .map(
     (it) =>
-      `<li><a href="/resource/${encodeURIComponent(it.id)}/">${esc(it.title)}</a><span class="muted"> · ${esc(it.category)}${it.added ? ` · ${esc(it.added)}` : ''}</span></li>`
+      `<li><a href="${itemHref(it.id)}">${esc(it.title)}</a><span class="muted"> · ${esc(it.category)}${it.added ? ` · ${esc(it.added)}` : ''}</span></li>`
   )
   .join('\n')}
   </ul>
@@ -848,17 +857,11 @@ ${newest
 </div>`;
 
   return layout({
-    site,
-    assetVersion: ctx.assetVersion,
-    iconVersion: ctx.iconVersion,
+    ...ctx,
     title: '关于本站',
     description: `关于${site.title}：收录 ${total} 个网盘资源，介绍站点定位、使用方式与版权声明`,
     activeCat: '',
-    categories,
-    counts,
-    total,
     body,
-    baseUrl,
     canonicalPath: '/about/',
     footNavCurrent: '/about/',
     // 与首页 / 分类页 / 资源页同宽容器，卡片左右边线严格对齐
@@ -872,12 +875,7 @@ export function rssPage(ctx) {
   const updated = lastmodOfList(items);
   const catFeeds = (categories || [])
     .map((c) =>
-      feedRow(
-        baseUrl,
-        `/category/${encodeURIComponent(categorySlug(c))}/feed.xml`,
-        `${c} RSS`,
-        `${counts.get(c) || 0} 个资源`
-      )
+      feedRow(baseUrl, catFeedHref(c), `${c} RSS`, `${counts.get(c) || 0} 个资源`)
     )
     .join('\n');
 
@@ -912,17 +910,11 @@ ${catFeeds}
 </div>`;
 
   return layout({
-    site,
-    assetVersion: ctx.assetVersion,
-    iconVersion: ctx.iconVersion,
+    ...ctx,
     title: 'RSS 订阅',
     description: `${site.title} 的 RSS 订阅地址与使用方法，订阅后新资源实时推送`,
     activeCat: '',
-    categories,
-    counts,
-    total,
     body,
-    baseUrl,
     canonicalPath: '/rss/',
     footNavCurrent: '/rss/',
     // 与首页 / 分类页 / 资源页同宽容器，卡片左右边线严格对齐
@@ -952,18 +944,16 @@ export function sitemapXml(baseUrl, resources, categories, extras = []) {
   // lastmod 必须是页面真实变化日期：每次构建把全站刷成同一天，搜索引擎会判定为不可信并降低抓取频率
   const siteLastmod = lastmodOfList(resources);
   const urls = [
-    line(baseUrl + '/', siteLastmod, '1.0'),
+    line(`${baseUrl}/`, siteLastmod, '1.0'),
     ...extras.map((e) => line(`${baseUrl}${e.path}`, e.lastmod || siteLastmod, e.priority || '0.5')),
     ...categories.map((c) =>
       line(
-        `${baseUrl}/category/${encodeURIComponent(categorySlug(c))}/`,
+        `${baseUrl}${catHref(c)}`,
         lastmodOfList(resources.filter((r) => r.category === c)),
         '0.8'
       )
     ),
-    ...resources.map((r) =>
-      line(`${baseUrl}/resource/${encodeURIComponent(r.id)}/`, lastmodOf(r), '0.6')
-    ),
+    ...resources.map((r) => line(`${baseUrl}${itemHref(r.id)}`, lastmodOf(r), '0.6')),
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
