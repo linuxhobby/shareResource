@@ -295,6 +295,16 @@ write(
 );
 copyThemeAssets(themeDir, outDir);
 
+// app.js 是 ES module，会再 import 同目录的 card.js（卡片模板）。
+// nginx 对 .js 统一缓存 30 天，这个二级请求也得带版本号，否则改了模板用户浏览器还拿旧的。
+{
+  const appFile = path.join(outDir, 'assets', 'app.js');
+  const src = fs.readFileSync(appFile, 'utf8');
+  const patched = src.replace("'./card.js'", `'./card.js?v=${assetVersion}'`);
+  if (patched === src) console.log('  ! app.js 里没找到 ./card.js 的 import，卡片模板改版后不会破缓存');
+  fs.writeFileSync(appFile, patched);
+}
+
 // 拷贝 QQ 群二维码：关于本站页展示大图，页脚通过 QQ 群链接轻量入口跳转
 const qqGroupSrc = path.join(staticDir, 'qq-group.png');
 const qqGroupDest = path.join(outDir, 'qq-group.png');

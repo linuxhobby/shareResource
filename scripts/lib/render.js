@@ -1,4 +1,6 @@
 import { categorySlug } from './data.js';
+// 卡片模板与浏览器端（theme/assets/app.js）共用同一份：改结构两边同步生效
+import { esc, tileHtml } from '../../theme/assets/card.js';
 
 /** 列表最前面多少条打「最新」角标 */
 const NEWEST_BADGE = 6;
@@ -134,15 +136,6 @@ const contactHtml = (contact, groupName = '') => {
     .join('');
   return `<p class="foot__contact">${links}</p>`;
 };
-
-export function esc(value) {
-  return String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
 
 /** 详情页链接：id 一律 encodeURIComponent，中文 / 特殊字符 id 才不会破坏 URL */
 export function itemHref(id) {
@@ -298,26 +291,25 @@ ${body}
   ${contactHtml(site.contact, site.qqGroup)}
 </footer>
 ${localStats ? STATS_SCRIPT : ''}
-<script src="/assets/app.js${v}" defer></script>
+<script type="module" src="/assets/app.js${v}"></script>
 </body>
 </html>
 `;
 }
 
 /** 宫格卡片（海报墙）：最新资源排在最前，前 newest 条打「最新」角标 */
+/** 构建期渲染卡片：把资源条目与配图映射摊平成模板需要的字段 */
 function cardHtml(item, images, isNew = false, eager = false) {
   const img = images.get(item.id) || {};
-  const loading = eager ? 'eager" fetchpriority="high' : 'lazy';
-  return `<li class="tile-item">
-  <a class="tile" href="${itemHref(item.id)}">
-    <span class="tile__poster">
-      <img class="tile__img" src="${esc(img.card || img.thumb)}" width="240" height="360" alt="${esc(item.title)}" loading="${loading}" decoding="async">
-      ${isNew ? '<span class="tile__new">最新</span>' : ''}
-    </span>
-    <span class="tile__title">${esc(item.title)}</span>
-    <span class="tile__meta">${esc(item.category)}${item.date ? ` · ${esc(item.date)}` : ''}</span>
-  </a>
-</li>`;
+  return tileHtml({
+    href: itemHref(item.id),
+    src: img.card || img.thumb,
+    title: item.title,
+    category: item.category,
+    date: item.date,
+    isNew,
+    eager,
+  });
 }
 
 export function listPage(ctx) {
@@ -371,7 +363,8 @@ ${
     : ''
 }
 ${items.length === 0 ? '<p class="empty">该分类下暂无资源</p>' : ''}
-<script type="application/json" id="list-data" data-total="${indexData.length}" data-category="${esc(activeCat)}">${JSON.stringify(indexData.slice(0, pageSize * 2)).replace(/</g, '\\u003c')}</script>`;
+<!-- data-newest：「最新」角标条数，由构建端注入，app.js 不再自己写死这个数 -->
+<script type="application/json" id="list-data" data-total="${indexData.length}" data-category="${esc(activeCat)}" data-newest="${newestCount}">${JSON.stringify(indexData.slice(0, pageSize * 2)).replace(/</g, '\\u003c')}</script>`;
 
   return layout({
     ...ctx,

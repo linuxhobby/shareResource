@@ -1,3 +1,7 @@
+// 卡片模板与构建端（scripts/lib/render.js）共用同一份：改结构两边同步生效
+// （构建时会给 import 路径补上版本号，见 build.js）
+import { esc, tileHtml } from './card.js';
+
 (function () {
   'use strict';
 
@@ -10,19 +14,14 @@
   var moreEl = document.getElementById('more');
   var input = document.getElementById('q');
   var resultsEl = document.getElementById('results');
-  var NEWEST = 6;   // 与构建端保持一致：前 6 条打「最新」角标
+  // 「最新」角标条数由构建端注入（list-data 的 data-newest），避免两边各写一个数字
+  var NEWEST = parseInt(dataEl && dataEl.getAttribute('data-newest'), 10) || 0;
   var PAGE = parseInt(moreEl && moreEl.getAttribute('data-page-size'), 10) || 36;
   var MAX_HITS = 120;
   var shown = PAGE;
   var globalIndex = null;
   var globalLoading = false;
   var timer = null;
-
-  function esc(s) {
-    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
 
   function escapeRegExp(s) {
     return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -41,15 +40,17 @@
     return html;
   }
 
-  function cardHtml(it, isNew, tokens) {
-    return '<li class="tile-item"><a class="tile" href="' + esc(it.href) + '">' +
-      '<span class="tile__poster">' +
-        '<img class="tile__img" src="' + esc(it.card || it.thumb) + '" width="240" height="360" alt="' + esc(it.title) + '" loading="lazy">' +
-        (isNew ? '<span class="tile__new">最新</span>' : '') +
-      '</span>' +
-      '<span class="tile__title">' + (tokens && tokens.length ? highlight(it.title, tokens) : esc(it.title)) + '</span>' +
-      '<span class="tile__meta">' + esc(it.category) + (it.date ? ' · ' + esc(it.date) : '') + '</span>' +
-    '</a></li>';
+  /** 索引条目 → 卡片入参（索引里已带 href / card / thumb，不必再拼 URL） */
+  function tileOf(it, titleHtml, isNew) {
+    return tileHtml({
+      href: it.href,
+      src: it.card || it.thumb,
+      title: it.title,
+      titleHtml: titleHtml || '',
+      category: it.category,
+      date: it.date,
+      isNew: !!isNew,
+    });
   }
 
   /** 把 items 补齐到全站/本分类全集（数据来自异步加载的 search-index.json） */
@@ -59,7 +60,7 @@
   }
 
   function paint() {
-    listEl.innerHTML = items.slice(0, shown).map(function (it, i) { return cardHtml(it, i < NEWEST); }).join('');
+    listEl.innerHTML = items.slice(0, shown).map(function (it, i) { return tileOf(it, '', i < NEWEST); }).join('');
     if (moreEl) {
       moreEl.hidden = shown >= TOTAL;
       moreEl.textContent = '加载更多（剩余 ' + (TOTAL - shown) + '）';
@@ -135,7 +136,7 @@
     var tokens = q.toLowerCase().split(/\s+/);
     resultsEl.innerHTML = hits.length
       ? '<div class="results__hint">找到 ' + hits.length + ' 个资源（按相关度排序）</div>' +
-        '<ul class="grid">' + hits.map(function (it) { return cardHtml(it, false, tokens); }).join('') + '</ul>'
+        '<ul class="grid">' + hits.map(function (it) { return tileOf(it, highlight(it.title, tokens)); }).join('') + '</ul>'
       : '<p class="empty">没有匹配「' + esc(q) + '」的资源，试试更短的关键词或拼音首字母</p>';
   }
 
