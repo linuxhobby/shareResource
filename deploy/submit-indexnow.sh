@@ -25,7 +25,11 @@ KEY=$(cat "$KEY_FILE")
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 
+# 日志里的模式标签：只能按实际走的分支取，不能再用 ${ALL:+}——
+# 上面 ALL 已被赋成 0，${ALL:+…} 对非空值一律为真，增量跑也会打上「全量」
+MODE=''
 if [ "$ALL" = "1" ]; then
+  MODE='[全量] '
   grep -oE '<loc>[^<]+</loc>' "$SITEMAP" | sed 's/<[^>]*>//g' > "$TMP/urls.txt"
 else
   # 每个 <url>…</url> 独占一行，取同行里的 <loc> 与 <lastmod> 配对，
@@ -71,4 +75,4 @@ console.log(JSON.stringify({
   sleep 2
 done
 
-echo "$(date '+%F %T') ${ALL:+[全量] }since $SINCE 共 $TOTAL 条：成功 $OK，失败 $FAIL" >> "$LOG"
+echo "$(date '+%F %T') ${MODE}since $SINCE 共 $TOTAL 条：成功 $OK，失败 $FAIL" >> "$LOG"
