@@ -340,8 +340,11 @@ function linkRow(link) {
  *
  * 存在理由（SEO）：详情页之间原本零互链，蜘蛛爬进来就出不去，593 个详情页各自是孤岛。
  * 这段是构建期静态输出的，不依赖 JS，蜘蛛能顺着它继续往深处走。
+ *
+ * 取 10 条是因为宫格桌面端一行 5 列：10 条正好排满两行。窄屏减列后由 CSS
+ * （style.css 的 .grid--fit）自动藏掉末行零头，保证任何宽度下都是整行整行地出现。
  */
-function relatedOf(item, all, n = 6) {
+function relatedOf(item, all, n = 10) {
   const tags = new Set(item.tags || []);
   const score = (it) => (it.tags || []).filter((t) => tags.has(t)).length;
   const newer = (a, b) =>
@@ -360,6 +363,13 @@ function relatedOf(item, all, n = 6) {
     );
   }
   return picked;
+}
+
+/** 相关推荐整段：够一行才交给 CSS 修掉末行零头，不足一行就不干预（本来就只有一行） */
+function relatedBlock(related, images) {
+  const fit = related.length >= 5 ? ' grid--fit' : '';
+  return `<h2>相关推荐</h2>
+<ul class="grid${fit}">${related.map((it) => cardHtml(it, images, false, false)).join('')}</ul>`;
 }
 
 export function detailPage(ctx) {
@@ -426,12 +436,7 @@ ${facts.map(([k, v]) => `    <tr><th scope="row">${k}</th><td>${v}</td></tr>`).j
       ${item.links.length ? item.links.map(linkRow).join('\n') : '<p class="muted">暂无可用链接</p>'}
     </div>
   </div>
-</article>${
-    related.length
-      ? `<h2>相关推荐</h2>
-<ul class="grid">${related.map((it) => cardHtml(it, images, false, false)).join('')}</ul>`
-      : ''
-  }`;
+</article>${related.length ? relatedBlock(related, images) : ''}`;
 
   const canonicalPath = `/resource/${encodeURIComponent(item.id)}/`;
   const schemaType = SCHEMA_TYPE[item.category] || 'CreativeWork';

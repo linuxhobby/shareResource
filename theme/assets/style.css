@@ -158,6 +158,18 @@ a:hover { text-decoration: underline; }
   padding: 0;
 }
 .tile-item { display: block; }
+
+/* ── 末行零头 ──────────────────────────
+   列表页/首页可以接受末行不满（本来就可能有几十条），但详情页「相关推荐」只有
+   5 或 10 条，末行孤零零一张很难看。这里按当前的列数把不完整的末行整个藏掉：
+   选择器先抓住「既是某一行的行首、又落在最后 cols-1 个之内」的那张卡（正是残缺
+   末行的第一张），再用兄弟选择器把它后面的一起藏掉；末行正好排满时规则落空。
+   四个断点互斥，各自只对自己的列数生效。注：大于 5 张才加这个类（见 render.js），
+   否则藏过头会把整个区块藏没。 */
+@media (min-width: 1001px) {
+  .grid--fit > .tile-item:nth-child(5n+1):nth-last-child(-n+4),
+  .grid--fit > .tile-item:nth-child(5n+1):nth-last-child(-n+4) ~ .tile-item { display: none; }
+}
 .tile { display: block; color: var(--text); }
 .tile:hover { text-decoration: none; }
 .tile__poster {
@@ -405,9 +417,21 @@ mark {
 /* ── 移动端 ──────────────────────────── */
 /* 窄屏逐级减列：5 → 4 → 3 → 2；断点只调 --cols / --gap-x，
    宫格卡片与详情页海报宽度会自动跟着变 */
-@media (max-width: 1000px) { :root { --cols: 4; } }
-@media (max-width: 820px) { :root { --cols: 3; --gap-x: 10px; --gap-y: 14px; } }
-@media (max-width: 480px) { :root { --cols: 2; } }
+@media (max-width: 1000px) {
+  :root { --cols: 4; }
+  .grid--fit > .tile-item:nth-child(4n+1):nth-last-child(-n+3),
+  .grid--fit > .tile-item:nth-child(4n+1):nth-last-child(-n+3) ~ .tile-item { display: none; }
+}
+@media (max-width: 820px) {
+  :root { --cols: 3; --gap-x: 10px; --gap-y: 14px; }
+  .grid--fit > .tile-item:nth-child(3n+1):nth-last-child(-n+2),
+  .grid--fit > .tile-item:nth-child(3n+1):nth-last-child(-n+2) ~ .tile-item { display: none; }
+}
+@media (max-width: 480px) {
+  :root { --cols: 2; }
+  .grid--fit > .tile-item:nth-child(2n+1):nth-last-child(-n+1),
+  .grid--fit > .tile-item:nth-child(2n+1):nth-last-child(-n+1) ~ .tile-item { display: none; }
+}
 
 /* 窄屏整体降一档：只在这里重设字号 / 行高令牌，
    不需要再写一堆逐个元素的覆盖，避免漏改 */
