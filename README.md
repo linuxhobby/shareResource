@@ -202,54 +202,7 @@ curl -s $S/ | grep canonical       # 应是你的真实域名
 
 除 `/nope` 应为 **404**，其余全部 **200**。中文分类页用 curl 要 percent-encoding，浏览器直接访问正常。
 
-### 提交给搜索引擎
 
-| 方式 | 做法 |
-|---|---|
-| **1 · Google Search Console** | 添加站点 → 左侧「站点地图」提交 `https://你的域名/sitemap.xml`（首次验证一次即可） |
-| **2 · 百度站长平台** | 同上提交 sitemap；更快的是「普通收录 → API 推送」：token 存为 `/opt/seo/baidu_token`，用 `submit-baidu` 推送 |
-| **3 · IndexNow（实时推送，技术方式）** | 向 **Bing** 等参与引擎实时递交：站点放一个密钥文件，脚本取 sitemap 里**有变化的 URL** 分批 POST 给 IndexNow，新页面几分钟内被 Bing 发现 |
-
-方式 3 配置（脚本见 `deploy/submit-indexnow.sh`）：
-
-```bash
-# 1) 生成密钥，放到站点可访问的位置
-sudo mkdir -p /opt/indexnow && openssl rand -hex 16 | sudo tee /opt/indexnow/key.txt
-
-# 2) Nginx 暴露密钥（deploy/nginx-site.conf.example 已含该段）
-#    location = /key.txt { alias /opt/indexnow/key.txt; default_type text/plain; }
-sudo nginx -t && sudo systemctl reload nginx
-curl -s https://你的域名/key.txt     # 应返回那串密钥
-
-# 3) 安装脚本并立即递交一次（首次全量，之后每天增量）
-sudo install -m755 deploy/submit-indexnow.sh /usr/local/bin/submit-indexnow
-sudo sed -i 's/www.your-domain.com/你的域名/' /usr/local/bin/submit-indexnow
-sudo ALL=1 /usr/local/bin/submit-indexnow
-tail -3 /var/log/submit-indexnow.log    # 首次全量：本站 595 条 URL：成功 595，失败 0
-
-# 4) 每天自动推（root crontab）：默认只推 sitemap 里 lastmod >= 昨天的 URL
-0 3 * * * /usr/local/bin/submit-indexnow >> /var/log/submit-indexnow.log 2>&1
-```
-
-方式 2 的 API 推送同样可以脚本化（脚本见 `deploy/submit-baidu.sh`）：
-
-```bash
-# 1) 百度站长平台完成站点验证后，从「普通收录 → API 提交」拿到 token
-echo '你的token' | sudo tee /opt/seo/baidu_token && sudo chmod 600 /opt/seo/baidu_token
-
-# 2) 安装脚本并立即推一次
-sudo install -m755 deploy/submit-baidu.sh /usr/local/bin/submit-baidu
-sudo sed -i 's#www.wodewangpan.top#你的域名#g' /usr/local/bin/submit-baidu
-sudo /usr/local/bin/submit-baidu
-tail -3 /var/log/submit-baidu.log
-
-# 3) 每天自动推（root crontab）
-10 3 * * * /usr/local/bin/submit-baidu
-```
-
-> 百度按站点发放每日配额（新站通常只有几十条/天）。脚本会先探测当天剩余配额再分批推送，推不完的次日自动续上，已推送过的 URL 记录在 `/var/lib/baidu-submitted.txt` 不会重复提交。配额随站点抓取量提升，建议同时在站长平台手动提交一次 sitemap 作为兜底。
-
-实测：595 个 URL（586 条资源 + 首页 + 8 个分类页）按每批 50 条分 12 批提交，全部返回 200/202。
 
 ## 目录结构
 
@@ -294,16 +247,7 @@ public/              # 构建产物，部署这个目录（586 条时约 17MB，
 
 ### 收录现状
 
-| 引擎 | 蜘蛛 | 抓取次数 | 去重 URL | 资源页 | 最后到访 | 定性 |
-|---|---|---|---|---|---|---|
-| Google | Googlebot | 887 | 197 | 159 | 10-10 | 已收录，覆盖持续加深 |
-| Yandex | YandexBot | 663 | 602 | 601 | 10-10 | 接近全站遍历（86%） |
-| 百度 | Baiduspider | 27 | 2 | 0 | 10-08 | 只抓首页，不进内容页 |
-| Bing | bingbot | 12 | 8 | 2 | 10-10 | 象征性到访 |
-| 360 | 360Spider | 4 | 1 | 0 | 10-07 | 只碰过首页 |
-| 搜狗 / 字节 / 华为 | — | 0 | 0 | 0 | 从未到访 | 零记录 |
 
-Google 状态码：200×810 / 301×21 / 404×56；Yandex 全绿 200。ClaudeBot、SemrushBot、AhrefsBot、Applebot 属 AI 爬虫与 SEO 工具，不计入收录指标。
 
 ### 优化建议（按性价比排序）
 
