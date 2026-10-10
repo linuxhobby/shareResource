@@ -6,7 +6,7 @@
 |---|---|
 | 网站 | https://www.wodewangpan.top |
 | 仓库 | `git@github.com:linuxhobby/wodewangpan.git` |
-| 更新方式 | 推到 `main`，VPS 每 6 小时自动拉取并重建（急发用 `FORCE=1 site-autoupdate`） |
+| 更新方式 | 推到 `main`，VPS 每 2 小时自动拉取并重建（急发用 `FORCE=1 site-autoupdate`） |
 
 ## 网站特性
 
@@ -113,10 +113,10 @@ BASE_URL=https://你的域名
 EOF
 
 sudo crontab -e
-# 加入一行（每 6 小时拉取一次；想更频繁就把 */6 改成 */2）
-# 别再设成每小时：构建现在只重写真正变化的文件，但重建本身仍要跑一遍图片处理，
-# 而且发布越频繁、产物的 mtime 抖动越多，蜘蛛的条件请求越难命中 304
-0 */6 * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1
+# 加入一行（每 2 小时拉一次）
+# 频率可以放心调密：脚本先比对 HEAD，没有新提交就直接退出，空跑只有一次 git fetch；
+# 真有提交时才构建，而构建现在只重写字节变了的页面，未变的保留原 mtime，不会白费蜘蛛的抓取预算
+0 */2 * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1
 ```
 
 看运行结果：`tail -20 /var/log/site-autoupdate.log`。
@@ -320,7 +320,7 @@ Google 状态码：200×810 / 301×21 / 404×56；Yandex 全绿 200。ClaudeBot�
 
 1. [x] **构建改「内容未变不覆盖」，让详情页能回 304**（已完成）：原先每小时全量重建，700 多个详情页的 mtime / ETag 每次都被刷新，蜘蛛的 `If-Modified-Since` / `If-None-Match` 永远不命中，每次都是完整 200（日志里 Google 200×810、几乎没有 304，正合这个特征）。现在 `write()` 写盘前先比对上一版产物（`BUILD_DIR=public.new` 时对照 `public/`），内容相同就沿用旧文件并 `utimes` 保留原 mtime。实测二次构建：722 个文件全部沿用、0 个重写，构建 58.7s → 34.9s；`public.new` 里的详情页 mtime 与 `public/` 完全一致。
    首页 `<lastmod>` 因此**不需要人为冻结**：它取的是资源 `added`，新增资源确实会改变首页首屏，信号是真实的；而内容没变的页面 mtime 不再抖动，蜘蛛的重复访问从 200 变 304，预算自然腾给新页。
-2. [x] **降低重建频率**（已完成）：crontab `0 * * * *` → `0 */6 * * *`，新增资源要立刻上线就 `FORCE=1 site-autoupdate`。
+2. [x] **重建频率定为每 2 小时**（已完成）：crontab 现在是 `0 */2 * * *`。原来那句「每小时构建一次」是误读——脚本先比对 HEAD，没新提交就 `exit 0`，实际构建次数等于提交次数。所以频率只决定「提交后多久上线」（≤2 小时），不影响抓取；空跑成本只有一次 `git fetch`，可以放心调密。要立刻上线仍走 `FORCE=1 site-autoupdate`。
 3. **首页体积与去重**：首页 59KB 尚可，但 `/all/` 已 132KB / 702 条链接，是蜘蛛「一次抓完全站」的主通道，保持它进 sitemap 且不要被 robots 误伤。
 4. **资质**：备案 + 大陆节点是百度系唯一的破局手段，其余都是配额内的优化。
 
@@ -339,7 +339,7 @@ Google 状态码：200×810 / 301×21 / 404×56；Yandex 全绿 200。ClaudeBot�
 | `write()` 先比对再写盘 | `scripts/build.js` | 依次比对 outDir 同路径与上一版产物（`BUILD_DIR=public.new` 时对照 `public/`，可用 `PREV_DIR` 改）；相同则跳过，或 `copyFile + utimes` 沿用原 mtime。只处理文本产物，图片仍每次生成（走 30 天缓存，不占抓取预算） |
 | 静态资源版本号改内容哈希 | `scripts/build.js` | 原先 `?v=<commit>`：每个 commit 都改一遍所有页面的 CSS/JS 链接 → 700 多页内容全变 → mtime 全量刷新，304 照样落空。改成 theme/assets 下 css/js 的内容哈希，纯数据提交不再动任何页面 |
 | 构建汇总加一行 | `scripts/build.js` | 输出「未变化文件沿用 N 个（从 public/ 沿用 M 个）；重新生成 K 个」 |
-| 重建频率 1h → 6h | `README.md`、`deploy/site-autoupdate.sh` | mtime 抖动从每天 24 次降到 4 次；急发走 `FORCE=1 site-autoupdate` |
+| 重建频率定为 2h | `README.md`、`deploy/site-autoupdate.sh` | 脚本无新提交时直接跳过，频率只决定上线延迟（≤2h）；急发走 `FORCE=1 site-autoupdate` |
 
 验证：连续两次构建，722 个文件全部沿用、0 个重写（58.7s → 34.9s）；`public.new/resource/mv-010/index.html` 的 mtime 与 `public/` 中的完全一致。
 
