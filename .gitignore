@@ -25,9 +25,11 @@ Thumbs.db
 # 本地缓存
 .tmp/
 .cache/
-.tmp-serve.err     # npm run serve 的临时输出
+# npm run serve 的临时输出
+.tmp-serve.err
 
 # 本地 skill 与凭据（含 cookie / token，严禁入库；实际放在 ~/.workbuddy/skills/ 下使用）
 skills/
-skills-lock.json   # skill 安装锁文件，只反映本机的安装状态
+# skill 安装锁文件，只反映本机的安装状态
+skills-lock.json
 config.env
