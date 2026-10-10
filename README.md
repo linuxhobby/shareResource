@@ -6,7 +6,7 @@
 |---|---|
 | 网站 | https://www.wodewangpan.top |
 | 仓库 | `git@github.com:linuxhobby/wodewangpan.git` |
-| 更新方式 | 推到 `main`，VPS 每 60 分钟自动拉取并重建 |
+| 更新方式 | 推到 `main`，VPS 每 6 小时自动拉取并重建（急发用 `FORCE=1 site-autoupdate`） |
 
 ## 网站特性
 
@@ -113,8 +113,10 @@ BASE_URL=https://你的域名
 EOF
 
 sudo crontab -e
-# 加入一行（每小时拉取一次；要更快就把第一个字段改成 */30，即每 30 分钟）
-0 * * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1
+# 加入一行（每 6 小时拉取一次；想更频繁就把 */6 改成 */2）
+# 别再设成每小时：构建现在只重写真正变化的文件，但重建本身仍要跑一遍图片处理，
+# 而且发布越频繁、产物的 mtime 抖动越多，蜘蛛的条件请求越难命中 304
+0 */6 * * * /usr/local/bin/site-autoupdate >> /var/log/site-autoupdate.log 2>&1
 ```
 
 看运行结果：`tail -20 /var/log/site-autoupdate.log`。
@@ -305,18 +307,49 @@ Google 状态码：200×810 / 301×21 / 404×56；Yandex 全绿 200。ClaudeBot�
 
 ### 优化建议（按性价比排序）
 
-- [ ] **屏蔽 `search-index.json`**：所有蜘蛛对该文件的 54 次请求全是 404（Google 仅 10-09 一天试了 26 次且逐日递增），而页面 HTML 已无任何链接引用它，属蜘蛛记忆中的旧 URL。在 `robots.txt` 加 `Disallow: /*search-index.json`（或 Nginx 对该路径返回 410）促其衰减。
+- [x] **清理 `search-index.json` 残留 URL（已完成，结论有修正）**：线上实测根路径 `/search-index.json` 是 **200**，404 全在 `/resource/<id>/search-index.json`、`/category/<slug>/search-index.json` 这类**子路径**上——app.js 早期用相对路径取索引留下的历史残留（10-09 已改根绝对路径），蜘蛛按记忆重试，每多抓一个资源页就多一条，所以逐日递增。
+  因此**不能连根路径一起挡**：它是 Googlebot 渲染「加载更多」的通道，挡了自断一条发现路径。只清理子路径：`robots.txt` 加 `Disallow: /*/search-index.json`，Nginx 对 `^/.+/search-index\.json$` 返回 **410**（比 404 衰退更快，且不依赖引擎是否支持通配）。
+  > 附带发现：Nginx 静态资源 location 带 `access_log off`，成功的 json 请求**不进日志**，只有 404 经 `error_page` 落到 `location /` 才被记录。日志里「全是 404」有一半是采样偏差，别拿它当抓取量。
 - [x] **内部接口屏蔽（已完成）**：`Disallow: /stats.json`、`Disallow: /hit` 已加入并复查确认。
-- [ ] **百度破局**：站长平台已验证通过，但百度蜘蛛一个内容页都没抓。robots 内的 Sitemap 声明对百度基本无效，需在站长平台提交 sitemap 并走「普通收录 → API 推送」（已有 `submit-baidu`，注意每日配额）。
-- [ ] **纠正 Google 抓取偏科**：首页被抓 583 次（约七成配额），资源页仅覆盖 159/702。避免资源无实质变更时更新首页 `<lastmod>`，把抓取预算引导到详情页。
-- [ ] **Bing / 360 起步**：Bing Webmaster Tools 提交 sitemap；核对首页 301 链（360 拿到 301 后就没再深入），保证蜘蛛一次直达 200。
-- [ ] **新引擎破零**：搜狗 / 字节 / 华为零到访，可通过各自站长平台提交 sitemap 主动引蜘蛛。
+- [ ] **百度破局**：站长平台已验证通过，但百度蜘蛛一个内容页都没抓。**天花板是资质不是技术**：`data/site.yaml` 的 `icp` 为空、节点在香港无备案，百度对未备案境外站点的抓取配额极低。能做的仍是：平台提交 sitemap + 「普通收录 → API 推送」（已有 `submit-baidu`）；把推送顺序改成**详情页优先**（首页它自己天天来，不占配额）；真正破局要等备案 + 大陆节点，列为长期项。
+- [ ] **纠正 Google 抓取偏科**：首页被抓 583 次（约七成配额），资源页仅覆盖 159/702。复核结论——**不要冻结首页 `<lastmod>`**：资源按 `added` 倒序、首页首屏 35 条，每天新增必然改变首屏，lastmod 是真实信号，人为冻结会让 Google 判定其不可信。且 Google **官方忽略 `<priority>` / `<changefreq>`**，调这两个没用。真正的浪费在别处，见下面「下一步（待实施）」。
+- [ ] **Bing / 360 起步**：Bing Webmaster Tools 提交 sitemap；`submit-indexnow` 先 `ALL=1` 全量推一次再转每日增量（默认只推 lastmod ≥ 昨天，全量没推过的话 Bing 一直只拿到零星几条）；核对 301 链是否**单跳**直达 `https://www.<域名>/`（360 拿到 301 后没再深入）。
+- [ ] **新引擎破零**：搜狗 / 字节 / 华为零到访，只能在各自站长平台提交 sitemap 引蜘蛛（均无开放 API，一次性动作）。
+
+### 下一步（待实施，按预期收益排序）
+
+1. [x] **构建改「内容未变不覆盖」，让详情页能回 304**（已完成）：原先每小时全量重建，700 多个详情页的 mtime / ETag 每次都被刷新，蜘蛛的 `If-Modified-Since` / `If-None-Match` 永远不命中，每次都是完整 200（日志里 Google 200×810、几乎没有 304，正合这个特征）。现在 `write()` 写盘前先比对上一版产物（`BUILD_DIR=public.new` 时对照 `public/`），内容相同就沿用旧文件并 `utimes` 保留原 mtime。实测二次构建：722 个文件全部沿用、0 个重写，构建 58.7s → 34.9s；`public.new` 里的详情页 mtime 与 `public/` 完全一致。
+   首页 `<lastmod>` 因此**不需要人为冻结**：它取的是资源 `added`，新增资源确实会改变首页首屏，信号是真实的；而内容没变的页面 mtime 不再抖动，蜘蛛的重复访问从 200 变 304，预算自然腾给新页。
+2. [x] **降低重建频率**（已完成）：crontab `0 * * * *` → `0 */6 * * *`，新增资源要立刻上线就 `FORCE=1 site-autoupdate`。
+3. **首页体积与去重**：首页 59KB 尚可，但 `/all/` 已 132KB / 702 条链接，是蜘蛛「一次抓完全站」的主通道，保持它进 sitemap 且不要被 robots 误伤。
+4. **资质**：备案 + 大陆节点是百度系唯一的破局手段，其余都是配额内的优化。
 
 （权威收录量以 Google Search Console、Bing Webmaster Tools、百度站长平台后台报表为准；脚本化 `site:` 查询受数据中心 IP 反爬干扰，不作为计数依据。）
 
 ## 最新修改
 
 网站代码最新修改内容写在这里。
+
+### 2026-10-10 · 构建改为「内容未变不覆盖」，让蜘蛛能命中 304
+
+每小时全量重建会把 700 多个详情页的 mtime / ETag 一起刷新，蜘蛛带 `If-Modified-Since` 来也永远不命中，每次都是完整 200——抓取预算大半耗在重复下载上（Google 日志 200×810、几乎没有 304）。现在内容没变就沿用旧文件并保留原 mtime：
+
+| 改动 | 文件 | 说明 |
+|---|---|---|
+| `write()` 先比对再写盘 | `scripts/build.js` | 依次比对 outDir 同路径与上一版产物（`BUILD_DIR=public.new` 时对照 `public/`，可用 `PREV_DIR` 改）；相同则跳过，或 `copyFile + utimes` 沿用原 mtime。只处理文本产物，图片仍每次生成（走 30 天缓存，不占抓取预算） |
+| 构建汇总加一行 | `scripts/build.js` | 输出「未变化文件沿用 N 个（从 public/ 沿用 M 个）；重新生成 K 个」 |
+| 重建频率 1h → 6h | `README.md`、`deploy/site-autoupdate.sh` | mtime 抖动从每天 24 次降到 4 次；急发走 `FORCE=1 site-autoupdate` |
+
+验证：连续两次构建，722 个文件全部沿用、0 个重写（58.7s → 34.9s）；`public.new/resource/mv-010/index.html` 的 mtime 与 `public/` 中的完全一致。
+
+### 2026-10-10 · 只清理 search-index.json 的子路径残留（不挡根路径）
+
+蜘蛛日志里对该文件的 54 次请求全是 404，原建议是整条路径屏蔽。线上实测后修正：根路径是 200，404 全在带目录前缀的子路径上（`app.js` 早期相对路径的历史残留，10-09 已改根绝对路径，但蜘蛛仍按记忆重试）。根路径是 Googlebot 渲染「加载更多」的通道，挡掉等于自断发现路径，所以只清子路径：
+
+| 改动 | 文件 | 说明 |
+|---|---|---|
+| `Disallow: /*/search-index.json` | `scripts/build.js` | 只匹配带目录前缀的索引文件，根目录那份照常允许 |
+| 410 规则 | `deploy/nginx-site.conf.example` | `location ~ ^/.+/search-index\.json$ { return 410; }`，410 比 404 衰退快，且不依赖引擎是否支持通配；必须排在静态资源 location 之前（nginx 正则 location 取第一个命中） |
 
 ### 2026-10-09 · 相关推荐排版对齐（每行必须排满）
 

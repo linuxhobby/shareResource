@@ -25,6 +25,13 @@ server {
     gzip_min_length 1024;
     gzip_types text/plain text/css application/javascript application/json image/svg+xml application/xml;
 
+    # 蜘蛛记忆里的残留 URL：app.js 早期用相对路径取 search-index.json，
+    # 在 /resource/<id>/、/category/<slug>/ 下解析成 /resource/<id>/search-index.json 这类不存在的路径。
+    # 现已改为根绝对路径，但蜘蛛仍会重试旧地址，且每发现一个新资源页就多一条（日志里逐日递增）。
+    # 410 Gone 比 404 衰退更快；只匹配「带目录前缀」的，根目录那份要留给 Googlebot 渲染「加载更多」。
+    # 必须放在下面静态资源 location 之前：nginx 的正则 location 按出现顺序取第一个命中。
+    location ~ ^/.+/search-index\.json$ { return 410; }
+
     # 静态资源长期缓存；HTML 不缓存，更新即时生效
     location ~* \.(css|js|json|svg|webp|png|jpg|jpeg|gif|ico)$ {
         expires 30d;

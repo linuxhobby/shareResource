@@ -43,10 +43,59 @@ const themeDir = path.join(root, 'theme');
  */
 const outDirName = process.env.BUILD_DIR || 'public';
 const outDir = path.join(root, outDirName);
+/**
+ * 上一版产物目录，用于「内容未变就沿用」的比对。
+ * 服务器做原子发布时构建到 public.new，此时上一版就是正在服务的 public/。
+ * 直接构建到 public/ 时不需要它——文件本身就躺在 outDir 里，比对同一路径即可。
+ */
+const prevDirName = outDirName === 'public' ? '' : process.env.PREV_DIR || 'public';
+const prevDir = prevDirName ? path.join(root, prevDirName) : '';
 
+/** 本次构建沿用了多少个未变化的文件（只在最后汇总打一行） */
+const reused = { kept: 0, copied: 0, written: 0 };
+
+/**
+ * 写文件，但内容没变就不覆盖。
+ *
+ * 为什么要这样：Nginx 对静态文件用 mtime + 大小生成 ETag / Last-Modified。
+ * 每小时全量重建会把 700 多个详情页的 mtime 全部刷新，蜘蛛带 If-Modified-Since
+ * / If-None-Match 来也永远不命中，每次都是完整 200 下载——抓取预算就这么被重复
+ * 下载吃掉了（日志里 Google 200×810、几乎没有 304，正是这个特征）。
+ * 内容不变就保留原文件与原 mtime，蜘蛛的重复访问变成 304，预算才腾得出去抓新页。
+ *
+ * 只比对文本产物（HTML / XML / JSON / robots）：抓取预算花在页面上；
+ * 图片走的是 sharp 生成 + 30 天缓存，重建一次成本不高，不值得为它加复杂度。
+ */
 function write(file, content) {
+  const rel = path.relative(outDir, file);
+  const candidates = [file];
+  if (prevDir && !rel.startsWith('..')) candidates.push(path.join(prevDir, rel));
+
+  for (const target of candidates) {
+    let old;
+    try {
+      old = fs.readFileSync(target, 'utf8');
+    } catch {
+      continue; // 不存在就试下一个候选
+    }
+    if (old !== content) continue;
+
+    // 内容一致：已经在 outDir 里的直接不动，在上一版里的拷过来并沿用原 mtime
+    if (target !== file) {
+      fs.mkdirSync(path.dirname(file), { recursive: true });
+      fs.copyFileSync(target, file);
+      const st = fs.statSync(target);
+      fs.utimesSync(file, st.atime, st.mtime);
+      reused.copied++;
+    } else {
+      reused.kept++;
+    }
+    return;
+  }
+
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content);
+  reused.written++;
 }
 
 /**
@@ -280,9 +329,14 @@ write(
   // 必须写 ?q= 而不是 q=，否则任何路径里含 "q=" 的正常页面会被误伤
   //
   // /stats.json 与 /hit 是访问统计端点，对收录毫无价值，挡掉省下抓取预算。
-  // /search-index.json 不挡：它是根路径下的单一文件（app.js 用绝对路径取），
-  // 挡了反而让 Googlebot 渲染不出「加载更多」，少一条发现资源页的通道。
-  `User-agent: *\nAllow: /\nDisallow: /*?q=\nDisallow: /stats.json\nDisallow: /hit\nSitemap: ${baseUrl}/sitemap.xml\n`
+  //
+  // /*/search-index.json 只挡子路径，根目录那份必须留：
+  // 蜘蛛日志里对它的请求曾出现一批 404，根因是 app.js 早期用相对路径取索引，
+  // 在 /resource/<id>/、/category/<slug>/ 下解析成不存在的子路径（已改为根绝对路径修掉），
+  // 蜘蛛仍按记忆反复重试这些残留 URL。这里挡掉子路径促其衰减，
+  // 根目录的 /search-index.json 仍是 Googlebot 渲染「加载更多」的通道，不能一起废掉
+  // （配合 deploy/nginx-site.conf.example 里对该模式的 410，不依赖引擎是否支持通配）。
+  `User-agent: *\nAllow: /\nDisallow: /*?q=\nDisallow: /stats.json\nDisallow: /hit\nDisallow: /*/search-index.json\nSitemap: ${baseUrl}/sitemap.xml\n`
 );
 write(
   path.join(outDir, 'sitemap.xml'),
@@ -314,6 +368,14 @@ if (fs.existsSync(qqGroupSrc)) {
   console.log('  ! 未找到 static/qq-group.png，关于本站页将不显示 QQ 群二维码');
 }
 
+const reusedTotal = reused.kept + reused.copied;
+if (reusedTotal) {
+  console.log(
+    `  · 未变化文件沿用原样（保留 mtime，蜘蛛可命中 304）：${reusedTotal} 个` +
+      (reused.copied ? `（从 ${prevDirName}/ 沿用 ${reused.copied} 个）` : '') +
+      `；重新生成 ${reused.written} 个`
+  );
+}
 console.log(
   `\n完成：${total} 个资源 · ${categories.length} 个分类 · ${((Date.now() - t0) / 1000).toFixed(1)}s\n输出目录：${outDirName}/`
 );
