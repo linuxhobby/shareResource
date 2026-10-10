@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
   loadSite,
@@ -232,14 +231,28 @@ const indexAll = items.map((it) => {
   };
 });
 
-/** 静态资源版本号：用当前 commit，同一次构建内所有页面一致；取不到 git 时退回时间戳 */
+/**
+ * 静态资源版本号：取 theme/assets 下样式与脚本的**内容哈希**，不用 commit。
+ *
+ * 为什么不能用 commit：每个页面的 CSS / JS 链接都带 ?v=<assetVersion>，
+ * 用 commit 就等于每次提交都改一遍所有页面的内容——哪怕只是加了一条资源数据，
+ * 700 多个详情页的字节也全变了，mtime 跟着全量刷新，
+ * 「内容未变不覆盖」彻底失效，蜘蛛的 304 又全部落空。
+ * 改成内容哈希后：只有真改了样式 / 脚本的提交才会破缓存，纯数据提交不动任何页面。
+ */
 const assetVersion = (() => {
   try {
-    return execSync('git rev-parse --short HEAD', { cwd: root, stdio: ['ignore', 'pipe', 'ignore'] })
-      .toString()
-      .trim();
+    const hash = crypto.createHash('md5');
+    const files = fs
+      .readdirSync(path.join(themeDir, 'assets'))
+      .filter((f) => /\.(css|js)$/i.test(f))
+      .sort();
+    for (const f of files) hash.update(fs.readFileSync(path.join(themeDir, 'assets', f)));
+    const digest = hash.digest('hex').slice(0, 8);
+    // 取不到就退回固定串：绝不能用时间戳，那样每次构建都变，等于把上面的问题又引回来
+    return digest || 'dev';
   } catch {
-    return Date.now().toString(36);
+    return 'dev';
   }
 })();
 

@@ -337,6 +337,7 @@ Google 状态码：200×810 / 301×21 / 404×56；Yandex 全绿 200。ClaudeBot�
 | 改动 | 文件 | 说明 |
 |---|---|---|
 | `write()` 先比对再写盘 | `scripts/build.js` | 依次比对 outDir 同路径与上一版产物（`BUILD_DIR=public.new` 时对照 `public/`，可用 `PREV_DIR` 改）；相同则跳过，或 `copyFile + utimes` 沿用原 mtime。只处理文本产物，图片仍每次生成（走 30 天缓存，不占抓取预算） |
+| 静态资源版本号改内容哈希 | `scripts/build.js` | 原先 `?v=<commit>`：每个 commit 都改一遍所有页面的 CSS/JS 链接 → 700 多页内容全变 → mtime 全量刷新，304 照样落空。改成 theme/assets 下 css/js 的内容哈希，纯数据提交不再动任何页面 |
 | 构建汇总加一行 | `scripts/build.js` | 输出「未变化文件沿用 N 个（从 public/ 沿用 M 个）；重新生成 K 个」 |
 | 重建频率 1h → 6h | `README.md`、`deploy/site-autoupdate.sh` | mtime 抖动从每天 24 次降到 4 次；急发走 `FORCE=1 site-autoupdate` |
 
